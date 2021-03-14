@@ -1,5 +1,4 @@
-import { File } from "./core/files/file";
-import { FileService } from "./core/files/file-service";
+import { File, FileService } from "./core";
 
 export class Home {
     public message = 'Files';
