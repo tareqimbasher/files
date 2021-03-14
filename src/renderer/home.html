@@ -1,0 +1,11 @@
+<require from="./components/file" />
+
+<h1>${message}</h1>
+<p>Welcome to your Electron application.</p>
+
+<button click.delegate="test()">Test</button>
+
+<div>
+    <file repeat.for="file of files" file.bind="file"></file>
+</div>
+

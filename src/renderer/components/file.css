@@ -1,0 +1,19 @@
+.file {
+    display: inline-block;
+    margin: 5px;
+    padding: 5px;
+    height: 30px;
+    cursor: default;
+}
+
+.file:hover {
+    box-shadow: rgba(0,0,0,0.2) 0px 0px 10px;
+}
+
+.file.type-File {
+    background-color: dodgerblue;
+}
+
+    .file.type-Directory {
+        background-color: gold;
+    }
