@@ -1,4 +1,12 @@
 pane-group {
     display: flex;
-    flex: 1;
+    flex: 3;
+
+    &:before {
+        content: " ";
+        background-color: #ccc;
+        width: 4px;
+        cursor: w-resize;
+        left: 0;
+    }
 }

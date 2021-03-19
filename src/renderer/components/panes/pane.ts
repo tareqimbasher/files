@@ -5,7 +5,7 @@ export class Pane {
     public paths: string[] = [];
     public editAddress = false;
     private tabsElement!: HTMLElement;
-    
+    private addressInput!: HTMLInputElement;
 
     constructor() {
         this.id = Util.newGuid();
@@ -26,5 +26,10 @@ export class Pane {
         let tabs = ($(this.tabsElement).find('.item') as any);
         tabs.tab('destroy');
         tabs.tab();
+    }
+
+    public enableEditAddress() {
+        this.editAddress = true;
+        setTimeout(() => this.addressInput.focus(), 1);
     }
 }

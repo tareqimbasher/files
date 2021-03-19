@@ -2,12 +2,20 @@ pane {
     display: flex;
     flex: 1;
 
-    &:not(:last-child) {
-        border-right: 2px solid gray;
+    &:not(:first-child) {
+        &:before {
+            content: " ";
+            background-color: gray;
+            width: 3px;
+            min-width: 3px;
+            max-width: 3px;
+            cursor: w-resize;
+        }
     }
 
     .pane-container {
         display: flex;
+        user-select: none;
     }
 
     .address-bar.segment {
@@ -17,6 +25,7 @@ pane {
             border: 1px solid rgba(34, 36, 38, 0.15);
             width: 100%;
             padding: 8.5px 14px;
+            user-select: none;
         }
     }
 
