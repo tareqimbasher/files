@@ -5,30 +5,9 @@ export class Window {
     }
 
     private setupSidebarResizing() {
-        // Resizing of sidebar and pane group
         let sidebar = document.getElementsByTagName('sidebar')[0] as HTMLElement;
         let paneGroup = document.getElementsByTagName('pane-group')[0] as HTMLElement;
-
-        let mousePosition: number;
-
-        let resize = (ev: MouseEvent) => {
-            const dx = mousePosition - ev.x;
-            mousePosition = ev.x;
-            let paneGroupWidth = parseInt(getComputedStyle(paneGroup, '').width) + dx;
-            paneGroup.style.flex = "0 " + paneGroupWidth + "px";
-            sidebar.style.flex = "0 0 " + (window.innerWidth - paneGroupWidth) + "px";
-        }
-
-        paneGroup.addEventListener("mousedown", ev => {
-            if (ev.target == paneGroup && ev.offsetX < 4) {
-                mousePosition = ev.x;
-                document.addEventListener("mousemove", resize);
-            }
-        });
-
-        document.addEventListener("mouseup", () => {
-            document.removeEventListener("mousemove", resize);
-        });
+        this.setupResizing(sidebar, paneGroup);
     }
 
     private setupPaneResizing() {
@@ -36,10 +15,14 @@ export class Window {
         if (panes.length != 2)
             return;
 
-
         let leftPane = panes[0] as HTMLElement;
         let rightPane = panes[1] as HTMLElement;
-        let paneGroup = document.getElementsByTagName('pane-group')[0] as HTMLElement;
+
+        this.setupResizing(leftPane, rightPane);
+        return;
+    }
+
+    private setupResizing(leftElement: HTMLElement, rightElement: HTMLElement) {
 
         let mousePosition: number;
 
@@ -51,15 +34,24 @@ export class Window {
 
             const dx = mousePosition - ev.x;
             mousePosition = ev.x;
-            let rightPaneWidth = parseInt(getComputedStyle(rightPane, '').width) + dx;
-            rightPane.style.flex = "0 " + rightPaneWidth + "px";
-            leftPane.style.flex = "0 " + (
-                paneGroup.offsetWidth - parseInt(getComputedStyle(paneGroup, ':before').width) - rightPaneWidth
-            ) + "px";
-        }
 
-        rightPane.addEventListener("mousedown", ev => {
-            if (ev.target == rightPane && ev.offsetX < 10) {
+            let rightElementWidth = parseInt(getComputedStyle(rightElement, '').width);
+                (parseInt(getComputedStyle(rightElement, ':before')?.width) || 0) +
+                (parseInt(getComputedStyle(rightElement, ':after')?.width) || 0);
+
+            let leftElementWidth = parseInt(getComputedStyle(leftElement, '').width);
+                (parseInt(getComputedStyle(leftElement, ':before')?.width) || 0) +
+                (parseInt(getComputedStyle(leftElement, ':after')?.width) || 0);
+
+            rightElementWidth += dx;
+            leftElementWidth -= dx;
+
+            rightElement.style.flex = "0 " + rightElementWidth + "px";
+            leftElement.style.flex = "0 0 " + leftElementWidth + "px";
+        };
+
+        rightElement.addEventListener("mousedown", ev => {
+            if (ev.target == rightElement && ev.offsetX < 10) {
                 mousePosition = ev.x;
                 document.addEventListener("mousemove", resize);
             }
