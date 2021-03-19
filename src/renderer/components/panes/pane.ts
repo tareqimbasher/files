@@ -1,5 +1,4 @@
 import { Util } from "../../core";
-import { Tab } from "./tabs/tab";
 
 export class Pane {
     public id: string;
