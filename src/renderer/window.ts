@@ -15,10 +15,7 @@ export class Window {
         if (panes.length != 2)
             return;
 
-        let leftPane = panes[0] as HTMLElement;
-        let rightPane = panes[1] as HTMLElement;
-
-        this.setupResizing(leftPane, rightPane);
+        this.setupResizing(panes[0] as HTMLElement, panes[1] as HTMLElement);
         return;
     }
 
@@ -27,6 +24,7 @@ export class Window {
         let mousePosition: number;
 
         let resize = (ev: MouseEvent) => {
+            // If mouse is not clicked
             if (ev.which == 0) {
                 document.removeEventListener("mousemove", resize);
                 return;
@@ -46,8 +44,8 @@ export class Window {
             rightElementWidth += dx;
             leftElementWidth -= dx;
 
-            rightElement.style.flex = "0 " + rightElementWidth + "px";
-            leftElement.style.flex = "0 0 " + leftElementWidth + "px";
+            rightElement.style.flex = "1 " + rightElementWidth + "px";
+            leftElement.style.flex = "1 " + leftElementWidth + "px";
         };
 
         rightElement.addEventListener("mousedown", ev => {
