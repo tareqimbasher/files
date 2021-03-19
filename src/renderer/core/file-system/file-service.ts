@@ -12,17 +12,21 @@ export class FileService {
 
 		for (let name of fileNames) {
 			let path = pathUtil.join(dirPath, name);
-			let stats = await fs.stat(path);
+            try {
+				let stats = await fs.stat(path);
 
-			if (stats.isFile()) {
-				items.push(new File(path));
+				if (stats.isFile()) {
+					items.push(new File(path));
+				}
+				else if (stats.isDirectory()) {
+					items.push(new Directory(path));
+				}
+				else if (stats.isSymbolicLink()) {
+					items.push(new SymbolicLink(path));
+				}
+			} catch (ex) {
+				console.error(`Could not read file: ${name}`);
             }
-			else if (stats.isDirectory()) {
-				items.push(new Directory(path));
-			}
-			else if (stats.isSymbolicLink()) {
-				items.push(new SymbolicLink(path));
-			}
         }
 
 		return items;

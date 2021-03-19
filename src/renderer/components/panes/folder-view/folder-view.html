@@ -1,0 +1,12 @@
+<template>
+    <require from="../../file"/>
+
+    <div class="ui horizontal list">
+        <file class="item"
+              repeat.for="file of files"
+              file.bind="file"
+              click.trigger="select(file)"
+              dblClick.trigger="open(file)"></file>
+    </div>
+
+</template>

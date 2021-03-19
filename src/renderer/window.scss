@@ -1,0 +1,36 @@
+body {
+    font-family: Calibri, 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+    height: 100%;
+}
+
+.window {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+
+    .window-body {
+        display: flex;
+        flex: 1;
+
+        sidebar {
+            flex: 0 0 12em;
+            order: -1;
+        }
+
+        pane-group {
+            flex: 1;
+        }
+    }
+}
+
+.ui.grid {
+    min-height: 100%;
+}
+
+.message {
+    background-color: lightblue;
+}
+
+.p0 {
+    padding: 0 !important;
+}

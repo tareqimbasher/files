@@ -1,19 +1,47 @@
-.file {
+file {
+    width: 75px;
+    min-height: 85px;
+    max-height: 100px;
+    padding: 3px;
+    text-align: center;
+    overflow: hidden;
+    cursor: pointer;
+
+    .file-name {
+        font-size: 0.8rem;
+        user-select: none;
+    }
+
+    &.selected {
+        background-color: #eaeaea;
+    }
+
+    img {
+        height: 40px
+    }
+}
+
+file:hover:not(.selected) {
+    background-color: rgba(234, 234, 234, 0.70);
+}
+
+
+/*.file {
     display: inline-block;
     margin: 5px;
     padding: 5px;
     height: 30px;
     cursor: default;
-}
+}*/
 
-.file:hover {
+/*.file:hover {
     box-shadow: rgba(0,0,0,0.2) 0px 0px 10px;
-}
+}*/
 
-.file.type-File {
+/*.file.type-File {
     background-color: dodgerblue;
 }
 
     .file.type-Directory {
         background-color: gold;
-    }
+    }*/

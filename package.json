@@ -65,6 +65,9 @@
       ]
     }
   },
+  //"resolutions": {
+  //  "graceful-fs": "^4.2.3"
+  //},
   "devDependencies": {
     "@aurelia/webpack-loader": "dev",
     "@electron-forge/cli": "6.0.0-beta.54",
@@ -74,23 +77,30 @@
     "@electron-forge/maker-zip": "6.0.0-beta.54",
     "@electron-forge/plugin-webpack": "6.0.0-beta.54",
     "@marshallofsound/webpack-asset-relocator-loader": "^0.5.0",
+    "@types/jquery": "^3.5.5",
     "@types/node": "^12.19.7",
+    "@types/semantic-ui": "^2.2.7",
     "@typescript-eslint/eslint-plugin": "^4.8.2",
     "@typescript-eslint/parser": "^4.8.2",
     "css-loader": "^5.0.1",
     "electron": "11.0.3",
     "eslint": "^7.14.0",
     "eslint-plugin-import": "^2.22.1",
+    "file-loader": "^6.2.0",
     "fork-ts-checker-webpack-plugin": "^6.0.4",
     "node-loader": "^1.0.2",
     "sass": "^1.32.8",
     "sass-loader": "^10.1.1",
     "style-loader": "^2.0.0",
     "ts-loader": "^8.0.11",
-    "typescript": "^4.1.2"
+    "typescript": "^4.1.2",
+    "url-loader": "^4.1.1"
   },
   "dependencies": {
     "aurelia": "dev",
-    "electron-squirrel-startup": "^1.0.0"
+    "chokidar": "^3.5.1",
+    "electron-squirrel-startup": "^1.0.0",
+    "fomantic-ui": "^2.8.7",
+    "jquery": "^3.6.0"
   }
 }

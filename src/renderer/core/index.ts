@@ -4,3 +4,5 @@ export * from './file-system/file';
 export * from './file-system/directory';
 export * from './file-system/symbolic-link';
 export * from './file-system/file-service';
+
+export * from './utils/util';

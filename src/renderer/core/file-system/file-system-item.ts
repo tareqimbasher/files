@@ -5,10 +5,15 @@ export abstract class FileSystemItem {
 
     public path: string;
     public name: string;
-	public type?: FileType;
+    public extension: string;
+    public type?: FileType;
+    public isSelected: boolean = false;
 
     constructor(path: string) {
         this.path = path;
         this.name = pathUtil.basename(path);
+        this.extension = pathUtil.extname(path);
+        if (!!this.extension)
+            this.extension = this.extension.toLowerCase();
     }
 }

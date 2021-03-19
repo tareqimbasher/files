@@ -1,0 +1,21 @@
+tab {
+    .close.icon {
+        padding-left: 10px;
+    }
+}
+
+.ui.tabular.menu tab.item {
+
+    &:hover {
+        background-color: rgba(238, 238, 238, 0.5);
+    }
+
+    &.active {
+        border-top-left-radius: 0 !important;
+        border-top-color: dodgerblue;
+
+        &:first-child {
+            border-left: none;
+        }
+    }
+}

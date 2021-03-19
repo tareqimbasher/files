@@ -1,0 +1,5 @@
+pane {
+    &:not(:last-child) {
+        border-right: 2px solid gray;
+    }
+}

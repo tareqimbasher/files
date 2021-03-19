@@ -1,4 +1,6 @@
 import Aurelia from 'aurelia';
-import { Home } from './home';
+import "./style/semantic-ui/dist/semantic.css";
+import "./style/semantic-ui/dist/semantic.js";
+import { Window } from './window';
 
-Aurelia.app(Home).start();
+Aurelia.app(Window).start();
