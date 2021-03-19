@@ -2,7 +2,7 @@
     <require from="./tabs/tab" />
     <require from="./folder-view/folder-view" />
 
-    <div class="ui segments">
+    <div class="ui segments" style="display: flex">
         <div class="ui segment" style="padding: 7px">
             <div class="address-bar">
                 <div class="ui breadcrumb"
@@ -23,9 +23,9 @@
                 </div>
             </div>
         </div>
-        <div class="ui segment p0">
+        <div class="ui segment p0" style="display: flex; flex-direction: column; flex: 1">
 
-            <div class="ui top attached tabular mini menu" ref="tabsElement">
+            <div class="ui top attached tabular mini menu" ref="tabsElement" style="order: -1">
                 <tab repeat.for="path of paths"
                      class="item ${$index == 0 ? 'active' : ''}"
                      data-tab="${id}${$index}"

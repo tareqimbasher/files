@@ -1,7 +1,6 @@
 folder-view {
-    display: flex;
-    flex:1;
-    max-height: 800px;
-    overflow: auto;
+    flex: 1 1 auto;
+    height: 0px;
+    overflow-y: auto;
     padding: 8px 10px;
 }

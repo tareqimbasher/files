@@ -10,7 +10,12 @@ export class Pane {
 
     constructor() {
         this.id = Util.newGuid();
-        this.paths.push("C:/", "C:/tmp", "C:/Users/TIPS/Pictures", "C:/Users/TIPS/Downloads");
+        this.paths.push(
+            "C:/",
+            "C:/tmp",
+            //"C:/Users/TIPS/Pictures",
+            "C:/Users/TIPS/Downloads"
+        );
     }
 
     public attached() {
