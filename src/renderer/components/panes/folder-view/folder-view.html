@@ -1,7 +1,7 @@
 <template>
     <require from="../../fs-items/fs-item"/>
 
-    <div class="ui horizontal list">
+    <div class="ui horizontal ${settings.inverted} list">
         <fs-item class="item"
               repeat.for="file of files"
               item.bind="file"

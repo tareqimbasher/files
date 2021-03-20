@@ -1,3 +1,5 @@
+export * from './settings';
+
 export * from './file-system/file-system-item';
 export * from './file-system/file-system-item-type';
 export * from './file-system/file';

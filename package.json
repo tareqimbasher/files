@@ -1,8 +1,8 @@
 {
-  "name": "aurelia-electron",
-  "productName": "Aurelia Electron",
-  "version": "1.0.0",
-  "description": "Aurelia Electron Template",
+  "name": "files",
+  "productName": "Files",
+  "version": "1.0.1",
+  "description": "An advanced file manager.",
   "main": ".webpack/main",
   "scripts": {
     "start": "electron-forge start",

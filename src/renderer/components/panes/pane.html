@@ -2,21 +2,21 @@
     <require from="./tabs/tab" />
     <require from="./folder-view/folder-view" />
 
-    <div class="ui segments pane-container">
 
+    <div class="ui segments pane-container">
         <!--ADDRESS BAR-->
-        <div class="ui segment address-bar">
-            <div class="ui breadcrumb"
+        <div class="ui ${settings.inverted} segment address-bar">
+            <div class="ui ${settings.inverted} breadcrumb"
                  click.trigger="enableEditAddress()"
                  show.bind="!editAddress">
                 <i class="folder icon divider"></i>
-                <a class="section">Home</a>
+                <div class="section">C:/</div>
                 <i class="right angle icon divider"></i>
-                <a class="section">Store</a>
+                <div class="section">tmp</div>
                 <i class="right angle icon divider"></i>
                 <div class="active section">T-Shirt</div>
             </div>
-            <div class="ui left icon fluid input"
+            <div class="ui fluid left icon ${settings.inverted} input"
                  show.bind="editAddress">
                 <input ref="addressInput" type="text" blur.trigger="editAddress = false">
                 <i class="folder icon"></i>
@@ -24,8 +24,8 @@
         </div>
 
         <!--TABS-->
-        <div class="ui segment tabs">
-            <div class="ui top attached tabular mini menu" ref="tabsElement">
+        <div class="ui ${settings.inverted} segment tabs">
+            <div class="ui top attached tabular mini ${settings.inverted} menu" ref="tabsElement">
                 <tab repeat.for="path of paths"
                      class="item ${$index == 0 ? 'active' : ''}"
                      data-tab="${id}${$index}"
@@ -41,7 +41,7 @@
         </div>
 
         <!--FOLDER VIEWS-->
-        <div class="ui segment folder-views">
+        <div class="ui ${settings.inverted} segment folder-views">
             <folder-view repeat.for="path of paths"
                          class="${$index == 0 ? 'active' : ''} ui tab"
                          data-tab="${id}${$index}"

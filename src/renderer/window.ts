@@ -1,4 +1,9 @@
+import { Settings } from "./core";
+
 export class Window {
+    constructor(public settings: Settings) {
+    }
+
     public attached() {
         this.setupSidebarResizing();
         this.setupPaneResizing();

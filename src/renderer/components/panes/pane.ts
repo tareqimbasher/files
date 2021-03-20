@@ -1,4 +1,4 @@
-import { Util } from "../../core";
+import { Settings, Util } from "../../core";
 
 export class Pane {
     public id: string;
@@ -7,7 +7,7 @@ export class Pane {
     private tabsElement!: HTMLElement;
     private addressInput!: HTMLInputElement;
 
-    constructor() {
+    constructor(public settings: Settings) {
         this.id = Util.newGuid();
         this.paths.push(
             "C:/tmp",

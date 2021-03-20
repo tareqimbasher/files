@@ -1,5 +1,5 @@
 import { bindable } from "aurelia";
-import { Directory, File, FileService, FileSystemItem } from "../../../core";
+import { Directory, File, FileService, FileSystemItem, Settings } from "../../../core";
 import { shell } from "electron";
 import * as chokidar from "chokidar";
 
@@ -10,7 +10,7 @@ export class FolderView {
 
     //private dirWatcher: FSWatcher;
 
-    constructor(private fileService: FileService) {
+    constructor(private fileService: FileService, public settings: Settings) {
     }
 
     public attached() {

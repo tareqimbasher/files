@@ -1,4 +1,10 @@
 sidebar {
+    display: flex;
+
     background-color: #d0d0d0;
     user-select: none;
+
+    > .ui.segment {
+        flex: 1;
+    }
 }
