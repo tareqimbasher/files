@@ -79,6 +79,7 @@
     "@types/semantic-ui": "^2.2.7",
     "@typescript-eslint/eslint-plugin": "^4.8.2",
     "@typescript-eslint/parser": "^4.8.2",
+    "copy-webpack-plugin": "^6.2.1",
     "css-loader": "^5.0.1",
     "electron": "11.0.3",
     "eslint": "^7.14.0",

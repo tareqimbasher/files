@@ -1,20 +1,19 @@
 import { bindable } from "aurelia";
-import { FileType } from "../core";
-import { File as F } from "../core/file-system/file";
+import { FileType, FileSystemItem } from "../../core";
 
-export class File {
+export class FSItem {
 
     @bindable
-    public file?: F;
+    public item?: FileSystemItem;
 
     public get icon(): string {
-        if (this.file?.type == FileType.Directory)
+        if (this.item?.type == FileType.Directory)
             return "blue folder";
 
-        if (this.file?.type == FileType.SymbolicLink)
-            return "";
+        if (this.item?.type == FileType.SymbolicLink)
+            return "star";
 
-        switch (this.file?.extension.toLowerCase()) {
+        switch (this.item?.extension.toLowerCase()) {
             case ".jpg": return "file image";
             case ".pdf": return "red file pdf";
             case ".mp4": return "file video outline";
@@ -26,5 +25,9 @@ export class File {
             default:
                 return "file outline";
         }
+    }
+
+    public thumb() {
+        return 'atom://' + this.item?.path;
     }
 }

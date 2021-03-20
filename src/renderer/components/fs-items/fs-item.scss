@@ -1,0 +1,66 @@
+fs-item {
+    width: 100px;
+    text-align: center;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid transparent;
+
+    .fs-item-icon {
+        height: 70px;
+        max-width: 70px;
+        padding: 7px;
+        user-select: none;
+        pointer-events: none;
+        overflow: hidden;
+        margin: 0 auto;
+
+        .icon {
+            text-align: center;
+            margin: 0 auto;
+        }
+    }
+
+    .fs-item-name {
+        height: 32px;
+        font-size: 0.8rem;
+        line-height: 0.8rem;
+        user-select: none;
+        padding: 0 5px 0 5px;
+        word-break: break-word;
+    }
+
+    &.selected {
+        /*background-color: rgba(234, 234, 234, 0.65);*/
+        background-color: rgba(74, 204, 254, 0.30);
+        border: 1px dashed rgb(45, 196, 254);
+    }
+
+    img {
+        height: 40px
+    }
+}
+
+fs-item:hover:not(.selected) {
+    background-color: rgba(234, 234, 234, 0.40);
+}
+
+
+/*.file {
+    display: inline-block;
+    margin: 5px;
+    padding: 5px;
+    height: 30px;
+    cursor: default;
+}*/
+
+/*.file:hover {
+    box-shadow: rgba(0,0,0,0.2) 0px 0px 10px;
+}*/
+
+/*.file.type-File {
+    background-color: dodgerblue;
+}
+
+    .file.type-Directory {
+        background-color: gold;
+    }*/

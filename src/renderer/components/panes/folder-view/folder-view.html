@@ -1,12 +1,12 @@
 <template>
-    <require from="../../file"/>
+    <require from="../../fs-items/fs-item"/>
 
     <div class="ui horizontal list">
-        <file class="item"
+        <fs-item class="item"
               repeat.for="file of files"
-              file.bind="file"
+              item.bind="file"
               click.trigger="select(file)"
-              dblClick.trigger="open(file)"></file>
+              dblClick.trigger="open(file)"></fs-item>
     </div>
 
 </template>

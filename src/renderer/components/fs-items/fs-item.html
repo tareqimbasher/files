@@ -1,0 +1,69 @@
+<template class="${item.isSelected ? 'selected' : ''}">
+
+    <require from="../../core/value-converters/truncate"/>
+
+    <div class="fs-item-icon" if.bind="item.type == 'Directory'">
+        <!--<i class="ui huge blue folder icon"></i>-->
+        <object type="image/svg+xml" data="assets/icons/file-system/100-folder-27.svg"></object>
+    </div>
+
+    <div class="fs-item-icon" else switch.bind="item.extension">
+
+        <img case.bind="['.jpg', '.jpeg', '.png', '.gif', '.jfif', 'bmp']"
+             src.bind="thumb()" />
+
+        <!--<object case.bind="['.jpg', '.jpeg']"
+                type="image/svg+xml" data="assets/icons/file-system/067-jpg.svg"></object>
+
+        <object case=".png"
+                type="image/svg+xml" data="assets/icons/file-system/115-png.svg"></object>
+
+        <object case=".gif"
+                type="image/svg+xml" data="assets/icons/file-system/040-gif-1.svg"></object>
+
+        <object case.bind="['.jfif', 'bmp']"
+                type="image/svg+xml" data="assets/icons/file-system/022-picture-3.svg"></object>-->
+
+        <object case.bind="['.mp3', '.wav']"
+                type="image/svg+xml" data="assets/icons/file-system/017-audio-file.svg"></object>
+
+        <object case.bind="['.mp4', '.wmv', '.avi', '.mov', '.3gp']"
+                type="image/svg+xml" data="assets/icons/file-system/003-video-file-2.svg"></object>
+
+        <object case=".mkv"
+                type="image/svg+xml" data="assets/icons/file-system/033-mkv-2.svg"></object>
+
+        <object case=".flv"
+                type="image/svg+xml" data="assets/icons/file-system/043-flv.svg"></object>
+
+        <object case=".txt"
+                type="image/svg+xml" data="assets/icons/file-system/078-txt.svg"></object>
+
+        <object case=".pdf"
+                type="image/svg+xml" data="assets/icons/file-system/023-pdf-1.svg"></object>
+
+        <object case.bind="['.docx', '.doc']"
+                type="image/svg+xml" data="assets/icons/file-system/052-doc-3.svg"></object>
+
+        <object case.bind="['.xlsx', '.xls']"
+                type="image/svg+xml" data="assets/icons/file-system/077-xls.svg"></object>
+
+        <object case=".zip"
+                type="image/svg+xml" data="assets/icons/file-system/183-zip-file.svg"></object>
+
+        <object case.bind="['.html', '.htm']"
+                type="image/svg+xml" data="assets/icons/file-system/185-html.svg"></object>
+
+        <object case=".css"
+                type="image/svg+xml" data="assets/icons/file-system/060-css.svg"></object>
+
+        <object case=".php"
+                type="image/svg+xml" data="assets/icons/file-system/210-php.svg"></object>
+
+        <object default-case
+                type="image/svg+xml" data="assets/icons/file-system/026-file-65.svg"></object>
+
+    </div>
+
+    <div class="header fs-item-name" title.bind="item.name">${item.name | truncate: 30}</div>
+</template>

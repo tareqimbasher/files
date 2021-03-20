@@ -1,7 +1,0 @@
-<template class="${file.isSelected ? 'selected' : ''}">
-    <img if.bind="['.jpg', '.jpeg', '.png', '.gif', '.jfif'].indexOf(file.extension) >= 0"
-         src.bind="'atom://' + file.path" />
-    <i else class="ui huge ${icon} icon"></i>
-    <br />
-    <div class="header file-name">${file.name}</div>
-</template>
