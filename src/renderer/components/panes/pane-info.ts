@@ -1,6 +1,6 @@
 ﻿import { Util } from "../../core";
 import { PathInfo } from "./path-info";
-
+import * as os from "os";
 
 export class PaneInfo {
     public id: string;
@@ -12,7 +12,7 @@ export class PaneInfo {
     }
 
     public addTab(path?: string): PathInfo {
-        let pathInfo = new PathInfo(path || "C:/");
+        let pathInfo = new PathInfo(path || os.homedir());
         this.paths.push(pathInfo);
         return pathInfo;
     }

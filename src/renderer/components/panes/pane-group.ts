@@ -8,11 +8,12 @@ export class PaneGroup {
     constructor(public paneManager: PaneManager, public settings: Settings) {
         this.paneManager.panes.push(
             new PaneInfo(),
-            new PaneInfo()
+            //new PaneInfo()
         );
 
-        this.paneManager.panes[0].addTab("C:\\");
-        this.paneManager.panes[1].addTab("C:\\");
+        //this.paneManager.panes[0].addTab("C:\\");
+        this.paneManager.panes[0].addTab();
+        //this.paneManager.panes[1].addTab("C:\\");
 
         this.paneManager.currentPane = this.paneManager.panes[0];
     }

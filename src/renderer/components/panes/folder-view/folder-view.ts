@@ -7,6 +7,7 @@ import { PathInfo } from "../path-info";
 export class FolderView {
     public message = 'Files';
     public files: FileSystemItem[] = [];
+    public selectedFiles: FileSystemItem[] = [];
     @bindable public pathInfo!: PathInfo;
 
     //private dirWatcher: FSWatcher;
@@ -16,17 +17,23 @@ export class FolderView {
 
     public attached() {
         this.pathChanged();
+        this.pathInfo.folderView = this;
     }
 
     @watch((fv: FolderView) => fv.pathInfo.path)
     public async pathChanged() {
         //chokidar.watch('');
-        this.files = await this.fileService.list(this.pathInfo.path);
+        let files = await this.fileService.list(this.pathInfo.path);
+
+        files = files.filter(f => !f.name.startsWith('.'));
+
+        this.files = files;
     }
 
     public select(file: FileSystemItem) {
         this.files.forEach(f => f.isSelected = false);
         file.isSelected = true;
+        this.selectedFiles = [file];
     }
 
     public open(file: FileSystemItem) {
@@ -37,5 +44,10 @@ export class FolderView {
         else {
             shell.openExternal(file.path);
         }
+    }
+
+    public clicked(ev: MouseEvent) {
+        this.files.forEach(f => f.isSelected = false);
+        this.selectedFiles = [];
     }
 }

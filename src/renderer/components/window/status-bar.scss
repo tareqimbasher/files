@@ -1,3 +1,8 @@
 status-bar {
     border-top: 2px solid black;
+
+    .container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
 }

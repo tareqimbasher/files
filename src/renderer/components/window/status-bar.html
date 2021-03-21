@@ -1,5 +1,8 @@
 <template>
     <div class="ui basic ${settings.inverted} segment p0">
-        Status Bar
+        <div class="container">
+            ${files.length} items
+            <span show.bind="selectedFiles.length">| ${selectedFiles.length} item selected</span>
+        </div>
     </div>
 </template>

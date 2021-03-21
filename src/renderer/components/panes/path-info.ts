@@ -1,11 +1,14 @@
 ﻿import { Util } from "../../core";
 import * as path from "path";
 import * as fs from "fs";
+import { FolderView } from "./folder-view/folder-view";
 
 export class PathInfo {
     public id: string;
     public path!: string;
     public pathParts: string[] = [];
+
+    public folderView?: FolderView;
 
     constructor(path: string) {
         this.id = Util.newGuid();
