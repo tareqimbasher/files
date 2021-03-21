@@ -1,6 +1,12 @@
 tab {
     .close.icon {
         padding-left: 10px;
+        color: #c6c6c6;
+
+        &:hover {
+            color: salmon;
+            cursor: pointer;
+        }
     }
 }
 
@@ -13,6 +19,24 @@ tab {
     &.active {
         border-top-left-radius: 0 !important;
         border-top-color: dodgerblue;
+        border-top-width: 2px;
+
+        &:first-child {
+            border-left: none;
+        }
+    }
+}
+
+.ui.tabular.inverted.menu tab.item {
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.08);
+        color: #fff;
+    }
+
+    &.active {
+        border-right-color: #696969;
+        border-left-color: #696969;
 
         &:first-child {
             border-left: none;

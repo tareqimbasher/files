@@ -22,3 +22,31 @@ body {
 .p0 {
     padding: 0 !important;
 }
+
+.pr0 {
+    padding-right: 0 !important;
+}
+
+.pl0 {
+    padding-right: 0 !important;
+}
+
+.pt0 {
+    padding-right: 0 !important;
+}
+
+.pb0 {
+    padding-right: 0 !important;
+}
+
+.dark {
+    .ui.inverted.segment {
+        border-radius: 0 !important;
+        border-color: #656565;
+    }
+
+    .ui.segments {
+        border-radius: 0 !important;
+        border-color: #656565;
+    }
+}

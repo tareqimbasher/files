@@ -1,4 +1,12 @@
 header {
     background-color: #eee;
     height: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.dark {
+    header {
+        background-color: #1B1C1D;
+        border-bottom-color: #656565;
+    }
 }

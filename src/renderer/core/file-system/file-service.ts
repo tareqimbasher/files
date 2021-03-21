@@ -25,7 +25,7 @@ export class FileService {
 					items.push(new SymbolicLink(path));
 				}
 			} catch (ex) {
-				console.error(`Could not read file: ${name}`);
+				//console.error(`Could not read file: ${name}`);
             }
         }
 

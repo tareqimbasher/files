@@ -1,32 +1,54 @@
-import { Settings, Util } from "../../core";
+import { bindable } from "aurelia";
+import { Settings } from "../../core";
+import { PaneInfo } from "./pane-info";
 
 export class Pane {
-    public id: string;
-    public paths: string[] = [];
+
+    @bindable public info!: PaneInfo;
+
+    public addressBarPath?: string;
     public editAddress = false;
-    private tabsElement!: HTMLElement;
-    private addressInput!: HTMLInputElement;
+    public addressInput!: HTMLInputElement;
 
     constructor(public settings: Settings) {
-        this.id = Util.newGuid();
-        this.paths.push(
-            "C:/tmp",
-            "C:/",
-            "D:/Libraries/Pictures",
-            //"C:/Users/TIPS/Pictures",
-            "C:/Users/TIPS/Downloads"
-        );
     }
 
     public attached() {
-        ($(this.tabsElement).find('.item') as any).tab();
+        this.bindTabs();
+        this.info.currentPath = this.info.paths[0];
+        this.addressBarPath = this.info.currentPath.path;
     }
 
     public openNewTab(path?: string) {
-        this.paths.push(path || "C:/");
-        let tabs = ($(this.tabsElement).find('.item') as any);
-        tabs.tab('destroy');
-        tabs.tab();
+        let tabs = this.findTabs();
+        (tabs as any).tab('destroy');
+
+        let pathInfo = this.info.addTab(path);
+        tabs = this.findTabs();
+        this.bindTabs();
+
+        // Works better than calling change tab
+        tabs.filter(`[data-tab='${pathInfo.id}']`).click();
+
+        //($ as any).tab("change tab", pathInfo.id);
+        // Fix, semantic is switching the view but not selecting the actual tab
+        //tabs.removeClass("active");
+        //tabs.filter(`[data-tab='${pathInfo.id}']`).addClass("active");
+    }
+
+    private findTabs() {
+        return $(`pane[data-id='${this.info.id}'] tab.item`);
+    }
+
+    private bindTabs() {
+        let tabs = (this.findTabs() as any);
+        tabs.tab({
+            onVisible: (tabId: string) => {
+                console.log(tabId);
+                this.info.currentPath = this.info.paths.find(x => x.id == tabId);
+                this.addressBarPath = this.info.currentPath?.path;
+            }
+        });
     }
 
     public enableEditAddress() {

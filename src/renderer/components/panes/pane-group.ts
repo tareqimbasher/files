@@ -1,13 +1,21 @@
 import { Settings } from "../../core";
-import { Pane } from "./pane";
+import { PaneManager } from "./pane-manager";
+import { PaneInfo } from "./pane-info";
 
 export class PaneGroup {
-    public panes: Pane[] = [];
+    public panes: PaneInfo[] = [];
 
-    constructor(public settings: Settings) {
-        this.panes.push(
-            new Pane(settings),
-            new Pane(settings)
+    constructor(public paneManager: PaneManager, public settings: Settings) {
+        this.paneManager.panes.push(
+            new PaneInfo(),
+            new PaneInfo()
         );
+
+        this.paneManager.panes[0].addTab("C:/");
+        this.paneManager.panes[0].addTab("C:/tmp");
+
+        this.paneManager.panes[1].addTab("C:/");
+        this.paneManager.panes[1].addTab("C:/Program Files");
     }
 }
+
