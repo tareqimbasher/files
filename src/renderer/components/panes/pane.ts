@@ -1,4 +1,4 @@
-import { bindable, EventAggregator, IDisposable } from "aurelia";
+import { bindable, EventAggregator, IDisposable, watch } from "aurelia";
 import { Settings } from "../../core";
 import { PaneInfo } from "./pane-info";
 import * as fs from "fs";
@@ -13,57 +13,28 @@ export class Pane {
     public addressBarPath?: string;
     public editAddress = false;
     public addressInput!: HTMLInputElement;
-    private disposables: IDisposable[] = [];
+    private detaches: Array<() => void> = [];
 
     constructor(public settings: Settings, private eventBus: EventAggregator) {
-        console.log(eventBus);
     }
 
     public attached() {
-        this.bindTabs();
-        this.info.currentPath = this.info.paths[0];
-        this.addressBarPath = this.info.currentPath.path;
+        this.info.tabs.refreshTabBinding();
+        this.addressBarPath = this.info.tabs.active.path;
 
-        this.disposables.push(this.eventBus.subscribe("address-edit", (msg: any) => {
+        let sub = this.eventBus.subscribe("kb-address-edit", (msg: any) => {
             if (this.info.id == msg.id)
                 this.enableEditAddress();
-        }));
+        });
+        this.detaches.push(() => sub.dispose());
+
+        let f = (ev: KeyboardEvent) => this.addressBarPathEdited(ev);
+        this.addressInput.addEventListener("keydown", f);
+        this.detaches.push(() => this.addressInput.removeEventListener("keydown", f));
     }
 
     public detached() {
-        this.disposables.forEach(d => d.dispose());
-    }
-
-    public openNewTab(path?: string) {
-        let tabs = this.findTabs();
-        (tabs as any).tab('destroy');
-
-        let pathInfo = this.info.addTab(path);
-        tabs = this.findTabs();
-        this.bindTabs();
-
-        // Works better than calling change tab
-        tabs.filter(`[data-tab='${pathInfo.id}']`).click();
-
-        //($ as any).tab("change tab", pathInfo.id);
-        // Fix, semantic is switching the view but not selecting the actual tab
-        //tabs.removeClass("active");
-        //tabs.filter(`[data-tab='${pathInfo.id}']`).addClass("active");
-    }
-
-    private findTabs() {
-        return $(`pane[data-id='${this.info.id}'] tab.item`);
-    }
-
-    private bindTabs() {
-        let tabs = (this.findTabs() as any);
-        tabs.tab({
-            onVisible: (tabId: string) => {
-                console.log(tabId);
-                this.info.currentPath = this.info.paths.find(x => x.id == tabId);
-                this.addressBarPath = this.info.currentPath?.path;
-            }
-        });
+        this.detaches.forEach(f => f());
     }
 
     public enableEditAddress() {
@@ -74,31 +45,41 @@ export class Pane {
         }, 10);
     }
 
-    public async addressBarPathEdited(ev: Event) {
-        ev.preventDefault();
+    @watch((vm: Pane) => vm.info.tabs.active.path)
+    public activeTabPathChanged() {
+        this.addressBarPath = this.info.tabs.active.path;
+    }
 
-        if (this.addressBarPath) {
-            this.addressBarPath = this.addressBarPath.trim();
-            if (this.addressBarPath.startsWith("~"))
-                this.addressBarPath = this.addressBarPath.replace("~", os.homedir());
-            else if (this.addressBarPath.startsWith("/"))
-                this.addressBarPath = this.addressBarPath.replace("/", path.parse(process.cwd()).root);
+    public async addressBarPathEdited(ev: KeyboardEvent) {
+        // If pressed key is not ENTER or ESC keys, don't handle event
+        if (ev.which != 13 && ev.which != 27)
+            return;
 
-            if (!fs.existsSync(this.addressBarPath)) {
-                alert("Invalid path: " + this.addressBarPath);
-            }
-            else {
-                let stat = await fs.promises.stat(this.addressBarPath);
-                if (stat.isDirectory()) {
-                    this.info.currentPath?.setPath(this.addressBarPath);
+        if (ev.which == 13) { // Enter key
+            if (this.addressBarPath) {
+                this.addressBarPath = this.addressBarPath.trim();
+
+                if (this.addressBarPath.startsWith("~"))
+                    this.addressBarPath = this.addressBarPath.replace("~", os.homedir());
+                else if (this.addressBarPath.startsWith("/"))
+                    this.addressBarPath = this.addressBarPath.replace("/", path.parse(process.cwd()).root);
+
+                if (!fs.existsSync(this.addressBarPath)) {
+                    alert("Invalid path: " + this.addressBarPath);
                 }
                 else {
-                    shell.openExternal(this.addressBarPath);
+                    let stat = await fs.promises.stat(this.addressBarPath);
+                    if (stat.isDirectory()) {
+                        this.info.tabs.active.setPath(this.addressBarPath);
+                    }
+                    else {
+                        shell.openExternal(this.addressBarPath);
+                    }
                 }
             }
         }
 
-        this.addressBarPath = this.info.currentPath?.path;
+        this.addressBarPath = this.info.tabs.active.path;
         this.editAddress = false;
     }
 }

@@ -1,11 +1,11 @@
 import { EventAggregator } from "aurelia";
-import { PaneManager } from "../panes/pane-manager";
-import { Settings } from "../../core";
+import { WindowManager } from "./window-manager";
+import { Settings } from "../core";
 
 export class Window {
     constructor(
         private settings: Settings,
-        private paneManager: PaneManager,
+        private windowManager: WindowManager,
         private eventBus: EventAggregator) {
     }
 
@@ -74,8 +74,8 @@ export class Window {
     private setupKeyboardShortcuts() {
         document.addEventListener("keydown", ev => {
             if (ev.ctrlKey && ev.which == 76) { // CTRL + L key
-                this.eventBus.publish('address-edit', {
-                    id: this.paneManager.currentPane?.id
+                this.eventBus.publish('kb-address-edit', {
+                    id: this.windowManager.panes.active.id
                 });
             }
         });

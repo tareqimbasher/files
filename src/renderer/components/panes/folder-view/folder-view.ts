@@ -2,13 +2,13 @@ import { bindable, watch } from "aurelia";
 import { Directory, File, FileService, FileSystemItem, Settings } from "../../../core";
 import { shell } from "electron";
 import * as chokidar from "chokidar";
-import { PathInfo } from "../path-info";
+import { TabInfo } from "../tabs/tab-info";
 
 export class FolderView {
     public message = 'Files';
     public files: FileSystemItem[] = [];
     public selectedFiles: FileSystemItem[] = [];
-    @bindable public pathInfo!: PathInfo;
+    @bindable public tab!: TabInfo;
 
     //private dirWatcher: FSWatcher;
 
@@ -17,13 +17,12 @@ export class FolderView {
 
     public attached() {
         this.pathChanged();
-        this.pathInfo.folderView = this;
     }
 
-    @watch((fv: FolderView) => fv.pathInfo.path)
+    @watch((fv: FolderView) => fv.tab.path)
     public async pathChanged() {
         //chokidar.watch('');
-        let files = await this.fileService.list(this.pathInfo.path);
+        let files = await this.fileService.list(this.tab.path);
 
         files = files.filter(f => !f.name.startsWith('.'));
 
@@ -38,7 +37,7 @@ export class FolderView {
 
     public open(file: FileSystemItem) {
         if (file instanceof Directory) {
-            this.pathInfo.setPath(file.path);
+            this.tab.setPath(file.path);
             this.pathChanged();
         }
         else {

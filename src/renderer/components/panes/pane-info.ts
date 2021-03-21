@@ -1,19 +1,18 @@
 ﻿import { Util } from "../../core";
-import { PathInfo } from "./path-info";
-import * as os from "os";
+import { Panes } from "./panes";
+import { Tabs } from "./tabs/tabs";
 
 export class PaneInfo {
     public id: string;
-    public paths: PathInfo[] = [];
-    public currentPath?: PathInfo;
+    public isActive: boolean = false;
+    public tabs: Tabs;
 
-    constructor() {
+    constructor(public panes: Panes) {
         this.id = Util.newGuid();
+        this.tabs = new Tabs(this);
     }
 
-    public addTab(path?: string): PathInfo {
-        let pathInfo = new PathInfo(path || os.homedir());
-        this.paths.push(pathInfo);
-        return pathInfo;
+    public activate() {
+        this.panes.setActive(this);
     }
 }

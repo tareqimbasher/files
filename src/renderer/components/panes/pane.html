@@ -22,32 +22,29 @@
 
                         <i class="folder icon divider"></i>
 
-                        <address-crumb repeat.for="part of info.currentPath.pathParts"
+                        <address-crumb repeat.for="part of info.tabs.active.pathParts"
                                        part.bind="part"
                                        last.bind="$last"
                                        if.bind="!!part"></address-crumb>
                     </div>
 
                     <!--INPUT-->
-                    <form submit.delegate="addressBarPathEdited($event)">
-                        <div class="ui fluid left icon ${settings.inverted} input"
-                             show.bind="editAddress">
-                            <i class="folder icon"></i>
-                                <input ref="addressInput"
-                                       value.bind="addressBarPath"
-                                       type="text"
-                                       blur.trigger="editAddress = false">
-                        </div>
-                    </form>
+                    <div class="ui fluid left icon ${settings.inverted} input"
+                         show.bind="editAddress">
+                        <i class="folder icon"></i>
+                        <input ref="addressInput"
+                               value.bind="addressBarPath"
+                               type="text"
+                               blur.trigger="editAddress = false">
+                    </div>
                 </div>
                 <div class="column" style="flex: 0 0 70px;">
                     <button class="tiny circular ui icon button"
-                            click.delegate="info.currentPath.goUp()">
+                            click.delegate="info.tabs.active.goUp()">
                       <i class="up arrow icon"></i>
                     </button>
-
                     <!--<div class="ui tiny icon buttons">
-                        <button class="ui button" click.delegate="info.currentPath.goUp()">
+                        <button class="ui button" click.delegate="info.tabs.active.goUp()">
                             <i class="up arrow icon"></i>
                         </button>
                         <button class="ui button">
@@ -64,15 +61,15 @@
         <!--TABS-->
         <div class="ui ${settings.inverted} segment tabs">
             <div class="ui top attached tabular mini ${settings.inverted} menu" ref="tabsElement">
-                <tab repeat.for="path of info.paths"
-                     class="item ${$index == 0 ? 'active' : ''}"
-                     data-tab="${path.id}"
+                <tab repeat.for="tab of info.tabs.list"
+                     class="item"
+                     data-tab="${tab.id}"
                      pane.bind="info"
-                     path-info.bind="path">
+                     info.bind="tab">
                 </tab>
 
                 <div class="right menu">
-                    <a class="item" click.delegate="openNewTab()">
+                    <a class="item" click.delegate="info.tabs.add().activate()">
                         <i class="add icon"></i> New Tab
                     </a>
                 </div>
@@ -81,10 +78,10 @@
 
         <!--FOLDER VIEWS-->
         <div class="ui ${settings.inverted} segment folder-views">
-            <folder-view repeat.for="path of info.paths"
-                         class="${$index == 0 ? 'active' : ''} ui tab"
-                         data-tab="${path.id}"
-                         path-info.bind="path"></folder-view>
+            <folder-view repeat.for="tab of info.tabs.list"
+                         class="ui tab"
+                         data-tab="${tab.id}"
+                         tab.bind="tab"></folder-view>
         </div>
     </div>
 </template>
