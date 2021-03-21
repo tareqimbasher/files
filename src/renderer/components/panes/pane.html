@@ -29,14 +29,16 @@
                     </div>
 
                     <!--INPUT-->
-                    <div class="ui fluid left icon ${settings.inverted} input"
-                         show.bind="editAddress">
-                        <i class="folder icon"></i>
-                        <input ref="addressInput"
-                               value.bind="addressBarPath"
-                               type="text"
-                               blur.trigger="editAddress = false">
-                    </div>
+                    <form submit.delegate="addressBarPathEdited($event)">
+                        <div class="ui fluid left icon ${settings.inverted} input"
+                             show.bind="editAddress">
+                            <i class="folder icon"></i>
+                                <input ref="addressInput"
+                                       value.bind="addressBarPath"
+                                       type="text"
+                                       blur.trigger="editAddress = false">
+                        </div>
+                    </form>
                 </div>
                 <div class="column" style="flex: 0 0 70px;">
                     <button class="tiny circular ui icon button"

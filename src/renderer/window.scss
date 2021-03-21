@@ -39,6 +39,10 @@ body {
     padding-right: 0 !important;
 }
 
+input::selection {
+     background: rgba(74, 204, 254, 0.4);
+}
+
 .dark {
     .ui.inverted.segment {
         border-radius: 0 !important;

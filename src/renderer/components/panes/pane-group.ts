@@ -11,11 +11,15 @@ export class PaneGroup {
             new PaneInfo()
         );
 
-        this.paneManager.panes[0].addTab("C:/");
-        this.paneManager.panes[0].addTab("C:/tmp");
+        this.paneManager.panes[0].addTab("C:\\");
+        this.paneManager.panes[1].addTab("C:\\");
 
-        this.paneManager.panes[1].addTab("C:/");
-        this.paneManager.panes[1].addTab("C:/Program Files");
+        this.paneManager.currentPane = this.paneManager.panes[0];
+    }
+
+    public setActive(pane: PaneInfo) {
+        if (this.paneManager.currentPane != pane)
+            this.paneManager.currentPane = pane;
     }
 }
 

@@ -1,12 +1,18 @@
+import { EventAggregator } from "aurelia";
+import { PaneManager } from "./components/panes/pane-manager";
 import { Settings } from "./core";
 
 export class Window {
-    constructor(public settings: Settings) {
+    constructor(
+        private settings: Settings,
+        private paneManager: PaneManager,
+        private eventBus: EventAggregator) {
     }
 
     public attached() {
         this.setupSidebarResizing();
         this.setupPaneResizing();
+        this.setupKeyboardShortcuts();
     }
 
     private setupSidebarResizing() {
@@ -62,6 +68,16 @@ export class Window {
 
         document.addEventListener("mouseup", () => {
             document.removeEventListener("mousemove", resize);
+        });
+    }
+
+    private setupKeyboardShortcuts() {
+        document.addEventListener("keydown", ev => {
+            if (ev.ctrlKey && ev.which == 76) { // CTRL + L key
+                this.eventBus.publish('address-edit', {
+                    id: this.paneManager.currentPane?.id
+                });
+            }
         });
     }
 }
