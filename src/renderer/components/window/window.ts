@@ -1,6 +1,6 @@
 import { EventAggregator } from "aurelia";
-import { PaneManager } from "./components/panes/pane-manager";
-import { Settings } from "./core";
+import { PaneManager } from "../panes/pane-manager";
+import { Settings } from "../../core";
 
 export class Window {
     constructor(

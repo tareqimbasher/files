@@ -3,9 +3,14 @@ body {
     height: 100%;
 }
 
+.container-after-titlebar {
+    inset: unset !important;
+    top: 30px !important;
+}
+
 .window {
     display: flex;
-    min-height: 100vh;
+    min-height: calc(100vh - 30px);
     flex-direction: column;
 
     .window-body {

@@ -1,7 +1,5 @@
 <template class="${item.isSelected ? 'selected' : ''}">
 
-    <require from="../../core/value-converters/truncate"/>
-
     <div class="fs-item-icon" if.bind="item.type == 'Directory'">
         <!--<i class="ui huge blue folder icon"></i>-->
         <object type="image/svg+xml" data="assets/icons/file-system/100-folder-27.svg"></object>
