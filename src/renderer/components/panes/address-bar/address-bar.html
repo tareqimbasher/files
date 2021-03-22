@@ -1,0 +1,61 @@
+<template>
+
+    <template as-custom-element="address-crumb">
+        <bindable property="part"></bindable>
+        <bindable property="last"></bindable>
+
+        <div class="section ${last ? 'active' : ''}">${part}</div>
+        <i if.bind="!last" class="right angle icon divider"></i>
+    </template>
+
+    <div class="ui ${settings.inverted} segment address-bar">
+        <div class="inner-container">
+            <div class="buttons-container">
+                <!--<button class="tiny circular ui icon button"
+                        click.delegate="paneInfo.tabs.active.goUp()">
+                    <i class="up arrow icon"></i>
+                </button>-->
+                <div class="ui tiny icon buttons">
+                    <button class="ui button"
+                            click.delegate="paneInfo.tabs.active.goBack()"
+                            disabled.bind="paneInfo.tabs.active.atHistoryIndex == 0">
+                        <i class="left arrow icon"></i>
+                    </button>
+                    <button class="ui button"
+                            click.delegate="paneInfo.tabs.active.goForward()"
+                            disabled.bind="paneInfo.tabs.active.atHistoryIndex >= paneInfo.tabs.active.history.length - 1">
+                        <i class="right arrow icon"></i>
+                    </button>
+                    <button class="ui button" click.delegate="paneInfo.tabs.active.goUp()">
+                        <i class="up arrow icon"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="breadcrumb-container">
+                <!--BREADCRUMBS-->
+                <div class="ui ${settings.inverted} breadcrumb"
+                     click.trigger="enableEditAddress() & self"
+                     show.bind="!editAddress">
+
+                    <i class="folder icon divider"></i>
+
+                    <address-crumb repeat.for="part of paneInfo.tabs.active.pathParts"
+                                   click.trigger="addressPartSelected($index)"
+                                   part.bind="part"
+                                   last.bind="$last"
+                                   if.bind="!!part"></address-crumb>
+                </div>
+
+                <!--INPUT-->
+                <div class="ui fluid left icon ${settings.inverted} input"
+                     show.bind="editAddress">
+                    <i class="folder icon"></i>
+                    <input ref="addressInput"
+                           value.bind="addressBarPath"
+                           type="text"
+                           blur.trigger="editAddress = false">
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

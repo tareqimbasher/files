@@ -1,0 +1,28 @@
+.address-bar.segment {
+    padding: 7px;
+
+    .inner-container {
+        display: flex;
+        align-items: center;
+    }
+
+    .buttons-container {
+        flex: 0 0 110px;
+        vertical-align: middle;
+    }
+
+    .breadcrumb-container {
+        flex: 1;
+    }
+
+    .breadcrumb {
+        border: 1px solid rgba(34, 36, 38, 0.15);
+        width: 100%;
+        padding: 8.5px 14px;
+        user-select: none;
+
+        .section:not(.active):hover {
+            background: #eee;
+        }
+    }
+}
