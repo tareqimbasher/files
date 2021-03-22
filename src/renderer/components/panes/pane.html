@@ -14,15 +14,37 @@
         <!--ADDRESS BAR-->
         <div class="ui ${settings.inverted} segment address-bar">
             <div class="ui middle aligned grid">
-                <div class="column pr0" style="flex: 1;">
+                <div class="column" style="flex: 0 0 110px">
+                    <!--<button class="tiny circular ui icon button"
+                            click.delegate="info.tabs.active.goUp()">
+                        <i class="up arrow icon"></i>
+                    </button>-->
+                    <div class="ui tiny icon buttons">
+                        <button class="ui button"
+                                click.delegate="info.tabs.active.goBack()"
+                                disabled.bind="info.tabs.active.atHistoryIndex == 0">
+                            <i class="left arrow icon"></i>
+                        </button>
+                        <button class="ui button"
+                                click.delegate="info.tabs.active.goForward()"
+                                disabled.bind="info.tabs.active.atHistoryIndex >= info.tabs.active.history.length - 1">
+                            <i class="right arrow icon"></i>
+                        </button>
+                        <button class="ui button" click.delegate="info.tabs.active.goUp()">
+                            <i class="up arrow icon"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="column" style="flex: 1;">
                     <!--BREADCRUMBS-->
                     <div class="ui ${settings.inverted} breadcrumb"
-                         click.trigger="enableEditAddress()"
+                         click.trigger="enableEditAddress() & self"
                          show.bind="!editAddress">
 
                         <i class="folder icon divider"></i>
 
                         <address-crumb repeat.for="part of info.tabs.active.pathParts"
+                                       click.trigger="addressPartSelected($index)"
                                        part.bind="part"
                                        last.bind="$last"
                                        if.bind="!!part"></address-crumb>
@@ -38,23 +60,6 @@
                                blur.trigger="editAddress = false">
                     </div>
                 </div>
-                <div class="column" style="flex: 0 0 70px;">
-                    <button class="tiny circular ui icon button"
-                            click.delegate="info.tabs.active.goUp()">
-                      <i class="up arrow icon"></i>
-                    </button>
-                    <!--<div class="ui tiny icon buttons">
-                        <button class="ui button" click.delegate="info.tabs.active.goUp()">
-                            <i class="up arrow icon"></i>
-                        </button>
-                        <button class="ui button">
-                            <i class="left arrow icon"></i>
-                        </button>
-                        <button class="ui button">
-                            <i class="right arrow icon"></i>
-                        </button>
-                    </div>-->
-                </div>
             </div>
         </div>
 
@@ -62,7 +67,7 @@
         <div class="ui ${settings.inverted} segment tabs">
             <div class="ui top attached tabular mini ${settings.inverted} menu" ref="tabsElement">
                 <tab repeat.for="tab of info.tabs.list"
-                     class="item"
+                     class="item ${info == info.panes.active && tab == info.tabs.active ? 'active-tab' : ''}"
                      data-tab="${tab.id}"
                      pane.bind="info"
                      info.bind="tab">

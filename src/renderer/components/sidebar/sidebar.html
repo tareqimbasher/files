@@ -1,38 +1,32 @@
 <template>
     <div class="ui ${settings.inverted} segment">
-        <div class="ui ${settings.inverted} list">
+        <!--<div class="ui ${settings.inverted} list">
+            <i class="computer icon"></i>
+            <div class="content">PC</div>
+        </div>-->
+        <div class="ui ${settings.inverted} list pinned-directories">
             <div class="item">
                 <i class="computer icon"></i>
                 <div class="content">
                     <div class="header">PC</div>
-                    <div class="list">
-                        <div class="item">
-                            <i class="blue folder icon"></i>
-                            <div class="content">
-                                <div class="header">Home</div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <i class="blue folder icon"></i>
-                            <div class="content">
-                                <div class="header">Downloads</div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <i class="blue folder icon"></i>
-                            <div class="content">
-                                <div class="header">Documents</div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
-            <div class="item">
+            <div class="item selectable ${windowManager.panes.active.tabs.active.path == dir.path ? 'active' : ''}"
+                 repeat.for="dir of pinned"
+                 click.trigger="windowManager.panes.active.tabs.active.setPath(dir.path)">
+
+                <i class="blue folder icon"></i>
+                <div class="middle aligned content">
+                    <div class="">${dir.name}</div>
+                </div>
+
+            </div>
+            <!--<div class="item">
                 <i class="list icon"></i>
                 <div class="content">
                     <div class="header">Libraries</div>
                 </div>
-            </div>
+            </div>-->
         </div>
     </div>
 </template>

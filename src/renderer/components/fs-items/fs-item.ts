@@ -27,7 +27,7 @@ export class FSItem {
         }
     }
 
-    public thumb() {
+    public thumbnail() {
         return 'atom://' + this.item?.path;
     }
 }

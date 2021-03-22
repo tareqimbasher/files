@@ -18,12 +18,15 @@ tab {
 
     &.active {
         border-top-left-radius: 0 !important;
-        border-top-color: dodgerblue;
         border-top-width: 2px;
 
         &:first-child {
             border-left: none;
         }
+    }
+
+    &.active-tab {
+        border-top-color: dodgerblue;
     }
 }
 

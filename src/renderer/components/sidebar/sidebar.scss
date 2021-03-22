@@ -1,10 +1,46 @@
 sidebar {
     display: flex;
-
     background-color: #d0d0d0;
     user-select: none;
 
     > .ui.segment {
         flex: 1;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .ui.list.pinned-directories {
+        > .item {
+            height: 22px;
+            padding-left: 10px;
+
+            &.selectable {
+                cursor: pointer;
+
+                &:hover {
+                    background: rgba(238, 238, 238, 0.50);
+                }
+
+                &.active {
+                    background: #eee;
+                }
+            }
+        }
+    }
+}
+
+.dark {
+    .ui.list.pinned-directories {
+        > .item {
+            &.selectable {
+                &:hover {
+                    background: rgba(255, 255, 255, 0.08);
+                }
+
+                &.active {
+                    background: rgba(255, 255, 255, 0.15);
+                }
+            }
+        }
     }
 }

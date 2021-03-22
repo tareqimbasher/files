@@ -82,4 +82,13 @@ export class Pane {
         this.addressBarPath = this.info.tabs.active.path;
         this.editAddress = false;
     }
+
+    public async addressPartSelected(selectedPartIndex: number) {
+        let activeTab = this.info.tabs.active;
+        if (activeTab.pathParts.length - 1 == selectedPartIndex)
+            return;
+
+        let newPath = path.join(...activeTab.pathParts.slice(0, selectedPartIndex + 1));
+        activeTab.setPath(newPath);
+    }
 }
