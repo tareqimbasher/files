@@ -67,4 +67,8 @@ export class TabInfo {
     public activate() {
         this.tabs.setActive(this);
     }
+
+    public close() {
+        this.tabs.remove(this);
+    }
 }

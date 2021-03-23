@@ -1,4 +1,4 @@
-<template>
-    ${info.pathName}
-    <i class="close icon"></i>
-</template>
+<bindable name="info" />
+
+${info.pathName}
+<i class="close icon" click.trigger="info.close()"></i>

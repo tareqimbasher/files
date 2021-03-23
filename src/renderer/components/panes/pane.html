@@ -1,6 +1,6 @@
 <template>
     <require from="./address-bar/address-bar" />
-    <require from="./tabs/tab" />
+    <require from="./tabs/tab.html" />
     <require from="./folder-view/folder-view" />
 
     <div class="ui segments pane-container">
@@ -13,7 +13,6 @@
                 <tab repeat.for="tab of info.tabs.list"
                      class="item ${info == info.panes.active && tab == info.tabs.active ? 'active-tab' : ''}"
                      data-tab="${tab.id}"
-                     pane.bind="info"
                      info.bind="tab">
                 </tab>
 

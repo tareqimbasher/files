@@ -25,6 +25,11 @@ export class Tabs {
         return tab;
     }
 
+    public remove(tab: TabInfo) {
+        let ix = this.list.indexOf(tab);
+        this.list.splice(ix, 1);
+    }
+
     public setActive(tab: TabInfo) {
         if (this.active == tab)
             return;
