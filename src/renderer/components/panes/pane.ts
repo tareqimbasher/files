@@ -1,4 +1,4 @@
-import { bindable, EventAggregator, watch } from "aurelia";
+import { bindable, EventAggregator } from "aurelia";
 import { Settings } from "../../core";
 import { PaneInfo } from "./pane-info";
 

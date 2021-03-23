@@ -1,7 +1,6 @@
 import { EventAggregator } from "aurelia";
 import { WindowManager } from "./window-manager";
 import { Settings } from "../core";
-import * as os from "os";
 
 export class Window {
     constructor(

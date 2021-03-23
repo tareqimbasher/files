@@ -1,10 +1,6 @@
 import { bindable, EventAggregator, watch } from "aurelia";
-import { Settings } from "../../../core";
+import { Settings, system } from "../../../core";
 import { PaneInfo } from "../pane-info";
-import * as fs from "fs";
-import { shell } from "electron";
-import * as os from "os";
-import * as path from "path";
 
 export class AddressBar {
 
@@ -58,20 +54,20 @@ export class AddressBar {
                 this.addressBarPath = this.addressBarPath.trim();
 
                 if (this.addressBarPath.startsWith("~"))
-                    this.addressBarPath = this.addressBarPath.replace("~", os.homedir());
+                    this.addressBarPath = this.addressBarPath.replace("~", system.os.homedir());
                 else if (this.addressBarPath.startsWith("/"))
-                    this.addressBarPath = this.addressBarPath.replace("/", path.parse(process.cwd()).root);
+                    this.addressBarPath = this.addressBarPath.replace("/", system.path.parse(process.cwd()).root);
 
-                if (!fs.existsSync(this.addressBarPath)) {
+                if (!system.fss.existsSync(this.addressBarPath)) {
                     alert("Invalid path: " + this.addressBarPath);
                 }
                 else {
-                    let stat = await fs.promises.stat(this.addressBarPath);
+                    let stat = await system.fs.stat(this.addressBarPath);
                     if (stat.isDirectory()) {
                         this.paneInfo.tabs.active.setPath(this.addressBarPath);
                     }
                     else {
-                        shell.openExternal(this.addressBarPath);
+                        system.shell.openExternal(this.addressBarPath);
                     }
                 }
             }
@@ -86,7 +82,7 @@ export class AddressBar {
         if (activeTab.pathParts.length - 1 == selectedPartIndex)
             return;
 
-        let newPath = path.join(...activeTab.pathParts.slice(0, selectedPartIndex + 1));
+        let newPath = system.path.join(...activeTab.pathParts.slice(0, selectedPartIndex + 1));
         activeTab.setPath(newPath);
     }
 }
