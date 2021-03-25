@@ -10,3 +10,5 @@ export * from './file-system/symbolic-link';
 export * from './file-system/file-service';
 
 export * from './utils/util';
+export * from './utils/keycodes';
+export * from './utils/ui-util';
