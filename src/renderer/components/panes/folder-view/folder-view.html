@@ -1,4 +1,5 @@
-<template mousedown.delegate='clicked($event) & self'>
+<template mousedown.trigger='emptySpaceClicked($event)'
+          tabindex="0">
     <require from="../../fs-items/fs-item"/>
 
     <div class="ui horizontal ${settings.inverted} list">

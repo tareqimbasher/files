@@ -1,11 +1,11 @@
 import { Aurelia } from 'aurelia';
-import { resources } from './global-resources';
+import { converters } from './global-resources';
 import "./jquery.load";
 import "./style/semantic-ui/dist/semantic.css";
 import "./style/semantic-ui/dist/semantic.js";
 import { Window } from './components/window';
 
 Aurelia
-    .register(resources)
+    .register(converters)
     .app(Window)
     .start();
