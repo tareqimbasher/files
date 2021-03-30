@@ -1,8 +1,8 @@
 <template>
     <div class="ui basic ${settings.inverted} segment p0">
         <div class="container">
-            ${files.length} items
-            <span show.bind="selectedFiles.length">| ${selectedFiles.length} item selected</span>
+            ${allFsItemsCount} items
+            <span show.bind="selectedFsItemsCount > 0">| ${selectedFsItemsCount} item selected</span>
         </div>
     </div>
 </template>
