@@ -1,6 +1,9 @@
 tab {
+    .name {
+        margin-right: 10px;
+    }
+
     .close.icon {
-        padding-left: 10px;
         color: #c6c6c6;
 
         &:hover {
@@ -18,6 +21,7 @@ tab {
 
     &.active {
         border-top-left-radius: 0 !important;
+        border-top-right-radius: 0 !important;
         border-top-width: 2px;
 
         &:first-child {
