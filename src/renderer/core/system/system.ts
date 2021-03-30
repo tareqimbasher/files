@@ -4,6 +4,7 @@ import * as _path from "path";
 import { shell as _shell } from "electron";
 
 export namespace system {
+    export var platform = _os.platform();
     export var os = _os;
     export var fs = _fs.promises;
     export var fss = _fs;

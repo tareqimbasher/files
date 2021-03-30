@@ -1,4 +1,5 @@
 export * from './settings';
+export * from './data/dictionary';
 
 export * from "./system/system";
 

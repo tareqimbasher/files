@@ -95,6 +95,7 @@
     "url-loader": "^4.1.1"
   },
   "dependencies": {
+    "@simonwep/selection-js": "^2.0.2",
     "aurelia": "dev",
     "chokidar": "^3.5.1",
     "custom-electron-titlebar": "^3.2.6",

@@ -8,6 +8,8 @@ export abstract class FileSystemItem {
     public extension: string;
     public type?: FileType;
     public isSelected: boolean = false;
+    public isHidden: boolean = false;
+    public isSystem: boolean = false;
 
     constructor(path: string) {
         this.path = path;

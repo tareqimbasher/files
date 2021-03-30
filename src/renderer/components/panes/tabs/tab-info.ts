@@ -3,6 +3,7 @@ import { Tabs } from "./tabs";
 import * as pathUtil from "path";
 import * as fs from "fs";
 import * as os from "os";
+import { FsItems } from "./fs-items";
 
 export class TabInfo {
     public id: string;
@@ -14,8 +15,11 @@ export class TabInfo {
     public history: string[] = [];
     public atHistoryIndex = 0;
 
+    public fsItems: FsItems;
+
     constructor(public tabs: Tabs, path: string) {
         this.id = Util.newGuid();
+        this.fsItems = new FsItems();
         this.setPath(path);
     }
 

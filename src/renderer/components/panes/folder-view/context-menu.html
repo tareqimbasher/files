@@ -1,0 +1,54 @@
+<template bindable="model">
+    <div class="ui list">
+        <div class="item" click.trigger="model.openSelected()">
+            <i class="blank icon"></i>
+            <div class="content">
+                <b>Open</b>
+            </div>
+        </div>
+        <div class="item">
+            <i class="cut icon"></i>
+            <div class="content">
+                Cut
+            </div>
+        </div>
+        <div class="item">
+            <i class="copy outline icon"></i>
+            <div class="content">
+                Copy
+            </div>
+        </div>
+        <div class="item">
+            <i class="paste icon"></i>
+            <div class="content">
+                Paste
+            </div>
+        </div>
+        <div class="ui divider"></div>
+        <div class="item">
+            <i class="blank icon"></i>
+            <div class="content">
+                Create shortcut
+            </div>
+        </div>
+        <div class="item" click.trigger="model.deleteSelected()">
+            <i class="blank icon"></i>
+            <div class="content">
+                Delete
+            </div>
+        </div>
+        <div class="item">
+            <i class="blank icon"></i>
+            <div class="content">
+                Rename
+            </div>
+        </div>
+        <div class="ui divider"></div>
+        <div class="item">
+            <i class="blank icon"></i>
+            <div class="content">
+                Properties
+            </div>
+        </div>
+    </div>
+</template>

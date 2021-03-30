@@ -8,4 +8,3 @@ export class PaneGroup {
     constructor(public windowManager: WindowManager, public settings: Settings) {
     }
 }
-

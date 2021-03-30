@@ -1,13 +1,15 @@
-<template mousedown.trigger='emptySpaceClicked($event)'
-          tabindex="0">
-    <require from="../../fs-items/fs-item"/>
+<template tabindex="0" data-id="${id}">
+    <require from="./context-menu.html" />
+    <require from="../../fs-items/fs-item" />
 
     <div class="ui horizontal ${settings.inverted} list">
         <fs-item class="item"
-              repeat.for="file of files"
-              item.bind="file"
-              click.trigger="select(file)"
-              dblClick.trigger="open(file)"></fs-item>
+                 repeat.for="fsItem of itemsToView"
+                 item.bind="fsItem"
+                 dblClick.trigger="openSelected()"
+                 data-name.bind="fsItem.name"></fs-item>
     </div>
+
+    <context-menu ref="contextMenu" model.bind="$this"></context-menu>
 
 </template>
