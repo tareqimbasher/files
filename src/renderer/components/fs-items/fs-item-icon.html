@@ -1,0 +1,12 @@
+<template containerless>
+
+    <bindable name="icon" />
+    <bindable name="type" />
+
+    <img if.bind="type != 'svg'"
+         src="assets/icons/file-system/png/${icon}.png" />
+
+    <object else
+            type="image/svg+xml"
+            data="assets/icons/file-system/svg/${icon}.svg"></object>
+</template>

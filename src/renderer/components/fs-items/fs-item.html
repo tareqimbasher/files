@@ -1,65 +1,82 @@
 <template class="${item.isSelected ? 'selected' : ''}">
 
+    <require from="./fs-item-icon.html"/>
+
     <div class="fs-item-icon" if.bind="item.type == 'Directory'">
         <!--<i class="ui huge blue folder icon"></i>-->
-        <object type="image/svg+xml" data="assets/icons/file-system/100-folder-27.svg"></object>
+        <!--<object type="image/svg+xml" data="assets/icons/file-system/svg/100-folder-27.svg"></object>-->
+        <fs-item-icon icon.bind="'100-folder-27'" type.bind="'png'"></fs-item-icon>
     </div>
 
     <div class="fs-item-icon" else switch.bind="item.extension">
 
         <img case.bind="['.jpg', '.jpeg', '.png', '.gif', '.jfif', 'bmp']"
+             class="image-thumbnail"
              src.bind="thumbnail()" />
 
         <!--<object case.bind="['.jpg', '.jpeg']"
-                type="image/svg+xml" data="assets/icons/file-system/067-jpg.svg"></object>
+            type="image/svg+xml" data="assets/icons/file-system/svg/067-jpg.svg"></object>
 
         <object case=".png"
-                type="image/svg+xml" data="assets/icons/file-system/115-png.svg"></object>
+                type="image/svg+xml" data="assets/icons/file-system/svg/115-png.svg"></object>
 
         <object case=".gif"
-                type="image/svg+xml" data="assets/icons/file-system/040-gif-1.svg"></object>
+                type="image/svg+xml" data="assets/icons/file-system/svg/040-gif-1.svg"></object>
 
         <object case.bind="['.jfif', 'bmp']"
-                type="image/svg+xml" data="assets/icons/file-system/022-picture-3.svg"></object>-->
+                type="image/svg+xml" data="assets/icons/file-system/svg/022-picture-3.svg"></object>-->
 
-        <object case.bind="['.mp3', '.wav']"
-                type="image/svg+xml" data="assets/icons/file-system/017-audio-file.svg"></object>
+        <fs-item-icon case.bind="['.mp3', '.wav']"
+                      icon.bind="'017-audio-file'"
+                      type.bind="'png'"></fs-item-icon>
 
-        <object case.bind="['.mp4', '.wmv', '.avi', '.mov', '.3gp']"
-                type="image/svg+xml" data="assets/icons/file-system/003-video-file-2.svg"></object>
+        <fs-item-icon case.bind="['.mp4', '.wmv', '.avi', '.mov', '.3gp']"
+                      icon.bind="'003-video-file-2'"
+                      type.bind="'png'"></fs-item-icon>
 
-        <object case=".mkv"
-                type="image/svg+xml" data="assets/icons/file-system/033-mkv-2.svg"></object>
+        <fs-item-icon case=".mkv"
+                      icon.bind="'033-mkv-2'"
+                      type.bind="'png'"></fs-item-icon>
 
-        <object case=".flv"
-                type="image/svg+xml" data="assets/icons/file-system/043-flv.svg"></object>
+        <fs-item-icon case=".flv"
+                      icon.bind="'043-flv'"
+                      type.bind="'png'"></fs-item-icon>
 
-        <object case=".txt"
-                type="image/svg+xml" data="assets/icons/file-system/078-txt.svg"></object>
+        <fs-item-icon case=".txt"
+                      icon.bind="'078-txt'"
+                      type.bind="'png'"></fs-item-icon>
 
-        <object case=".pdf"
-                type="image/svg+xml" data="assets/icons/file-system/023-pdf-1.svg"></object>
+        <fs-item-icon case=".pdf"
+                      icon.bind="'023-pdf-1'"
+                      type.bind="'png'"></fs-item-icon>
 
-        <object case.bind="['.docx', '.doc']"
-                type="image/svg+xml" data="assets/icons/file-system/052-doc-3.svg"></object>
+        <fs-item-icon case.bind="['.docx', '.doc']"
+                      icon.bind="'052-doc-3'"
+                      type.bind="'png'"></fs-item-icon>
 
-        <object case.bind="['.xlsx', '.xls']"
-                type="image/svg+xml" data="assets/icons/file-system/077-xls.svg"></object>
+        <fs-item-icon case.bind="['.xlsx', '.xls']"
+                      icon.bind="'077-xls'"
+                      type.bind="'png'"></fs-item-icon>
 
-        <object case=".zip"
-                type="image/svg+xml" data="assets/icons/file-system/183-zip-file.svg"></object>
+        <fs-item-icon case=".zip"
+                      icon.bind="'183-zip-file'"
+                      type.bind="'png'"></fs-item-icon>
 
-        <object case.bind="['.html', '.htm']"
-                type="image/svg+xml" data="assets/icons/file-system/185-html.svg"></object>
+        <fs-item-icon case.bind="['.html', '.htm']"
+                      icon.bind="'185-html'"
+                      type.bind="'png'"></fs-item-icon>
 
-        <object case=".css"
-                type="image/svg+xml" data="assets/icons/file-system/060-css.svg"></object>
+        <fs-item-icon case=".css"
+                      icon.bind="'060-css'"
+                      type.bind="'png'"></fs-item-icon>
 
-        <object case=".php"
-                type="image/svg+xml" data="assets/icons/file-system/210-php.svg"></object>
+        <fs-item-icon case=".php"
+                      icon.bind="'210-php'"
+                      type.bind="'png'"></fs-item-icon>
 
-        <object default-case
-                type="image/svg+xml" data="assets/icons/file-system/026-file-65.svg"></object>
+        <fs-item-icon default-case
+                      icon.bind="'026-file-65'"
+                      type.bind="'png'"></fs-item-icon>
 
     </div>
 
