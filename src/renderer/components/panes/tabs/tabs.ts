@@ -27,6 +27,13 @@ export class Tabs {
 
     public remove(tab: TabInfo) {
         let ix = this.list.indexOf(tab);
+
+        let newActive: TabInfo;
+        if (this.list.length > 1) {
+            newActive = ix == 0 ? this.list[1] : this.list[ix - 1];
+            this.setActive(newActive);
+        }
+
         this.list.splice(ix, 1);
     }
 
