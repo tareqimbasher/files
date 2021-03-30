@@ -6,7 +6,6 @@ export class Panes {
 
     constructor() {
         this.setActive(this.add());
-        this.add();
     }
 
     public add(): PaneInfo {
