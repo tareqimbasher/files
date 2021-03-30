@@ -1,0 +1,4 @@
+# For now we're going to ignore the source files and just track the dist directory
+src/
+tasks/
+gulpfile.js
