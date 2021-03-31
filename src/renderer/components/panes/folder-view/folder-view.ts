@@ -1,4 +1,4 @@
-import { bindable, watch } from "aurelia";
+import { bindable, ILogger, watch } from "aurelia";
 import { Directory, File, FileService, FileSystemItem, FileType, KeyCode, Settings, system, UiUtil, Util } from "../../../core";
 import * as chokidar from "chokidar";
 import { TabInfo } from "../tabs/tab-info";
@@ -18,7 +18,11 @@ export class FolderView {
 
     //private dirWatcher: FSWatcher;
 
-    constructor(private fileService: FileService, public settings: Settings, private element: HTMLElement) {
+    constructor(
+        private fileService: FileService,
+        private readonly settings: Settings,
+        private readonly element: HTMLElement,
+        @ILogger private readonly logger: ILogger) {
         this.id = Util.newGuid();
     }
 
@@ -73,7 +77,7 @@ export class FolderView {
                 }
             }
             catch (ex) {
-                console.error(ex);
+                this.logger.error(ex);
             }
         }
     }
@@ -158,7 +162,7 @@ export class FolderView {
 
         selection.on('beforestart', ev => {
 
-            console.log('beforestart', ev);
+            this.logger.info('beforestart', ev);
 
             const target = ev.event?.target as Element;
             const targetIsFsItem = target.tagName === "FS-ITEM";

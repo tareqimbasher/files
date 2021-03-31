@@ -6,8 +6,13 @@ import { FileSystemItem } from './file-system-item';
 import { SymbolicLink } from './symbolic-link';
 import { exec } from "child_process";
 import { Dictionary } from '../data/dictionary';
+import { ILogger } from 'aurelia';
 
 export class FileService {
+
+    constructor(@ILogger private readonly logger: ILogger) {
+    }
+
     public async list(dirPath: string): Promise<FileSystemItem[]> {
         let itemNames = await system.fs.readdir(dirPath);
 
@@ -46,7 +51,7 @@ export class FileService {
                 items.push(item);
 
             } catch (ex) {
-                console.error(`Could not read file: ${name}`, ex);
+                this.logger.error(`Could not read file: ${name}`, ex);
             }
         }
 
