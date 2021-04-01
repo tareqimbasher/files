@@ -1,6 +1,6 @@
-# aurelia-electron-webpack
+# files
 
-A basic boilerplate to build Electron apps with `electron-forge`, Aurelia 2 and Webpack.
+A cross-platform file manager that features panes and tabs and more.
 
 ## Getting Started
 
