@@ -28,4 +28,16 @@ pane {
         flex-direction: column;
         flex: 1;
     }
+
+    .segments > .segment {
+        border-top: none !important;
+    }
+}
+
+.dark {
+    pane {
+        .segments > .segment {
+            border-top: 1px solid rgba(238, 238, 238, 0.25) !important;
+        }
+    }
 }

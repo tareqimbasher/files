@@ -1,9 +1,8 @@
 <template>
-    <div class="ui basic ${settings.inverted} segment p0">
-        <div click.trigger="settings.toggleTheme()" 
-             style="cursor: pointer; padding-left: 10px">
+    <div class="ui basic ${settings.inverted} segment p-0">
+        <div style="display: inline-block; float: right">
             Dark Mode 
-            <i class="toggle ${settings.theme == 'dark' ? 'on' : 'off'} purple icon"></i>
+            <i class="toggle ${settings.theme == 'dark' ? 'on' : 'off'} purple selectable icon" click.trigger="settings.toggleTheme()"></i>
         </div>
     </div>
 </template>

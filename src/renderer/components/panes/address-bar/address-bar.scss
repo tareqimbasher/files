@@ -26,3 +26,11 @@
         }
     }
 }
+
+.dark {
+    .address-bar.segment {
+        .breadcrumb {
+            border: 1px solid rgb(238, 238, 238, 0.25);
+        }
+    }
+}
