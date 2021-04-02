@@ -5,5 +5,5 @@ import { TruncateValueConverter } from "./core/value-converters/truncate";
 export const converters = [
     TakeValueConverter,
     TitleCaseFormatValueConverter,
-    TruncateValueConverter
+    TruncateValueConverter,
 ];

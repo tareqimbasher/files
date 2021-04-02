@@ -4,12 +4,14 @@ import * as chokidar from "chokidar";
 import { TabInfo } from "../tabs/tab-info";
 import SelectionArea from "@simonwep/selection-js";
 import { FsItems } from "../tabs/fs-items";
+import { PaneInfo } from "../pane-info";
 
 export class FolderView {
 
     public id: string;
 
     @bindable public tab!: TabInfo;
+    @bindable public pane!: PaneInfo;
     @bindable public fsItems!: FsItems;
     public itemsToView: FileSystemItem[] = [];
 
@@ -30,7 +32,6 @@ export class FolderView {
         this.pathChanged();
         this.bindMouseEvents();
         this.bindKeyboardEvents();
-        
     }
 
     public detaching() {
@@ -170,16 +171,21 @@ export class FolderView {
             // Handle right-click actions
             if (ev.event instanceof MouseEvent) {
                 if (ev.event.which == 3) {
-                    if (targetIsFsItem && !ev.event.ctrlKey) {
-                        const itemName = target.getAttribute("data-name")!;
-                        let item = this.fsItems.get(itemName);
+                    if (targetIsFsItem) {
+                        if (!ev.event.ctrlKey) {
+                            const itemName = target.getAttribute("data-name")!;
+                            let item = this.fsItems.get(itemName);
 
-                        // If item is not already selected, unselect others and select this one
-                        // Otherwise the user is just right clicking on an already selected item
-                        if (!item.isSelected) {
-                            this.fsItems.unselectAll();
-                            this.fsItems.select(item);
+                            // If item is not already selected, unselect others and select this one
+                            // Otherwise the user is just right clicking on an already selected item
+                            if (!item.isSelected) {
+                                this.fsItems.unselectAll();
+                                this.fsItems.select(item);
+                            }
                         }
+                    }
+                    else {
+                        this.fsItems.unselectAll();
                     }
 
                     let x = ev.event.clientX

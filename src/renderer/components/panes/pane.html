@@ -29,6 +29,7 @@
             <folder-view repeat.for="tab of info.tabs.list"
                          class="ui tab"
                          data-tab="${tab.id}"
+                         pane.bind="info"
                          tab.bind="tab"
                          fs-items.bind="tab.fsItems"></folder-view>
         </div>

@@ -64,10 +64,6 @@ context-menu {
         .item {
             padding: 4px 10px !important;
             cursor: pointer;
-
-            &:hover {
-                background-color: #f2f2f2;
-            }
         }
 
         .ui.divider {
@@ -75,9 +71,22 @@ context-menu {
         }
     }
 
+    .ui.dropdown .menu .item {
+        padding: 4px 10px !important;
+        height: 24px !important;
+        min-height: 24px !important;
+    }
+
     &.visible {
         opacity: 1;
         visibility: visible;
         display: block;
+    }
+}
+
+.dark {
+    context-menu {
+        background: #1E1E1E;
+        color: white;
     }
 }
