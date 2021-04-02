@@ -1,10 +1,11 @@
 import { bindable, ILogger, watch } from "aurelia";
-import { Directory, File, FileService, FileSystemItem, FileType, KeyCode, Settings, system, UiUtil, Util } from "../../../core";
 import * as chokidar from "chokidar";
 import { TabInfo } from "../tabs/tab-info";
 import SelectionArea from "@simonwep/selection-js";
-import { FsItems } from "../tabs/fs-items";
 import { PaneInfo } from "../pane-info";
+import {
+    Directory, FileService, FileSystemItem, FsItems, KeyCode, Settings, system, UiUtil, Util
+} from "../../../core";
 
 export class FolderView {
 
@@ -13,7 +14,6 @@ export class FolderView {
     @bindable public tab!: TabInfo;
     @bindable public pane!: PaneInfo;
     @bindable public fsItems!: FsItems;
-    public itemsToView: FileSystemItem[] = [];
 
     private contextMenu!: HTMLElement;
     private detaches: (() => void)[] = [];
@@ -50,11 +50,15 @@ export class FolderView {
             };
         }));
 
+        // Sort
+        const values = this.fsItems.values
+            .sort((a, b) => (a.dateModified < b.dateModified) ? 1 : ((b.dateModified < a.dateModified) ? -1 : 0));
+
         // HACK: temporary, for rendering performance of large lists of files
         const firstLoadCount = 50;
-        this.itemsToView = this.fsItems.values.length > firstLoadCount ? this.fsItems.values.slice(0, firstLoadCount) : this.fsItems.values;
+        this.fsItems.view = values.length > firstLoadCount ? values.slice(0, firstLoadCount) : values;
         setTimeout(() => {
-            this.itemsToView.push(...this.fsItems.values.slice(firstLoadCount));
+            this.fsItems.view.push(...values.slice(firstLoadCount));
         }, 10);
     }
 
@@ -105,7 +109,7 @@ export class FolderView {
 
             for (let item of removedItems) {
                 this.fsItems.remove(item.name);
-                this.itemsToView = this.fsItems.values;
+                this.fsItems.view = this.fsItems.values;
             }
         }
     }

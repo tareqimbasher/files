@@ -1,8 +1,7 @@
-import { TakeValueConverter } from "./core/value-converters/take";
-import { TitleCaseFormatValueConverter } from "./core/value-converters/title-case-format";
-import { TruncateValueConverter } from "./core/value-converters/truncate";
+import { FileSizeValueConverter, TakeValueConverter, TitleCaseFormatValueConverter, TruncateValueConverter } from "./components/common/value-converters";
 
 export const converters = [
+    FileSizeValueConverter,
     TakeValueConverter,
     TitleCaseFormatValueConverter,
     TruncateValueConverter,

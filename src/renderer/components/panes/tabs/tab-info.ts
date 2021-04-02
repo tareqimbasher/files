@@ -1,9 +1,8 @@
-﻿import { Util } from "../../../core";
+﻿import { FsItems, Util } from "../../../core";
 import { Tabs } from "./tabs";
 import * as pathUtil from "path";
 import * as fs from "fs";
 import * as os from "os";
-import { FsItems } from "./fs-items";
 
 export class TabInfo {
     public id: string;

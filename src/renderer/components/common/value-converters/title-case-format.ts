@@ -1,7 +1,7 @@
-﻿import { Util } from "../";
+﻿import { Util } from "../../../core";
 
 export class TitleCaseFormatValueConverter {
-    toView(value: string) {
+    public toView(value: string): string {
         if (!value) return value;
         return Util.toTitleCase(value);
     }

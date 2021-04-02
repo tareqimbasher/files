@@ -1,5 +1,5 @@
 ﻿export class TakeValueConverter {
-    public toView(array: any[], take: number) {
+    public toView(array: any[], take: number): any[] {
 
         if (!array || !take)
             return [];

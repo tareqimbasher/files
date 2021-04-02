@@ -39,6 +39,11 @@ export class FileService {
                 else
                     continue;
 
+                item.setInfo({
+                    size: stats.size,
+                    dateModified: stats.mtime,
+                    dateCreated: stats.birthtime
+                });
 
                 if (itemInfos.containsKey(name)) {
                     let itemInfo = itemInfos.get(name);
