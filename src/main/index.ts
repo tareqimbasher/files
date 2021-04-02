@@ -30,8 +30,8 @@ const createWindow = () => {
 
     // Added as a custom protocol to load files from disk
     protocol.registerFileProtocol('atom', (request, callback) => {
-        const url = request.url.substr(7)
-        callback({ path: path.normalize(url) })
+        const url = request.url.substr(7);
+        callback(decodeURI(url));
     });
 
     protocol.registerFileProtocol('file', async (request, callback) => {

@@ -18,19 +18,57 @@
     .breadcrumb {
         border: 1px solid rgba(34, 36, 38, 0.15);
         width: 100%;
-        padding: 8.5px 14px;
+        padding: 0px 14px;
         user-select: none;
 
-        .section:not(.active):hover {
-            background: #eee;
+        address-crumb {
+            display: inline-block;
+            padding: 6px 3px;
+        }
+
+        address-crumb:not(.active):hover {
+            background-color: rgba(74, 204, 254, 0.30);
+        }
+
+        .divider {
+            margin: 0;
+        }
+    }
+
+    .ui.input {
+        .icon {
+            color: dodgerblue;
+        }
+
+        input {
+            padding-top: 7px;
+            padding-bottom: 7px;
+            border-radius: 0 !important;
+            background: transparent;
         }
     }
 }
 
 .dark {
     .address-bar.segment {
-        .breadcrumb {
+        .breadcrumb, .ui.input {
             border: 1px solid rgb(238, 238, 238, 0.25);
+        }
+
+        .breadcrumb .icon {
+            color: white;
+        }
+
+        .ui.input > input {
+            color: white;
+        }
+
+        .ui.input > input::selection {
+            color: white;
+        }
+
+        address-crumb:not(.active):hover {
+            background: rgba(255, 255, 255, 0.2);
         }
     }
 }

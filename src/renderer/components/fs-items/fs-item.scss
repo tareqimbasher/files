@@ -36,12 +36,21 @@ fs-item {
     }
 
     .fs-item-name {
-        height: 32px;
+        display: block;
+        max-height: 1.8rem;
         font-size: 0.8rem;
-        line-height: 0.8rem;
+        line-height: 0.9rem;
         user-select: none;
         padding: 0 5px 0 5px;
         word-break: break-word;
+        overflow: hidden;
+    }
+
+    .fs-item-info {
+        height: 0.8rem;
+        font-size: 0.8rem;
+        line-height: 0.8rem;
+        user-select: none;
     }
 
     &.selected {
@@ -57,7 +66,11 @@ fs-item:hover:not(.selected) {
 
 .dark {
     fs-item:hover:not(.selected) {
-        background: rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.15);
+    }
+
+    .fs-item-info {
+        color: lightgray !important;
     }
 }
 

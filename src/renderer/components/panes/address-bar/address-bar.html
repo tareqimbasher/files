@@ -1,10 +1,10 @@
 <template>
 
-    <template as-custom-element="address-crumb">
+    <template as-custom-element="address-crumb" class="${last ? 'active' : ''}">
         <bindable property="part"></bindable>
         <bindable property="last"></bindable>
 
-        <div class="section ${last ? 'active' : ''}">${part}</div>
+        <div class="section">${part}</div>
         <i if.bind="!last" class="right angle icon divider"></i>
     </template>
 
@@ -49,11 +49,11 @@
                 <!--INPUT-->
                 <div class="ui fluid left icon ${settings.inverted} input"
                      show.bind="editAddress">
-                    <i class="folder icon"></i>
                     <input ref="addressInput"
                            value.bind="addressBarPath"
                            type="text"
                            blur.trigger="editAddress = false">
+                    <i class="folder icon"></i>
                 </div>
             </div>
         </div>

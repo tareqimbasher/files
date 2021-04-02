@@ -1,4 +1,4 @@
-<template class="${item.isSelected ? 'selected' : ''}" 
+<template class="${item.isSelected ? 'selected' : ''}"
           title="${item.isDir ? ('Contents: ' + item.itemCount + ' items') : ''}${!item.isDir ? 'Size: ' : ''}${!item.isDir ? item.size : '' | fileSize}
 Date modified: ${item.dateModified.toLocaleString()}">
 
@@ -84,8 +84,8 @@ Date modified: ${item.dateModified.toLocaleString()}">
 
     <div class="header fs-item-name" title.bind="item.name">
         ${item.name | truncate: 30}
-        <!--<span class="ui grey text">
-            ${item.isDir ? item.dateModified.toLocaleString() : item.sizeReadable}
-        </span>-->
     </div>
+    <span class="ui grey text fs-item-info" if.bind="item.isDir">
+        ${item.itemCount} items
+    </span>
 </template>

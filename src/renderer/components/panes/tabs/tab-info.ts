@@ -26,10 +26,19 @@ export class TabInfo {
         if (!path)
             throw new Error("path is null or undefined.");
 
+        // Handle special path locations
         if (path.startsWith("~"))
             path = path.replace("~", os.homedir());
         else if (path.startsWith("/"))
             path = path.replace("/", pathUtil.parse(process.cwd()).root);
+
+        // Normalize Windows path endings for drive roots
+        if (path.endsWith(":."))
+            path = path.slice(0, -1) + '/';
+        else if (path.endsWith(":"))
+            path = path + "/";
+
+        path = path.replaceAll("/", "\\");
 
         if (this.path == path)
             return;
@@ -40,6 +49,8 @@ export class TabInfo {
 
     private pathChanged(addToHistory: boolean) {
         this.pathName = pathUtil.basename(this.path);
+        if (!this.pathName.trim()) this.pathName = this.path;
+
         this.pathParts = this.path.split(/[/\\]+/);
 
         if (addToHistory) {

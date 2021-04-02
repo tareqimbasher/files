@@ -1,10 +1,31 @@
 @import '../style/variables.scss';
 @import '../style/common.scss';
 
+@font-face {
+    font-family: Arabic;
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/tajawal/v4/Iura6YBj_oCad4k1nzSBC45I.woff2) format('woff2');
+    unicode-range: U+0600-06FF;
+}
+
+@font-face {
+    font-family: Arabic;
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/tajawal/v4/Iurf6YBj_oCad4k1l4qkHrRpiYlJ.woff2) format('woff2');
+    unicode-range: U+0600-06FF;
+}
 
 body {
-    font-family: Calibri, 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+    font-family: Arabic, Calibri, 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif !important;
     height: 100%;
+}
+
+.item .header, .ui.menu {
+    font-family: Arabic, 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif !important;
 }
 
 .container-after-titlebar {
