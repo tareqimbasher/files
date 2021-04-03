@@ -38,6 +38,8 @@ export class FsView {
 
     @watch((fv: FsView) => fv.tab.path)
     public async pathChanged() {
+        //performance.mark("pathChangedStart");
+
         //chokidar.watch('');
         let fsItems = await this.fileService.list(this.tab.path);
         this.fsItems.clear();
@@ -49,15 +51,13 @@ export class FsView {
         }));
 
         // Sort
-        const values = this.fsItems.values
-            .sort((a, b) => (a.dateModified < b.dateModified) ? 1 : ((b.dateModified < a.dateModified) ? -1 : 0));
+        this.fsItems.view = this.fsItems.values
+            //.sort((a, b) => (a.name < b.name) ? 0 : ((b.name < a.name) ? -1 : 1))
+            ;
 
-        // HACK: temporary, for rendering performance of large lists of files
-        const firstLoadCount = 100;
-        this.fsItems.view = values.length > firstLoadCount ? values.slice(0, firstLoadCount) : values;
-        setTimeout(() => {
-            this.fsItems.view.push(...values.slice(firstLoadCount));
-        }, 10);
+        //performance.mark("pathChangedEnd");
+        //performance.measure('pathChanged', 'pathChangedStart', 'pathChangedEnd');
+        //console.warn(performance.getEntriesByName('pathChanged').slice(-1)[0]);
     }
 
     public openSelected() {

@@ -2,72 +2,8 @@
           title="${item.isDir ? ('Contents: ' + item.itemCount + ' items') : ''}${!item.isDir ? 'Size: ' : ''}${!item.isDir ? item.size : '' | fileSize}
 Date modified: ${item.dateModified.toLocaleString()}">
 
-    <require from="./fs-item-icon.html" />
-
-    <div class="fs-item-icon" if.bind="item.type == 'Directory'">
-        <!--<i class="ui huge blue folder icon"></i>-->
-        <!--<object type="image/svg+xml" data="assets/icons/file-system/svg/100-folder-27.svg"></object>-->
-        <fs-item-icon icon.bind="'100-folder-27'" type.bind="'png'"></fs-item-icon>
-    </div>
-
-    <div class="fs-item-icon" else switch.bind="item.extension">
-
-        <img case.bind="['.jpg', '.jpeg', '.png', '.gif', '.jfif', 'bmp']"
-             class="image-thumbnail"
-             src.bind="thumbnail()" />
-
-        <fs-item-icon case.bind="['.mp3', '.wav']"
-                      icon.bind="'017-audio-file'"
-                      type.bind="'png'"></fs-item-icon>
-
-        <fs-item-icon case.bind="['.mp4', '.wmv', '.avi', '.mov', '.3gp']"
-                      icon.bind="'003-video-file-2'"
-                      type.bind="'png'"></fs-item-icon>
-
-        <fs-item-icon case=".mkv"
-                      icon.bind="'033-mkv-2'"
-                      type.bind="'png'"></fs-item-icon>
-
-        <fs-item-icon case=".flv"
-                      icon.bind="'043-flv'"
-                      type.bind="'png'"></fs-item-icon>
-
-        <fs-item-icon case=".txt"
-                      icon.bind="'078-txt'"
-                      type.bind="'png'"></fs-item-icon>
-
-        <fs-item-icon case=".pdf"
-                      icon.bind="'023-pdf-1'"
-                      type.bind="'png'"></fs-item-icon>
-
-        <fs-item-icon case.bind="['.docx', '.doc']"
-                      icon.bind="'052-doc-3'"
-                      type.bind="'png'"></fs-item-icon>
-
-        <fs-item-icon case.bind="['.xlsx', '.xls']"
-                      icon.bind="'077-xls'"
-                      type.bind="'png'"></fs-item-icon>
-
-        <fs-item-icon case=".zip"
-                      icon.bind="'183-zip-file'"
-                      type.bind="'png'"></fs-item-icon>
-
-        <fs-item-icon case.bind="['.html', '.htm']"
-                      icon.bind="'185-html'"
-                      type.bind="'png'"></fs-item-icon>
-
-        <fs-item-icon case=".css"
-                      icon.bind="'060-css'"
-                      type.bind="'png'"></fs-item-icon>
-
-        <fs-item-icon case=".php"
-                      icon.bind="'210-php'"
-                      type.bind="'png'"></fs-item-icon>
-
-        <fs-item-icon default-case
-                      icon.bind="'026-file-65'"
-                      type.bind="'png'"></fs-item-icon>
-
+    <div class="fs-item-icon" >
+        <img src="${icon()}" />
     </div>
 
     <div class="header fs-item-name" title.bind="item.name">
