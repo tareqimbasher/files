@@ -3,6 +3,11 @@
     <require from="./fs-items/fs-item" />
 
     <div class="ui horizontal ${settings.inverted} list">
+        <!--<div class="top aligned item"
+             repeat.for="fsItem of fsItems.view"
+             data-name.bind="fsItem.name">
+            ${fsItem.name}
+        </div>-->
         <fs-item class="top aligned item"
                  repeat.for="fsItem of fsItems.view"
                  item.bind="fsItem"

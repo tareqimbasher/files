@@ -53,7 +53,7 @@ export class FsView {
             .sort((a, b) => (a.dateModified < b.dateModified) ? 1 : ((b.dateModified < a.dateModified) ? -1 : 0));
 
         // HACK: temporary, for rendering performance of large lists of files
-        const firstLoadCount = 50;
+        const firstLoadCount = 100;
         this.fsItems.view = values.length > firstLoadCount ? values.slice(0, firstLoadCount) : values;
         setTimeout(() => {
             this.fsItems.view.push(...values.slice(firstLoadCount));
