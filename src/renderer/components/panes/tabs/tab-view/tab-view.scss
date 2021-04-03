@@ -1,4 +1,4 @@
-tab {
+tab-view {
     padding-right: 0.5em !important;
 
     .name {
@@ -15,7 +15,7 @@ tab {
     }
 }
 
-.ui.tabular.menu tab.item {
+.ui.tabular.menu tab-view.item {
 
     &:hover {
         background-color: rgba(238, 238, 238, 0.5);
@@ -36,7 +36,7 @@ tab {
     }
 }
 
-.ui.tabular.inverted.menu tab.item {
+.ui.tabular.inverted.menu tab-view.item {
 
     &:hover {
         background: rgba(255, 255, 255, 0.08);

@@ -1,10 +1,10 @@
 import { bindable, EventAggregator, watch } from "aurelia";
 import { Settings, system } from "../../../core";
-import { PaneInfo } from "../pane-info";
+import { Pane } from "../pane";
 
 export class AddressBar {
 
-    @bindable public paneInfo!: PaneInfo;
+    @bindable public pane!: Pane;
     public editAddress = false;
     public addressBarPath?: string;
     public addressInput!: HTMLInputElement;
@@ -14,10 +14,10 @@ export class AddressBar {
     }
 
     public attached() {
-        this.addressBarPath = this.paneInfo.tabs.active.path;
+        this.addressBarPath = this.pane.tabs.active.path;
 
         let sub = this.eventBus.subscribe("kb-address-edit", (msg: any) => {
-            if (this.paneInfo.id == msg.id)
+            if (this.pane.id == msg.id)
                 this.enableEditAddress();
         });
         this.detaches.push(() => sub.dispose());
@@ -39,9 +39,9 @@ export class AddressBar {
         }, 10);
     }
 
-    @watch((vm: AddressBar) => vm.paneInfo.tabs.active.path)
+    @watch((vm: AddressBar) => vm.pane.tabs.active.path)
     public activeTabPathChanged() {
-        this.addressBarPath = this.paneInfo.tabs.active.path;
+        this.addressBarPath = this.pane.tabs.active.path;
     }
 
     public async addressBarPathEdited(ev: KeyboardEvent) {
@@ -64,7 +64,7 @@ export class AddressBar {
                 else {
                     let stat = await system.fs.stat(this.addressBarPath);
                     if (stat.isDirectory()) {
-                        this.paneInfo.tabs.active.setPath(this.addressBarPath);
+                        this.pane.tabs.active.setPath(this.addressBarPath);
                     }
                     else {
                         system.shell.openExternal(this.addressBarPath);
@@ -73,12 +73,12 @@ export class AddressBar {
             }
         }
 
-        this.addressBarPath = this.paneInfo.tabs.active.path;
+        this.addressBarPath = this.pane.tabs.active.path;
         this.editAddress = false;
     }
 
     public async addressPartSelected(selectedPartIndex: number) {
-        let activeTab = this.paneInfo.tabs.active;
+        let activeTab = this.pane.tabs.active;
         if (activeTab.pathParts.length - 1 == selectedPartIndex)
             return;
 

@@ -1,5 +1,5 @@
 import { bindable } from "aurelia";
-import { FileType, FileSystemItem } from "../../core";
+import { FileType, FileSystemItem } from "../../../../core";
 
 export class FSItem {
 

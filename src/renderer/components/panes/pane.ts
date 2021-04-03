@@ -1,15 +1,18 @@
-import { bindable, EventAggregator } from "aurelia";
-import { Settings } from "../../core";
-import { PaneInfo } from "./pane-info";
-
+﻿import { Util } from "../../core";
+import { Panes } from "./panes";
+import { Tabs } from "./tabs/tabs";
 
 export class Pane {
-    @bindable public info!: PaneInfo;
+    public id: string;
+    public isActive: boolean = false;
+    public tabs: Tabs;
 
-    constructor(public settings: Settings, private eventBus: EventAggregator) {
+    constructor(public panes: Panes) {
+        this.id = Util.newGuid();
+        this.tabs = new Tabs(this);
     }
 
-    public attached() {
-        this.info.tabs.refreshTabBinding();
+    public activate() {
+        this.panes.setActive(this);
     }
 }

@@ -4,7 +4,7 @@ import * as pathUtil from "path";
 import * as fs from "fs";
 import * as os from "os";
 
-export class TabInfo {
+export class Tab {
     public id: string;
     public isActive: boolean = false;
     public path!: string;

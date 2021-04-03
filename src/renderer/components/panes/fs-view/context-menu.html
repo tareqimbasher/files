@@ -70,7 +70,7 @@
         </div>
         <div class="item"
              show.bind="!selected.any || (model.fsItems.selected.length == 1 && model.fsItems.selected[0].type == 'Directory')"
-             click.trigger="!selected.any ? model.pane.tabs.add(model.tab.path).activate() : model.pane.tabs.add(model.fsItems.selected[0].path).activate()">
+             click.trigger="!selected.any ? model.tab.tabs.add(model.tab.path).activate() : model.tab.tabs.add(model.fsItems.selected[0].path).activate()">
             <i class="${!selected.any ? 'clone outline' : 'plus'} icon"></i>
             <div class="content">
                 ${!selected.any ? 'Duplicate tab' : 'Open in a new tab'}

@@ -1,0 +1,36 @@
+<template>
+    <require from="../address-bar/address-bar" />
+    <require from="../tabs/tab-view/tab-view.html" />
+    <require from="../fs-view/fs-view" />
+
+    <div class="ui segments pane-container">
+        <!--ADDRESS BAR-->
+        <address-bar pane.bind="pane"></address-bar>
+
+        <!--TABS-->
+        <div class="ui ${settings.inverted} segment tabs">
+            <div class="ui top attached tabular mini ${settings.inverted} menu" ref="tabsElement">
+                <tab-view repeat.for="tab of pane.tabs.list"
+                     class="item ${pane == pane.panes.active && tab == pane.tabs.active ? 'active-tab' : ''}"
+                     data-tab="${tab.id}"
+                     tab.bind="tab">
+                </tab-view>
+
+                <div class="right menu">
+                    <a class="item" click.delegate="pane.tabs.add().activate()">
+                        <i class="add icon"></i> New Tab
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!--FOLDER VIEWS-->
+        <div class="ui ${settings.inverted} segment fs-views">
+            <fs-view repeat.for="tab of pane.tabs.list"
+                         class="ui tab"
+                         data-tab="${tab.id}"
+                         tab.bind="tab"
+                         fs-items.bind="tab.fsItems"></fs-view>
+        </div>
+    </div>
+</template>

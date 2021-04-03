@@ -1,18 +1,16 @@
 import { bindable, ILogger, watch } from "aurelia";
 import * as chokidar from "chokidar";
-import { TabInfo } from "../tabs/tab-info";
+import { Tab } from "../tabs/tab";
 import SelectionArea from "@simonwep/selection-js";
-import { PaneInfo } from "../pane-info";
 import {
     Directory, FileService, FileSystemItem, FsItems, KeyCode, Settings, system, UiUtil, Util
 } from "../../../core";
 
-export class FolderView {
+export class FsView {
 
     public id: string;
 
-    @bindable public tab!: TabInfo;
-    @bindable public pane!: PaneInfo;
+    @bindable public tab!: Tab;
     @bindable public fsItems!: FsItems;
 
     private contextMenu!: HTMLElement;
@@ -38,7 +36,7 @@ export class FolderView {
         this.detaches.forEach(f => f());
     }
 
-    @watch((fv: FolderView) => fv.tab.path)
+    @watch((fv: FsView) => fv.tab.path)
     public async pathChanged() {
         //chokidar.watch('');
         let fsItems = await this.fileService.list(this.tab.path);
@@ -115,7 +113,7 @@ export class FolderView {
     }
 
     private navigateGrid(direction: "up" | "down" | "right" | "left") {
-        let grid = this.element.querySelector("folder-view > .list")!;
+        let grid = this.element.querySelector("fs-view > .list")!;
         UiUtil.navigateGrid(grid, "selected", direction, nextItemIndex => {
             this.fsItems.unselectAll();
             this.fsItems.select(this.fsItems.values[nextItemIndex]);
@@ -153,7 +151,7 @@ export class FolderView {
     }
 
     private bindMouseEvents() {
-        const id = `folder-view[data-id='${this.id}']`;
+        const id = `fs-view[data-id='${this.id}']`;
         const selection = new SelectionArea({
             class: 'selection-area',
             container: this.element,
@@ -166,8 +164,6 @@ export class FolderView {
         this.detaches.push(() => selection.destroy());
 
         selection.on('beforestart', ev => {
-
-            this.logger.info('beforestart', ev);
 
             const target = ev.event?.target as Element;
             const targetIsFsItem = target.tagName === "FS-ITEM";

@@ -1,22 +1,22 @@
-import { PaneInfo } from "../pane-info";
-import { TabInfo } from "./tab-info";
+import { Pane } from "../pane";
+import { Tab } from "./tab";
 import * as os from "os";
 
 export class Tabs {
-    public pane: PaneInfo;
-    public list: TabInfo[] = [];
-    public active!: TabInfo;
+    public pane: Pane;
+    public list: Tab[] = [];
+    public active!: Tab;
 
-    constructor(pane: PaneInfo) {
+    constructor(pane: Pane) {
         this.pane = pane;
         this.setActive(this.add());
     }
 
-    public add(path?: string): TabInfo {
+    public add(path?: string): Tab {
         if (!path)
             path = os.homedir();
 
-        let tab = new TabInfo(this, path);
+        let tab = new Tab(this, path);
         this.list.push(tab);
 
         // Semantic UI
@@ -25,10 +25,10 @@ export class Tabs {
         return tab;
     }
 
-    public remove(tab: TabInfo) {
+    public remove(tab: Tab) {
         let ix = this.list.indexOf(tab);
 
-        let newActive: TabInfo;
+        let newActive: Tab;
         if (this.list.length > 1) {
             newActive = ix == 0 ? this.list[1] : this.list[ix - 1];
             this.setActive(newActive);
@@ -37,7 +37,7 @@ export class Tabs {
         this.list.splice(ix, 1);
     }
 
-    public setActive(tab: TabInfo) {
+    public setActive(tab: Tab) {
         if (this.active == tab)
             return;
 
@@ -57,12 +57,12 @@ export class Tabs {
         tabs.tab({
             onVisible: (tabId: string) => {
                 this.list.find(x => x.id == tabId)?.activate();
-                //this.addressBarPath = this.info.tabs.active.path;
+                //this.addressBarPath = this.pane.tabs.active.path;
             }
         });
     }
 
     private findTabs(): any {
-        return $(`pane[data-id='${this.pane.id}'] tab.item`);
+        return $(`pane-view[data-id='${this.pane.id}'] tab-view.item`);
     }
 }

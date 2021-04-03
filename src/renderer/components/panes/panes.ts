@@ -1,20 +1,20 @@
-import { PaneInfo } from "./pane-info";
+import { Pane } from "./pane";
 
 export class Panes {
-    public list: PaneInfo[] = [];
-    public active!: PaneInfo;
+    public list: Pane[] = [];
+    public active!: Pane;
 
     constructor() {
         this.setActive(this.add());
     }
 
-    public add(): PaneInfo {
-        let pane = new PaneInfo(this);
+    public add(): Pane {
+        let pane = new Pane(this);
         this.list.push(pane);
         return pane;
     }
 
-    public setActive(pane: PaneInfo) {
+    public setActive(pane: Pane) {
         if (this.active == pane)
             return;
 
