@@ -3,7 +3,7 @@
 Date modified: ${item.dateModified.toLocaleString()}">
 
     <div class="fs-item-icon" >
-        <img src="${icon()}" />
+        <img src.bind="icon" />
     </div>
 
     <div class="header fs-item-name" title.bind="item.name">

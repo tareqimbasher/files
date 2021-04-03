@@ -1,27 +1,37 @@
 import { bindable } from "aurelia";
-import { FileType, FileSystemItem, Directory } from "../../../../core";
+import { FileType, FileSystemItem, } from "../../../../core";
+import { remote } from "electron";
 
 export class FSItem {
 
     @bindable
     public item!: FileSystemItem;
     private static imgFormats = [".jpg", ".jpeg", ".png", ".gif", ".jfif", ".bmp", ".svg"];
+    public icon = "assets/icons/file-system/png/026-file-65.png";
 
-    public icon(): string {
-        if (this.item.extension && FSItem.imgFormats.indexOf(this.item.extension.toLocaleLowerCase()) >= 0)
-            return this.thumbnail();
-        else
-            return `assets/icons/file-system/png/${this.getIconFile()}.png`;
+    attached() {
+        this.loadIcon().then(icon => this.icon = icon);
     }
 
-    private getIconFile(): string {
-        if (this.item?.type == FileType.Directory)
+    private async loadIcon(): Promise<string> {
+        if (this.item.extension && FSItem.imgFormats.indexOf(this.item.extension.toLocaleLowerCase()) >= 0)
+            return this.thumbnail();
+        else if (this.item.extension.toLowerCase() == ".exe") {
+            let icon = await remote.app.getFileIcon(this.item.path, { size: "large" });
+            return icon.toDataURL();
+        }
+        else
+            return `assets/icons/file-system/png/${this.localIcon(this.item)}.png`;
+    }
+
+    private localIcon(item: FileSystemItem) {
+        if (item.type == FileType.Directory)
             return "119-folder-22";
 
-        if (this.item?.type == FileType.SymbolicLink)
+        if (item.type == FileType.SymbolicLink)
             return "star";
 
-        switch (this.item?.extension.toLowerCase()) {
+        switch (item.extension.toLowerCase()) {
 
             // Documents
             case ".pdf": return "023-pdf-1";
@@ -61,6 +71,9 @@ export class FSItem {
 
             case ".psd": return "019-psd-1";
             case ".ai": return "150-ai";
+            case ".aep":
+            case ".aepx":
+                return "after-effects";
             case ".cdr": return "146-cdr";
             case ".sketch": return "095-sketch";
 
@@ -75,6 +88,10 @@ export class FSItem {
             case ".crt":
             case ".pfx":
                 return "075-certificate-2";
+
+            case ".lock":
+            case ".lck":
+                return "045-file-58";
 
             case ".eml": return "048-email";
 
