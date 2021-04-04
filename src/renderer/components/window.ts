@@ -35,7 +35,7 @@ export class Window {
     }
 
     private setupPaneResizing() {
-        let panes = document.getElementsByTagName('pane');
+        let panes = document.getElementsByTagName('pane-view');
         if (panes.length != 2)
             return;
 

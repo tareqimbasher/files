@@ -15,4 +15,8 @@ export class Pane {
     public activate() {
         this.panes.setActive(this);
     }
+
+    public close() {
+        this.panes.remove(this);
+    }
 }

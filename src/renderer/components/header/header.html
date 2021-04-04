@@ -1,8 +1,13 @@
 <template>
     <div class="ui basic ${settings.inverted} segment p-0">
         <div style="display: inline-block; float: right">
-            Dark Mode 
+            Dark Mode
             <i class="toggle ${settings.theme == 'dark' ? 'on' : 'off'} purple selectable icon" click.trigger="settings.toggleTheme()"></i>
+        </div>
+
+        <div style="display: inline-block; float: right; margin-right: 10px">
+            Dual Panes
+            <i class="columns selectable icon" click.trigger="toggleDualPanes()" style="padding-top: 3px"></i>
         </div>
     </div>
 </template>

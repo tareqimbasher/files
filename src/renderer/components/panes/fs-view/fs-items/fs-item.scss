@@ -58,19 +58,33 @@ fs-item {
         background-color: rgba(74, 204, 254, 0.30);
         border: 1px dashed rgb(45, 196, 254);
     }
+
+    &:hover:not(.selected) {
+        background-color: rgba(234, 234, 234, 0.40);
+    }
 }
 
-fs-item:hover:not(.selected) {
-    background-color: rgba(234, 234, 234, 0.40);
+fs-view:not(:focus) fs-item {
+    &.selected {
+        background: rgb(232 232 232 / 0.65);
+        border-color: transparent;
+    }
 }
 
 .dark {
     fs-item:hover:not(.selected) {
-        background: rgba(255, 255, 255, 0.15);
+        background: transparent;
     }
 
     .fs-item-info {
         color: lightgray !important;
+    }
+
+    fs-view:not(:focus) fs-item {
+        &.selected {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: transparent;
+        }
     }
 }
 

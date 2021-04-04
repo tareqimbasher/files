@@ -5,10 +5,10 @@ pane-view {
     &:not(:first-child) {
         &:before {
             content: " ";
-            background-color: gray;
-            width: 3px;
-            min-width: 3px;
-            max-width: 3px;
+            background-color: #ccc;
+            width: 2px;
+            min-width: 2px;
+            max-width: 2px;
             cursor: w-resize;
         }
     }
@@ -29,8 +29,13 @@ pane-view {
         flex: 1;
     }
 
-    .segments > .segment {
-        border-top: none !important;
+    .segments {
+        border: none !important;
+        border-radius: 0;
+
+        > .segment {
+            border-top: none !important;
+        }
     }
 }
 
@@ -38,6 +43,13 @@ pane-view {
     pane-view {
         .segments > .segment {
             border-top: 1px solid rgba(238, 238, 238, 0.25) !important;
+        }
+
+
+        &:not(:first-child) {
+            &:before {
+                background-color: #4d4d4d;
+            }
         }
     }
 }

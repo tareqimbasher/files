@@ -5,7 +5,9 @@ pane-group {
     &:before {
         content: " ";
         background-color: #ccc;
-        width: 4px;
+        width: 2px;
+        min-width: 2px;
+        max-width: 2px;
         cursor: w-resize;
         left: 0;
     }

@@ -14,6 +14,21 @@ export class Panes {
         return pane;
     }
 
+    public remove(pane: Pane) {
+        if (this.list.length == 1)
+            return;
+
+        let ix = this.list.indexOf(pane);
+
+        let newActive: Pane;
+        if (this.list.length > 1) {
+            newActive = ix == 0 ? this.list[1] : this.list[ix - 1];
+            this.setActive(newActive);
+        }
+
+        this.list.splice(ix, 1);
+    }
+
     public setActive(pane: Pane) {
         if (this.active == pane)
             return;
