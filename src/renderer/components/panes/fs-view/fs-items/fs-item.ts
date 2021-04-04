@@ -1,13 +1,12 @@
 import { bindable } from "aurelia";
-import { FileType, FileSystemItem, } from "../../../../core";
-import { remote } from "electron";
+import { FileType, FileSystemItem, system, } from "../../../../core";
 
 export class FSItem {
 
     @bindable
     public item!: FileSystemItem;
     private static imgFormats = [".jpg", ".jpeg", ".png", ".gif", ".jfif", ".bmp", ".svg"];
-    public icon = "assets/icons/file-system/png/026-file-65.png";
+    public icon = `${system.fileScheme}://assets/icons/file-system/png/026-file-65.png`;
 
     attached() {
         this.loadIcon().then(icon => this.icon = icon);
@@ -17,11 +16,11 @@ export class FSItem {
         if (this.item.extension && FSItem.imgFormats.indexOf(this.item.extension.toLocaleLowerCase()) >= 0)
             return this.thumbnail();
         else if (this.item.extension.toLowerCase() == ".exe") {
-            let icon = await remote.app.getFileIcon(this.item.path, { size: "large" });
+            let icon = await system.app.getFileIcon(this.item.path, { size: "large" });
             return icon.toDataURL();
         }
         else
-            return `assets/icons/file-system/png/${this.localIcon(this.item)}.png`;
+            return `${system.fileScheme}://assets/icons/file-system/png/${this.localIcon(this.item)}.png`;
     }
 
     private localIcon(item: FileSystemItem) {
@@ -104,6 +103,6 @@ export class FSItem {
     }
 
     public thumbnail() {
-        return 'atom://' + this.item?.path;
+        return `${system.fileScheme}://${this.item?.path}`;
     }
 }

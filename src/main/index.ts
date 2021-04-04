@@ -1,7 +1,8 @@
 import { app, protocol, BrowserWindow } from 'electron';
-const path = require('path');
-import fs from 'fs';
+import * as path from "path";
+import { promises as fs } from 'fs';
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
+declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -18,7 +19,8 @@ const createWindow = () => {
         webPreferences: {
             enableRemoteModule: true,
             nodeIntegration: true,
-            nodeIntegrationInWorker: true
+            nodeIntegrationInWorker: true,
+            contextIsolation: false
         }
     });
 
@@ -28,20 +30,24 @@ const createWindow = () => {
     // Open the DevTools.
     //mainWindow.webContents.openDevTools();
 
+    const pathExists = async (p: string) => {
+        try {
+            await fs.access(p);
+            return true;
+        } catch (error) {
+            return false;
+        }
+    }
+
     // Added as a custom protocol to load files from disk
-    protocol.registerFileProtocol('atom', (request, callback) => {
-        const url = request.url.substr(7);
-        callback(decodeURI(url));
-    });
+    protocol.registerFileProtocol('atom', async (request, callback) => {
 
-    protocol.registerFileProtocol('file', async (request, callback) => {
-        const pathname = decodeURIComponent(request.url.replace('file:///', ''));
+        const filePath = decodeURI(request.url.substr(7));
 
-        if (path.isAbsolute(pathname) ? fs.existsSync(pathname) : fs.existsSync(`/${pathname}`)) {
-            callback(pathname);
-        } else {
-            const filePath = path.join(app.getAppPath(), '.webpack/renderer', pathname);
+        if (path.isAbsolute(filePath) ? await pathExists(filePath) : await pathExists(`/${filePath}`)) {
             callback(filePath);
+        } else {
+            callback(path.join(app.getAppPath(), '.webpack/renderer', filePath));
         }
     });
 };

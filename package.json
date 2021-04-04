@@ -2,7 +2,7 @@
   "name": "files",
   "productName": "Files",
   "version": "1.0.1",
-  "description": "An advanced file manager.",
+  "description": "An cross-platform file manager.",
   "main": ".webpack/main",
   "scripts": {
     "start": "electron-forge start",
@@ -26,8 +26,10 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "aurelia_electron",
-            "setupIcon": "./build/icon.ico"
+            "name": "files",
+            "setupIcon": "./build/icon.ico",
+            "setupExe": "files-setup.exe",
+            "setupMsi": "files-setup.msi"
           }
         },
         {

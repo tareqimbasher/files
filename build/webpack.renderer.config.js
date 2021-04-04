@@ -52,6 +52,7 @@ rules.push(
 );
 
 module.exports = {
+    output: { publicPath: '../' }, // So it loads from dir one level up from 'main_window'
     module: {
         rules,
     },
