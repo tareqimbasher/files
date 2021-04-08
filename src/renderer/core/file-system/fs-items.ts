@@ -2,6 +2,7 @@ import { Dictionary, FileSystemItem } from "../";
 
 export class FsItems extends Dictionary<string, FileSystemItem> {
 
+    public searchTerm?: string;
     public selected: FileSystemItem[] = [];
     public view: FileSystemItem[] = [];
 
@@ -25,6 +26,7 @@ export class FsItems extends Dictionary<string, FileSystemItem> {
         this.selected.splice(0, this.selected.length);
         this.view.splice(0, this.selected.length);
     }
+
 
 
     public select(...items: FileSystemItem[]) {
@@ -59,5 +61,15 @@ export class FsItems extends Dictionary<string, FileSystemItem> {
         for (let item of items) {
             item.isSelected ? this.unselect(item) : this.select(item);
         }
+    }
+
+
+    public search(term: string) {
+        if (!term) {
+            this.view = [...this.values];
+            return;
+        }
+        term = term.toLocaleLowerCase();
+        this.view = this.values.filter(x => x.name.toLocaleLowerCase().indexOf(term) >= 0);
     }
 }

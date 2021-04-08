@@ -48,7 +48,7 @@
                 <!--BREADCRUMBS-->
                 <div class="ui ${settings.inverted} breadcrumb"
                      click.trigger="enableEditAddress() & self"
-                     show.bind="!editAddress">
+                     show.bind="!isEditAddress">
 
                     <i class="folder icon divider"></i>
 
@@ -59,14 +59,23 @@
                                    if.bind="!!part"></address-crumb>
                 </div>
 
-                <!--INPUT-->
+                <!--PATH INPUT-->
                 <div class="ui fluid left icon ${settings.inverted} input"
-                     show.bind="editAddress">
+                     show.bind="isEditAddress">
                     <input ref="addressInput"
                            value.bind="addressBarPath"
                            type="text"
-                           blur.trigger="editAddress = false">
+                           blur.trigger="isEditAddress = false">
                     <i class="folder icon"></i>
+                </div>
+            </div>
+            <div class="search-container">
+                <!--SEARCH INPUT-->
+                <div class="ui fluid search left icon ${settings.inverted} input">
+                    <input ref="searchInput"
+                           value.bind="searchTerm"
+                           type="text" placeholder="Search">
+                    <i class="search icon"></i>
                 </div>
             </div>
         </div>

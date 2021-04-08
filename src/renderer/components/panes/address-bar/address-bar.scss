@@ -11,8 +11,25 @@
         vertical-align: middle;
     }
 
+    .search-container {
+        flex: 0 0 25%;
+        max-width: 250px;
+        vertical-align: middle;
+        margin-left: 10px;
+
+        .ui.icon.input > input:focus ~ i.icon {
+            color: dodgerblue;
+        }
+    }
+
     .breadcrumb-container {
         flex: 1;
+
+        .ui.input {
+            .icon {
+                color: dodgerblue;
+            }
+        }
     }
 
     .breadcrumb {
@@ -36,10 +53,6 @@
     }
 
     .ui.input {
-        .icon {
-            color: dodgerblue;
-        }
-
         input {
             padding-top: 7px;
             padding-bottom: 7px;
@@ -69,6 +82,22 @@
 
         address-crumb:not(.active):hover {
             background: rgba(255, 255, 255, 0.2);
+        }
+    }
+
+    .search-container {
+        flex: 0 0 400px;
+        vertical-align: middle;
+        margin-left: 10px;
+
+        .ui.icon.input {
+            .icon {
+                color: white;
+            }
+
+            > input:focus ~ .icon {
+                color: dodgerblue;
+            }
         }
     }
 }

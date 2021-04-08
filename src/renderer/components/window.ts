@@ -90,9 +90,10 @@ export class Window {
             let panes = this.windowManager.panes;
 
             if (ev.ctrlKey && ev.code == KeyCode.KeyL) {
-                this.eventBus.publish('kb-address-edit', {
-                    id: panes.active.id
-                });
+                this.eventBus.publish('edit-address');
+            }
+            else if (ev.ctrlKey && ev.code == KeyCode.KeyS) {
+                this.eventBus.publish('search');
             }
             else if (ev.ctrlKey && ev.code == KeyCode.KeyT) {
                 panes.active.tabs.add().activate();
