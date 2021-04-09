@@ -1,13 +1,14 @@
 import { Pane } from "../pane";
 import { Tab } from "./tab";
 import * as os from "os";
+import { FileService } from "../../../core";
 
 export class Tabs {
     public pane: Pane;
     public list: Tab[] = [];
     public active!: Tab;
 
-    constructor(pane: Pane) {
+    constructor(pane: Pane, private fileService: FileService) {
         this.pane = pane;
         this.setActive(this.add());
     }
@@ -16,7 +17,7 @@ export class Tabs {
         if (!path)
             path = os.homedir();
 
-        let tab = new Tab(this, path);
+        let tab = new Tab(this, path, this.fileService);
         this.list.push(tab);
 
         // Semantic UI

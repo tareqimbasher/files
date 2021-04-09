@@ -54,7 +54,7 @@ export class FsItems extends Dictionary<string, FileSystemItem> {
     }
 
     public unselectAll(...items: FileSystemItem[]) {
-        this.unselect(...this.values);
+        this.unselect(...this.selected);
     }
 
     public inverseSelection(...items: FileSystemItem[]) {

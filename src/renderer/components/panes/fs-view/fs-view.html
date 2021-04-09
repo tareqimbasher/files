@@ -2,7 +2,8 @@
     <require from="./context-menu.html" />
     <require from="./fs-items/fs-item" />
 
-    <div class="ui horizontal ${settings.inverted} list">
+    <div ref="itemList"
+         class="ui horizontal ${settings.inverted} list">
         <fs-item class="top aligned item"
                  repeat.for="fsItem of fsItems.view"
                  item.bind="fsItem"

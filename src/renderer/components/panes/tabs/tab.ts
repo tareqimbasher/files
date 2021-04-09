@@ -1,8 +1,5 @@
-﻿import { FsItems, Util } from "../../../core";
+﻿import { FileService, FileSystemItem, FsItems, system, Util } from "../../../core";
 import { Tabs } from "./tabs";
-import * as pathUtil from "path";
-import * as fs from "fs";
-import * as os from "os";
 
 export class Tab {
     public id: string;
@@ -11,71 +8,109 @@ export class Tab {
     public pathName!: string;
     public pathParts: string[] = [];
 
-    public history: string[] = [];
-    public atHistoryIndex = 0;
-
     public fsItems: FsItems;
+    public history: TabHistory;
 
-    constructor(public tabs: Tabs, path: string) {
+    private fileService: FileService;
+
+    constructor(public tabs: Tabs, path: string, fileService: FileService) {
         this.id = Util.newGuid();
+        this.fileService = fileService;
         this.fsItems = new FsItems();
-        this.setPath(path);
+
+        this.history = new TabHistory(path);
+        this.setPath(this.history.current);
     }
 
-    public setPath(path: string, addToHistory: boolean = true) {
+    public setPath(state: TabHistoryState) : void;
+    public setPath(path: string): void;
+
+    public setPath(path: string | TabHistoryState) {
         if (!path)
             throw new Error("path is null or undefined.");
 
-        // Handle special path locations
-        if (path.startsWith("~"))
-            path = path.replace("~", os.homedir());
-        else if (path.startsWith("/"))
-            path = path.replace("/", pathUtil.parse(process.cwd()).root);
+        this.history.current.remember(this.fsItems);
 
-        // Normalize Windows path endings for drive roots
-        if (path.endsWith(":."))
-            path = path.slice(0, -1) + '/';
-        else if (path.endsWith(":"))
-            path = path + "/";
+        if (typeof path === 'string') {
+            // Handle special path locations
+            if (path.startsWith("~"))
+                path = path.replace("~", system.os.homedir());
+            else if (path.startsWith("/"))
+                path = path.replace("/", system.path.parse(process.cwd()).root);
 
-        path = path.replaceAll("/", "\\");
+            // Normalize Windows path endings for drive roots
+            if (path.endsWith(":."))
+                path = path.slice(0, -1) + '/';
+            else if (path.endsWith(":"))
+                path = path + "/";
 
-        if (this.path == path)
-            return;
+            path = path.replaceAll("/", "\\");
 
-        this.path = path;
-        this.pathChanged(addToHistory);
+            if (this.path == path)
+                return;
+
+            this.path = this.history.set(new TabHistoryState(path)).path;
+        }
+        else {
+            this.path = this.history.set(path).path;
+        }
+        
+        this.pathChanged();
     }
 
-    private pathChanged(addToHistory: boolean) {
-        this.pathName = pathUtil.basename(this.path);
+    private async pathChanged() {
+        this.pathName = system.path.basename(this.path);
         if (!this.pathName.trim()) this.pathName = this.path;
 
         this.pathParts = this.path.split(/[/\\]+/);
 
-        if (addToHistory) {
-            if (this.history.length - 1 > this.atHistoryIndex) {
-                this.history.splice(this.atHistoryIndex + 1, this.history.length - this.atHistoryIndex);
-            }
-            this.history.push(this.path);
-            this.atHistoryIndex = this.history.length - 1;
-        }
+
+
+
+        performance.mark("pathChangedStart");
+        //chokidar.watch('');
+        let fsItems = await this.fileService.list(this.path);
+        this.fsItems.clear();
+        this.fsItems.addOrSetRange(...fsItems.filter(f => !f.isHidden).map(f => {
+            return {
+                key: f.name,
+                value: f
+            };
+        }));
+
+        // Sort
+        this.fsItems.view = this.fsItems.values
+            //.sort((a, b) => (a.name < b.name) ? 0 : ((b.name < a.name) ? -1 : 1))
+            ;
+
+        performance.mark("pathChangedEnd");
+        performance.measure('pathChanged', 'pathChangedStart', 'pathChangedEnd');
+        console.warn(performance.getEntriesByName('pathChanged').slice(-1)[0]);
+
+
+
+
+        this.history.current.restore(this.fsItems);
     }
 
     public goBack() {
-        if (this.atHistoryIndex == 0) return;
-        this.setPath(this.history[--this.atHistoryIndex], false);
+        const state = this.history.getPrevious();
+        if (state) this.setPath(state);
     }
 
     public goForward() {
-        if (this.atHistoryIndex == this.history.length - 1) return;
-        this.setPath(this.history[++this.atHistoryIndex], false);
+        const state = this.history.getNext();
+        if (state) this.setPath(state);
     }
 
     public goUp() {
-        let newPath = pathUtil.dirname(this.path);
-        if (newPath != this.path && fs.existsSync(newPath))
+        let newPath = system.path.dirname(this.path);
+        if (newPath != this.path && system.fss.existsSync(newPath))
             this.setPath(newPath);
+    }
+
+    public goHome() {
+        this.setPath(system.os.homedir());
     }
 
     public activate() {
@@ -84,5 +119,93 @@ export class Tab {
 
     public close() {
         this.tabs.remove(this);
+    }
+}
+
+/**
+ * Keeps track of the navigation history for a Tab.
+ */
+class TabHistory {
+
+    public list: TabHistoryState[];
+    public current!: TabHistoryState;
+    public currentIndex = 0;
+    public canGoBack = false;
+    public canGoForward = false;
+
+    constructor(current: string) {
+        this.list = [];
+        this.set(new TabHistoryState(current));
+    }
+
+    public set(state: TabHistoryState): TabHistoryState {
+
+        this.current = state;
+
+        const ix = this.list.indexOf(state);
+        const isNew = ix < 0;
+
+        if (isNew) {
+            // If we had previouly gone "back" and we now have a new destination (not going forward in history)
+            // then remove the rest of the forward history
+            if (this.currentIndex != this.list.length - 1)
+                this.list.splice(this.currentIndex + 1, this.list.length - this.currentIndex);
+
+            this.list.push(state);
+            this.currentIndex = this.list.length - 1;
+        }
+        else
+            this.currentIndex = ix;
+
+        this.canGoBack = this.currentIndex > 0;
+        this.canGoForward = this.currentIndex < (this.list.length - 1);
+
+        return state;
+    }
+
+    public getPrevious(): TabHistoryState | undefined {
+        return this.currentIndex >= 1
+            ? this.list[this.currentIndex - 1]
+            : undefined;
+    }
+
+    public getNext(): TabHistoryState | undefined {
+        return this.currentIndex < (this.list.length - 1)
+            ? this.list[this.currentIndex + 1]
+            : undefined;
+    }
+}
+
+class TabHistoryState {
+
+    /**
+     * The single selected file system item before this state was navigated away from.
+     */
+    public selectedFileSystemItem: FileSystemItem | undefined;
+
+    constructor(public path: string) {
+    }
+
+    /**
+     * Remembers some information that can be restored when this history state is navigated to.
+     */
+    public remember(fsItems: FsItems) {
+        // Remember the single seleceted fs item if applicable
+        if (fsItems.selected.length == 1)
+            this.selectedFileSystemItem = fsItems.selected[0];
+        else
+            this.selectedFileSystemItem = undefined;
+    }
+
+    /**
+     * Restore remembered information.
+     */
+    public restore(fsItems: FsItems) {
+        // Restore the single selected item if applicable
+        if (this.selectedFileSystemItem) {
+            const item = fsItems.view.find(i => i.name == this.selectedFileSystemItem?.name);
+            if (item)
+                fsItems.select(item);
+        }
     }
 }

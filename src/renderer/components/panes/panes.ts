@@ -1,15 +1,18 @@
+import { singleton } from "aurelia";
+import { FileService } from "../../core";
 import { Pane } from "./pane";
 
+@singleton()
 export class Panes {
     public list: Pane[] = [];
     public active!: Pane;
 
-    constructor() {
+    constructor(private fileService: FileService) {
         this.setActive(this.add());
     }
 
     public add(): Pane {
-        let pane = new Pane(this);
+        let pane = new Pane(this, this.fileService);
         this.list.push(pane);
         return pane;
     }

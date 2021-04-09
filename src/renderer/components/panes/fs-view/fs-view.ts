@@ -1,9 +1,8 @@
-import { bindable, ILogger, watch } from "aurelia";
-import * as chokidar from "chokidar";
+import { bindable, ILogger } from "aurelia";
 import { Tab } from "../tabs/tab";
 import SelectionArea from "@simonwep/selection-js";
 import {
-    Directory, FileService, FileSystemItem, FsItems, KeyCode, Settings, system, UiUtil, Util
+    Directory, FileService, FsItems, KeyCode, Settings, system, UiUtil, Util
 } from "../../../core";
 
 export class FsView {
@@ -13,10 +12,9 @@ export class FsView {
     @bindable public tab!: Tab;
     @bindable public fsItems!: FsItems;
 
+    private itemList!: HTMLElement;
     private contextMenu!: HTMLElement;
     private detaches: (() => void)[] = [];
-
-    //private dirWatcher: FSWatcher;
 
     constructor(
         private fileService: FileService,
@@ -27,37 +25,12 @@ export class FsView {
     }
 
     public attached() {
-        this.pathChanged();
         this.bindMouseEvents();
         this.bindKeyboardEvents();
     }
 
     public detaching() {
         this.detaches.forEach(f => f());
-    }
-
-    @watch((fv: FsView) => fv.tab.path)
-    public async pathChanged() {
-        //performance.mark("pathChangedStart");
-
-        //chokidar.watch('');
-        let fsItems = await this.fileService.list(this.tab.path);
-        this.fsItems.clear();
-        this.fsItems.addOrSetRange(...fsItems.filter(f => !f.isHidden).map(f => {
-            return {
-                key: f.name,
-                value: f
-            };
-        }));
-
-        // Sort
-        this.fsItems.view = this.fsItems.values
-            //.sort((a, b) => (a.name < b.name) ? 0 : ((b.name < a.name) ? -1 : 1))
-            ;
-
-        //performance.mark("pathChangedEnd");
-        //performance.measure('pathChanged', 'pathChangedStart', 'pathChangedEnd');
-        //console.warn(performance.getEntriesByName('pathChanged').slice(-1)[0]);
     }
 
     public openSelected() {
@@ -113,8 +86,7 @@ export class FsView {
     }
 
     private navigateGrid(direction: "up" | "down" | "right" | "left") {
-        let grid = this.element.querySelector("fs-view > .list")!;
-        UiUtil.navigateGrid(grid, "selected", direction, nextItemIndex => {
+        UiUtil.navigateGrid(this.itemList, "selected", direction, nextItemIndex => {
             this.fsItems.unselectAll();
             this.fsItems.select(this.fsItems.values[nextItemIndex]);
         });
@@ -127,7 +99,7 @@ export class FsView {
                     this.fsItems.selectAll();
                 }
             }
-            else {
+            else if (!ev.altKey) {
                 if (ev.code == KeyCode.ArrowRight) {
                     this.navigateGrid("right");
                 }
