@@ -1,0 +1,15 @@
+@import './colors.scss';
+
+.item .header, .ui.menu {
+    font-family: Arabic, 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif !important;
+}
+
+.ui.segments, .ui.segment {
+    border-radius: 0 !important;
+}
+
+.dark {
+    .ui.segments, .ui.inverted.segment {
+        border-color: $dark-border-color !important;
+    }
+}

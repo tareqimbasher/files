@@ -1,0 +1,33 @@
+@import './variables.scss';
+@import './common.scss';
+@import './semantic-ui-overrides.scss';
+
+@font-face {
+    font-family: Arabic;
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/tajawal/v4/Iura6YBj_oCad4k1nzSBC45I.woff2) format('woff2');
+    unicode-range: U+0600-06FF;
+}
+
+@font-face {
+    font-family: Arabic;
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/tajawal/v4/Iurf6YBj_oCad4k1l4qkHrRpiYlJ.woff2) format('woff2');
+    unicode-range: U+0600-06FF;
+}
+
+body {
+    font-family: Arabic, Calibri, 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif !important;
+    height: 100%;
+}
+
+.container-after-titlebar {
+    inset: unset !important;
+    top: $titlebar-height !important;
+    width: 100%;
+}
+

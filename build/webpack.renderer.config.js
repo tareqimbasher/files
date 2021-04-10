@@ -21,13 +21,13 @@ rules.push(
         test: /\.css$/i,
         use: ["style-loader", cssLoader]
     },
-    {
-        test: /\.scss$/i,
-        // For style loaded in src/main.js, it's not loaded by style-loader.
-        // It's for shared styles for shadow-dom only.
-        issuer: /[/\\]src[/\\]renderer[/\\]index\.(js|ts)$/,
-        use: ['style-loader', cssLoader, sassLoader]
-    },
+    //{
+    //    test: /\.scss$/i,
+    //    // For style loaded in src/main.js, it's not loaded by style-loader.
+    //    // It's for shared styles for shadow-dom only.
+    //    issuer: /[/\\]src[/\\]renderer[/\\]index\.(js|ts)$/,
+    //    use: ['style-loader', cssLoader, sassLoader]
+    //},
     {
         test: /\.scss$/i,
         // For style loaded in other js/ts files, it's loaded by style-loader.

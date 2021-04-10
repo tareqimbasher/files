@@ -1,3 +1,5 @@
+@import "../../style/colors.scss";
+
 sidebar {
     flex: 0 0 12em;
     order: -1;
@@ -26,7 +28,8 @@ sidebar {
                 }
 
                 &.active {
-                    background: #eee;
+                    background: #e8e8e8;
+                    font-weight: bold;
                 }
             }
         }
@@ -38,11 +41,11 @@ sidebar {
         > .item {
             &.selectable {
                 &:hover {
-                    background: rgba(255, 255, 255, 0.08);
+                    background: $dark-hover-color;
                 }
 
                 &.active {
-                    background: rgba(255, 255, 255, 0.15);
+                    background: $dark-active-color;
                 }
             }
         }

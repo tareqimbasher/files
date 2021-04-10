@@ -1,3 +1,5 @@
+@import "../../../style/colors.scss";
+
 .address-bar.segment {
     padding: 7px;
 
@@ -64,12 +66,22 @@
 
 .dark {
     .address-bar.segment {
-        .breadcrumb, .ui.input {
-            border: 1px solid rgb(238, 238, 238, 0.25);
+        .breadcrumb {
+            border: 1px solid $dark-border-color;
         }
 
         .breadcrumb .icon {
             color: white;
+        }
+
+        .ui.input {
+            > input {
+                border: 1px solid $dark-border-color;
+
+                &:focus {
+                    border: 1px solid $accent-color;
+                }
+            }
         }
 
         .ui.input > input {
@@ -81,7 +93,7 @@
         }
 
         address-crumb:not(.active):hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: $dark-hover-color;
         }
     }
 

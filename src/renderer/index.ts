@@ -4,6 +4,7 @@ import "./style/semantic-ui/dist/semantic.css";
 import "./style/semantic-ui/dist/semantic.js";
 import { converters } from './global-resources';
 import "./components/titlebar";
+import "./style/main.scss";
 import { Window } from './components/window';
 
 Aurelia
@@ -14,6 +15,6 @@ Aurelia
             sinks: [ConsoleSink]
         }),
         converters
-    )
+)
     .app(Window)
     .start();

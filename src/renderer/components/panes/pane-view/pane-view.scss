@@ -1,3 +1,5 @@
+@import "../../../style/colors.scss";
+
 pane-view {
     display: flex;
     flex: 1;
@@ -42,13 +44,14 @@ pane-view {
 .dark {
     pane-view {
         .segments > .segment {
-            border-top: 1px solid rgba(238, 238, 238, 0.25) !important;
+            border-top-width: 1px !important;
+            border-top-style: solid !important;
         }
 
 
         &:not(:first-child) {
             &:before {
-                background-color: #4d4d4d;
+                background-color: $dark-splitter-color;
             }
         }
     }

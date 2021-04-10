@@ -6,8 +6,10 @@ export class Settings {
     public inverted: string;
 
     constructor() {
-        this.theme = "light";
+        this.theme = "";
         this.inverted = "";
+
+        this.setTheme("dark");
     }
 
     public setTheme(theme: string) {
