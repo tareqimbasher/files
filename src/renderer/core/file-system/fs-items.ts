@@ -28,6 +28,13 @@ export class FsItems extends Dictionary<string, FileSystemItem> {
     }
 
 
+    public updateView(showHidden: boolean) {
+        this.view = this.values
+            .filter(i => showHidden || !i.isHidden)
+            //.sort((a, b) => (a.name < b.name) ? 0 : ((b.name < a.name) ? -1 : 1))
+        ;
+    }
+
 
     public select(...items: FileSystemItem[]) {
         for (let item of items) {

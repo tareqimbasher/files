@@ -4,10 +4,12 @@ import { singleton } from "aurelia";
 export class Settings {
     public theme: string;
     public inverted: string;
+    public showHiddenFiles: boolean;
 
     constructor() {
         this.theme = "";
         this.inverted = "";
+        this.showHiddenFiles = false;
 
         this.setTheme("dark");
     }

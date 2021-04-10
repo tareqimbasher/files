@@ -23,7 +23,7 @@ fs-item {
         }
 
         img {
-            width: 100%;
+            height: 100%;
 
             &.image-thumbnail {
                 position: relative;
@@ -37,11 +37,15 @@ fs-item {
         }
     }
 
+    &.hidden .fs-item-icon {
+        opacity: 0.5;
+    }
+
     .fs-item-name {
         display: block;
-        max-height: 1.8rem;
-        font-size: 0.8rem;
-        line-height: 0.9rem;
+        max-height: 2rem;
+        font-size: 0.9rem;
+        line-height: 1rem;
         user-select: none;
         padding: 0 5px 0 5px;
         word-break: break-word;

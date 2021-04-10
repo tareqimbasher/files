@@ -1,7 +1,8 @@
-﻿import { FileService, FileSystemItem, FsItems, system, Util } from "../../../core";
+﻿import { EventAggregator, IContainer, IDisposable, IEventAggregator } from "aurelia";
+import { FileService, FileSystemItem, FsItems, Settings, system, Util } from "../../../core";
 import { Tabs } from "./tabs";
 
-export class Tab {
+export class Tab implements IDisposable {
     public id: string;
     public isActive: boolean = false;
     public path!: string;
@@ -12,11 +13,18 @@ export class Tab {
     public history: TabHistory;
 
     private fileService: FileService;
+    private settings: Settings;
+    private eventBus: IEventAggregator;
+    private disposables: IDisposable[] = [];
 
-    constructor(public tabs: Tabs, path: string, fileService: FileService) {
+    constructor(public tabs: Tabs, path: string, private container: IContainer) {
         this.id = Util.newGuid();
-        this.fileService = fileService;
+        this.fileService = container.get(FileService);
+        this.settings = container.get(Settings);;
         this.fsItems = new FsItems();
+        this.eventBus = container.get(EventAggregator)
+        this.disposables.push(
+            this.eventBus.subscribe('show-hidden-changed', () => this.fsItems.updateView(this.settings.showHiddenFiles)));
 
         this.history = new TabHistory(path);
         this.setPath(this.history.current);
@@ -71,17 +79,13 @@ export class Tab {
         //chokidar.watch('');
         let fsItems = await this.fileService.list(this.path);
         this.fsItems.clear();
-        this.fsItems.addOrSetRange(...fsItems.filter(f => !f.isHidden).map(f => {
+        this.fsItems.addOrSetRange(...fsItems.map(f => {
             return {
                 key: f.name,
                 value: f
             };
         }));
-
-        // Sort
-        this.fsItems.view = this.fsItems.values
-            //.sort((a, b) => (a.name < b.name) ? 0 : ((b.name < a.name) ? -1 : 1))
-            ;
+        this.fsItems.updateView(this.settings.showHiddenFiles);
 
         performance.mark("pathChangedEnd");
         performance.measure('pathChanged', 'pathChangedStart', 'pathChangedEnd');
@@ -119,6 +123,10 @@ export class Tab {
 
     public close() {
         this.tabs.remove(this);
+    }
+
+    public dispose(): void {
+        this.disposables.forEach(d => d.dispose());
     }
 }
 

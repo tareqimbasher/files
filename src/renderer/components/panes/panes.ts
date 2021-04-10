@@ -1,5 +1,4 @@
-import { singleton } from "aurelia";
-import { FileService } from "../../core";
+import { IContainer, singleton } from "aurelia";
 import { Pane } from "./pane";
 
 @singleton()
@@ -7,12 +6,12 @@ export class Panes {
     public list: Pane[] = [];
     public active!: Pane;
 
-    constructor(private fileService: FileService) {
+    constructor(@IContainer private container: IContainer) {
         this.setActive(this.add());
     }
 
     public add(): Pane {
-        let pane = new Pane(this, this.fileService);
+        let pane = new Pane(this, this.container);
         this.list.push(pane);
         return pane;
     }
@@ -30,6 +29,7 @@ export class Panes {
         }
 
         this.list.splice(ix, 1);
+        pane.dispose();
     }
 
     public setActive(pane: Pane) {

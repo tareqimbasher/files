@@ -88,7 +88,7 @@ export class FsView {
     private navigateGrid(direction: "up" | "down" | "right" | "left") {
         UiUtil.navigateGrid(this.itemList, "selected", direction, nextItemIndex => {
             this.fsItems.unselectAll();
-            this.fsItems.select(this.fsItems.values[nextItemIndex]);
+            this.fsItems.select(this.fsItems.view[nextItemIndex]);
         });
     }
 

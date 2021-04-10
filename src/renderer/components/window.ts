@@ -98,6 +98,14 @@ export class Window {
             else if (ev.ctrlKey && ev.code == KeyCode.KeyT) {
                 panes.active.tabs.add().activate();
             }
+            else if (ev.ctrlKey && ev.code == KeyCode.KeyW) {
+                panes.active.tabs.active.close();
+                ev.preventDefault();
+            }
+            else if (ev.ctrlKey && ev.code == KeyCode.KeyH) {
+                this.settings.showHiddenFiles = !this.settings.showHiddenFiles;
+                this.eventBus.publish('show-hidden-changed');
+            }
             else if (ev.ctrlKey && KeyCodeUtil.isDigit(ev.code)) {
                 let digit = KeyCodeUtil.parseDigit(ev.code);
                 if (digit > 0)

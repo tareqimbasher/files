@@ -1,14 +1,14 @@
 import { Pane } from "../pane";
 import { Tab } from "./tab";
 import * as os from "os";
-import { FileService } from "../../../core";
+import { IContainer, IDisposable } from "aurelia";
 
-export class Tabs {
+export class Tabs implements IDisposable {
     public pane: Pane;
     public list: Tab[] = [];
     public active!: Tab;
 
-    constructor(pane: Pane, private fileService: FileService) {
+    constructor(pane: Pane, private container: IContainer) {
         this.pane = pane;
         this.setActive(this.add());
     }
@@ -17,7 +17,7 @@ export class Tabs {
         if (!path)
             path = os.homedir();
 
-        let tab = new Tab(this, path, this.fileService);
+        let tab = new Tab(this, path, this.container);
         this.list.push(tab);
 
         // Semantic UI
@@ -36,6 +36,7 @@ export class Tabs {
         }
 
         this.list.splice(ix, 1);
+        tab.dispose();
     }
 
     public setActive(tab: Tab) {
@@ -61,6 +62,12 @@ export class Tabs {
                 //this.addressBarPath = this.pane.tabs.active.path;
             }
         });
+    }
+
+    public dispose(): void {
+        for (let tab of this.list) {
+            this.remove(tab);
+        }
     }
 
     private findTabs(): any {
