@@ -1,12 +1,15 @@
 import { EventAggregator } from "aurelia";
 import { WindowManager } from "./window-manager";
-import { Settings, KeyCode, KeyCodeUtil } from "../core";
+import { Settings, KeyCode, KeyCodeUtil, Profile } from "../core";
 
 export class Window {
     constructor(
+        private profile: Profile,
         private settings: Settings,
         private windowManager: WindowManager,
         private eventBus: EventAggregator) {
+
+        profile.load();
     }
 
     public attached() {
@@ -103,8 +106,7 @@ export class Window {
                 ev.preventDefault();
             }
             else if (ev.ctrlKey && ev.code == KeyCode.KeyH) {
-                this.settings.showHiddenFiles = !this.settings.showHiddenFiles;
-                this.eventBus.publish('show-hidden-changed');
+                this.settings.setShowHiddenFiles(!this.settings.showHiddenFiles);
             }
             else if (ev.ctrlKey && KeyCodeUtil.isDigit(ev.code)) {
                 let digit = KeyCodeUtil.parseDigit(ev.code);

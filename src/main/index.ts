@@ -64,6 +64,8 @@ app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
         app.quit();
     }
+    // For cross-platform solution to hide to tray:
+    // https://stackoverflow.com/questions/37828758/electron-js-how-to-minimize-close-window-to-system-tray-and-restore-window-back
 });
 
 app.on('activate', () => {

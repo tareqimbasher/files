@@ -1,7 +1,7 @@
 import * as _os from "os";
 import * as _fs from "fs";
 import * as _path from "path";
-import { shell as _shell, remote } from "electron";
+import { shell as _shell, remote as _remote } from "electron";
 
 export namespace system {
     export var fileScheme = "atom";
@@ -11,5 +11,6 @@ export namespace system {
     export var fss = _fs;
     export var path = _path;
     export var shell = _shell;
-    export var app = remote.app;
+    export var app = _remote.app;
+    export var remote = _remote;
 }

@@ -1,25 +1,27 @@
-import { singleton } from "aurelia";
+import { EventAggregator, singleton } from "aurelia";
 
-@singleton()
+@singleton
 export class Settings {
-    public theme: string;
-    public inverted: string;
-    public showHiddenFiles: boolean;
+    public theme!: string;
+    public inverted!: string;
+    public showHiddenFiles!: boolean;
 
-    constructor() {
-        this.theme = "";
-        this.inverted = "";
-        this.showHiddenFiles = false;
-
-        this.setTheme("dark");
+    constructor(private eventBus: EventAggregator) {
     }
 
     public setTheme(theme: string) {
         this.theme = theme;
         this.inverted = theme == "dark" ? "inverted" : "";
+        this.eventBus.publish('settings-changed');
     }
 
     public toggleTheme() {
         this.setTheme(this.theme === "dark" ? "light" : "dark");
+    }
+
+    public setShowHiddenFiles(show: boolean) {
+        this.showHiddenFiles = show;
+        this.eventBus.publish('show-hidden-changed');
+        this.eventBus.publish('settings-changed');
     }
 }
