@@ -15,6 +15,6 @@ Aurelia
             sinks: [ConsoleSink]
         }),
         converters
-)
+    )
     .app(Window)
     .start();

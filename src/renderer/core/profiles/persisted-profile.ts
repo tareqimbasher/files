@@ -1,3 +1,5 @@
+import { FileViewTypes } from "../settings";
+
 export class PersistedProfile {
     public static latestVersion = "1";
 
@@ -6,6 +8,7 @@ export class PersistedProfile {
     public settings: {
         theme?: string;
         showHiddenFiles?: boolean;
+        fileViewType?: FileViewTypes;
     }
 
     constructor() {
@@ -14,7 +17,8 @@ export class PersistedProfile {
         this.version = "1";
         this.settings = {
             theme: "dark",
-            showHiddenFiles: false
+            showHiddenFiles: false,
+            fileViewType: FileViewTypes.Icons
         };
     }
 

@@ -1,8 +1,7 @@
 import { bindable } from "aurelia";
 import { FileType, FileSystemItem, system } from "../../../../core";
 
-export class FSItem {
-
+export abstract class FsItemView {
     @bindable
     public item!: FileSystemItem;
     private static imgFormats = [".jpg", ".jpeg", ".png", ".gif", ".jfif", ".bmp", ".svg"];
@@ -13,7 +12,7 @@ export class FSItem {
     }
 
     private async loadIcon(): Promise<string> {
-        if (this.item.extension && FSItem.imgFormats.indexOf(this.item.extension.toLocaleLowerCase()) >= 0)
+        if (this.item.extension && FsItemView.imgFormats.indexOf(this.item.extension.toLocaleLowerCase()) >= 0)
             return this.thumbnail();
         else if (this.item.extension.toLowerCase() == ".exe") {
             let icon = await system.app.getFileIcon(this.item.path, { size: "large" });

@@ -1,11 +1,33 @@
+@import "../../../style/colors.scss";
+
 fs-view {
     flex: 1 1 auto;
     height: 0px;
     overflow-y: auto;
-    padding: 8px 10px;
 
     &:focus {
         outline: none;
+    }
+
+    .ui.horizontal.list {
+        padding: 12px 10px;
+    }
+
+    .ui.table, .ui.basic.table {
+        position: relative;
+        border: none;
+
+        thead th {
+            background-color: rgb(255, 255, 255);
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            padding: 0.5em 0.6em;
+
+            &:hover {
+                background-color: #eee;
+            }
+        }
     }
 }
 
@@ -13,4 +35,16 @@ fs-view {
     background: rgba(46, 115, 252, 0.11);
     border: 2px solid rgba(98, 155, 255, 0.81);
     border-radius: 0.1em;
+}
+
+.dark {
+    .ui.inverted.table, .ui.inverted.basic.table {
+        thead th {
+            background-color: $dark-background;
+
+            &:hover {
+                background-color: $dark-hover-color;
+            }
+        }
+    }
 }

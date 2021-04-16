@@ -1,16 +1,42 @@
 <template tabindex="0" data-id="${id}">
+    <!--click.trigger="emptySpaceClicked($event)"
+    contextmenu.delegate="emptySpaceClicked($event) & self"-->
     <require from="./context-menu.html" />
-    <require from="./fs-items/fs-item" />
+    <require from="./fs-items/fs-item-icon-view" />
+    <require from="./fs-items/fs-item-detail-view" />
 
     <div ref="itemList"
+         if.bind="settings.fileViewType === 'Icons'"
          class="ui horizontal ${settings.inverted} list">
-        <fs-item class="top aligned item"
-                 repeat.for="fsItem of fsItems.view"
-                 item.bind="fsItem"
-                 dblClick.trigger="openSelected()"
-                 data-name.bind="fsItem.name"></fs-item>
+        <fs-item-icon-view class="fs-item top aligned item"
+                           repeat.for="fsItem of fsItems.view"
+                           dblClick.delegate="openSelected()"
+                           item.bind="fsItem"
+                           data-name.bind="fsItem.name"></fs-item-icon-view>
+        <!--click.delegate="itemClicked(fsItem, $event)"
+            contextmenu.delegate="itemClicked(fsItem, $event)"-->
     </div>
 
-    <context-menu ref="contextMenu" model.bind="$this"></context-menu>
+    <div if.bind="settings.fileViewType === 'Details'">
+        <table class="ui sortable selectable single line ${settings.inverted} basic very compact small table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Date modified</th>
+                    <th>Type</th>
+                    <th>Size</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr as-element="fs-item-detail-view"
+                    repeat.for="fsItem of fsItems.view"
+                    item.bind="fsItem"
+                    dbl-click.call="openSelected()"></tr>
+<!--                click.call="itemClicked(fsItem, event)"-->
+            </tbody>
+        </table>
+    </div>
+
+    <context-menu ref="contextMenu" class="context-menu" model.bind="$this"></context-menu>
 
 </template>

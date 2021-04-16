@@ -2,7 +2,7 @@ import { bindable, ILogger } from "aurelia";
 import { Tab } from "../tabs/tab";
 import SelectionArea from "@simonwep/selection-js";
 import {
-    Directory, FileService, FsItems, KeyCode, Settings, system, UiUtil, Util
+    Directory, FileService, FileSystemItem, FsItems, KeyCode, Settings, system, UiUtil, Util
 } from "../../../core";
 
 export class FsView {
@@ -17,7 +17,7 @@ export class FsView {
     private detaches: (() => void)[] = [];
 
     constructor(
-        private fileService: FileService,
+        private readonly fileService: FileService,
         private readonly settings: Settings,
         private readonly element: HTMLElement,
         @ILogger private readonly logger: ILogger) {
@@ -32,6 +32,34 @@ export class FsView {
     public detaching() {
         this.detaches.forEach(f => f());
     }
+
+    //public emptySpaceClicked(event: MouseEvent) {
+    //    const clickedItemTag = (event.target as HTMLElement).tagName;
+    //    if (clickedItemTag.startsWith("FS-ITEM"))
+    //        return;
+
+    //    this.fsItems.unselectAll();
+
+    //    if (event.which === 3) {
+    //        this.toggleContextMenu("show", event.clientX, event.clientY);
+    //    }
+    //    else {
+    //        this.toggleContextMenu("hide");
+    //    }
+    //}
+
+    //public itemClicked(item: FileSystemItem, event: MouseEvent) {
+    //    if (!event.ctrlKey && !event.shiftKey)
+    //        this.fsItems.unselectAll();
+    //    this.fsItems.select(item);
+
+    //    if (event.which === 3) {
+    //        this.toggleContextMenu("show", event.clientX, event.clientY);
+    //    }
+    //    else {
+    //        this.toggleContextMenu("hide");
+    //    }
+    //}
 
     public openSelected() {
 
@@ -58,7 +86,7 @@ export class FsView {
         }
     }
 
-    public deleteSelected() {
+    public async deleteSelected() {
         let fsItems = this.fsItems.selected;
         if (fsItems.length == 0)
             return;
@@ -80,37 +108,48 @@ export class FsView {
 
             for (let item of removedItems) {
                 this.fsItems.remove(item.name);
-                this.fsItems.view = this.fsItems.values;
             }
         }
     }
 
-    private navigateGrid(direction: "up" | "down" | "right" | "left") {
-        UiUtil.navigateGrid(this.itemList, "selected", direction, nextItemIndex => {
+    private navigateGrid(direction: "up" | "down" | "right" | "left", ev: KeyboardEvent) {
+
+        if (!ev.ctrlKey && !ev.shiftKey)
             this.fsItems.unselectAll();
-            this.fsItems.select(this.fsItems.view[nextItemIndex]);
+
+        UiUtil.navigateGrid(this.itemList, "selected", direction, nextItemIndex => {
+            console.log(nextItemIndex);
+            const item = this.fsItems.view[nextItemIndex];
+            if (!ev.ctrlKey) {
+                this.fsItems.select(item);
+            }
+            else {
+                if (item.isSelected)
+                    this.fsItems.unselect(item);
+                else
+                    this.fsItems.select(item);
+            }
         });
     }
 
     private bindKeyboardEvents() {
         let keyHandler = (ev: KeyboardEvent) => {
-            if (ev.ctrlKey) {
+            if (!ev.altKey) {
                 if (ev.code == KeyCode.KeyA) {
                     this.fsItems.selectAll();
+                    ev.preventDefault();
                 }
-            }
-            else if (!ev.altKey) {
-                if (ev.code == KeyCode.ArrowRight) {
-                    this.navigateGrid("right");
+                else if (ev.code == KeyCode.ArrowRight) {
+                    this.navigateGrid("right", ev);
                 }
                 else if (ev.code == KeyCode.ArrowLeft) {
-                    this.navigateGrid("left");
+                    this.navigateGrid("left", ev);
                 }
                 else if (ev.code == KeyCode.ArrowUp) {
-                    this.navigateGrid("up");
+                    this.navigateGrid("up", ev);
                 }
                 else if (ev.code == KeyCode.ArrowDown) {
-                    this.navigateGrid("down");
+                    this.navigateGrid("down", ev);
                 }
                 else if (ev.code == KeyCode.Enter && this.fsItems.selected.length > 0) {
                     this.openSelected();
@@ -127,7 +166,7 @@ export class FsView {
         const selection = new SelectionArea({
             class: 'selection-area',
             container: this.element,
-            selectables: [`${id} fs-item`],
+            selectables: [`${id} .fs-item`],
             startareas: [id, `${id} > .ui.horizontal.list`],
             boundaries: [id],
             startThreshold: 5
@@ -137,15 +176,17 @@ export class FsView {
 
         selection.on('beforestart', ev => {
 
-            const target = ev.event?.target as Element;
-            const targetIsFsItem = target.tagName === "FS-ITEM";
+            console.warn('beforestart', ev);
+
+            const target = ev.event?.target as HTMLElement;
+            const fsItemElement = UiUtil.closestParentWithClass(target, "fs-item");
 
             // Handle right-click actions
             if (ev.event instanceof MouseEvent) {
                 if (ev.event.which == 3) {
-                    if (targetIsFsItem) {
+                    if (fsItemElement) {
                         if (!ev.event.ctrlKey) {
-                            const itemName = target.getAttribute("data-name")!;
+                            const itemName = fsItemElement.getAttribute("data-name")!;
                             let item = this.fsItems.get(itemName);
 
                             // If item is not already selected, unselect others and select this one
@@ -171,18 +212,22 @@ export class FsView {
                 else
                     this.toggleContextMenu("hide");
 
-                if (this.contextMenu.contains(target))
+                if (this.contextMenu.contains(fsItemElement))
                     return false;
             }
 
-            // When clicking on something other than an <fs-item> and CTRL key is not held, clear all selection
-            if (!ev.event?.ctrlKey && !targetIsFsItem) {
+            const ifTrueDoNotUnselectAll =
+                (ev.event?.ctrlKey && fsItemElement)
+                || (UiUtil.hasOrParentHasClass(target, "context-menu"))
+
+            if (!ifTrueDoNotUnselectAll) {
                 this.fsItems.unselectAll();
             }
 
             return true;
 
         }).on('start', ev => {
+            console.warn('start', ev);
 
             // When selection starts if CTRL key is not held, clear all selection
             if (!ev.event?.ctrlKey) {
@@ -190,6 +235,7 @@ export class FsView {
             }
 
         }).on('move', ev => {
+            console.warn('move', ev);
 
             ev.store.changed.added.forEach(target => {
                 const itemName = target.getAttribute("data-name");
@@ -227,19 +273,28 @@ export class FsView {
 
         if (behavior == "show" && x && y) {
 
-            this.contextMenu.style.left = x + "px";
+            let windowWidth = Math.floor(window.innerWidth);
+            let menuWidth = this.contextMenu.clientWidth;
+            let menuRightX = x + menuWidth;
+
+            // If context menu will be right of the right edge of window, show context menu on left of mouse
+            if (menuRightX > windowWidth)
+                this.contextMenu.style.left = (x - menuWidth) + "px";
+            else
+                this.contextMenu.style.left = x + "px";
+
+
 
             let windowHeight = Math.floor(window.innerHeight);
             let menuHeight = this.contextMenu.clientHeight;
             let menuBottomY = y + menuHeight;
 
             // If context menu will be below the bottom edge of window, show context menu on top of mouse
-            if (menuBottomY > windowHeight) {
+            if (menuBottomY > windowHeight)
                 this.contextMenu.style.top = (y - menuHeight) + "px";
-            }
-            else {
+            else
                 this.contextMenu.style.top = y + "px";
-            }
+
             this.contextMenu.classList.add('visible');
         }
         else if (behavior == "hide" && currentlyShowing)

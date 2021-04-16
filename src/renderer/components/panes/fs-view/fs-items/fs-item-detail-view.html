@@ -1,0 +1,26 @@
+<template containerless>
+    <bindable name="click"></bindable>
+    <bindable name="dblClick"></bindable>
+
+    <!--click.delegate="click({event: $event})"-->
+    <tr dblClick.trigger="dblClick()"
+        class="fs-item fs-item-detail-view ${item.isSelected ? 'selected' : ''} ${item.isHidden ? 'hidden' : ''}"
+        data-name.bind="item.name">
+        <td class="collapsing">
+            <div class="fs-item-icon">
+                <img src.bind="icon" class="ui middle aligned image" />
+            </div>
+            <span class="fs-item-name" title.bind="item.name">${item.name}</span>
+        </td>
+        <td class="collapsing">
+            ${item.dateModified.toLocaleDateString()} ${item.dateModified.toLocaleTimeString()}
+        </td>
+        <td class="collapsing">
+            ${item.isDir ? 'Folder' : (item.extension ? item.extension : 'File')}
+        </td>
+        <td class="collapsing">
+            ${item.isDir ? (item.itemCount + ' items') : ''}
+            ${!item.isDir ? item.size : '' | fileSize}
+        </td>
+    </tr>
+</template>

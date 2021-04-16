@@ -1,5 +1,5 @@
 import { EventAggregator, singleton } from "aurelia";
-import { Settings } from "../settings";
+import { FileViewTypes, Settings } from "../settings";
 import { system } from "../system/system";
 import { PersistedProfile } from "./persisted-profile";
 
@@ -20,8 +20,10 @@ export class Profile {
 
         this.name = persisted.name;
         this.version = persisted.version;
+
         settings.setTheme(persisted.settings.theme ?? "dark");
         settings.setShowHiddenFiles(persisted.settings.showHiddenFiles === true ? true : false);
+        settings.setFileViewType(persisted.settings.fileViewType ?? FileViewTypes.Icons);
         
         return this;
     }
@@ -36,6 +38,7 @@ export class Profile {
         persisted.settings = {
             theme: settings.theme,
             showHiddenFiles: settings.showHiddenFiles,
+            fileViewType: settings.fileViewType,
         }
 
         const settingsFilePath = this.ensureAndGetSettingsFilePath();
