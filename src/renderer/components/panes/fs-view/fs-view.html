@@ -1,6 +1,4 @@
 <template tabindex="0" data-id="${id}">
-    <!--click.trigger="emptySpaceClicked($event)"
-    contextmenu.delegate="emptySpaceClicked($event) & self"-->
     <require from="./context-menu.html" />
     <require from="./fs-items/fs-item-icon-view" />
     <require from="./fs-items/fs-item-detail-view" />
@@ -13,8 +11,6 @@
                            dblClick.delegate="openSelected()"
                            item.bind="fsItem"
                            data-name.bind="fsItem.name"></fs-item-icon-view>
-        <!--click.delegate="itemClicked(fsItem, $event)"
-            contextmenu.delegate="itemClicked(fsItem, $event)"-->
     </div>
 
     <div if.bind="settings.fileViewType === 'Details'">
@@ -32,7 +28,6 @@
                     repeat.for="fsItem of fsItems.view"
                     item.bind="fsItem"
                     dbl-click.call="openSelected()"></tr>
-<!--                click.call="itemClicked(fsItem, event)"-->
             </tbody>
         </table>
     </div>

@@ -33,34 +33,6 @@ export class FsView {
         this.detaches.forEach(f => f());
     }
 
-    //public emptySpaceClicked(event: MouseEvent) {
-    //    const clickedItemTag = (event.target as HTMLElement).tagName;
-    //    if (clickedItemTag.startsWith("FS-ITEM"))
-    //        return;
-
-    //    this.fsItems.unselectAll();
-
-    //    if (event.which === 3) {
-    //        this.toggleContextMenu("show", event.clientX, event.clientY);
-    //    }
-    //    else {
-    //        this.toggleContextMenu("hide");
-    //    }
-    //}
-
-    //public itemClicked(item: FileSystemItem, event: MouseEvent) {
-    //    if (!event.ctrlKey && !event.shiftKey)
-    //        this.fsItems.unselectAll();
-    //    this.fsItems.select(item);
-
-    //    if (event.which === 3) {
-    //        this.toggleContextMenu("show", event.clientX, event.clientY);
-    //    }
-    //    else {
-    //        this.toggleContextMenu("hide");
-    //    }
-    //}
-
     public openSelected() {
 
         let fsItems = this.fsItems.selected;
@@ -176,8 +148,6 @@ export class FsView {
 
         selection.on('beforestart', ev => {
 
-            console.warn('beforestart', ev);
-
             const target = ev.event?.target as HTMLElement;
             const fsItemElement = UiUtil.closestParentWithClass(target, "fs-item");
 
@@ -227,7 +197,6 @@ export class FsView {
             return true;
 
         }).on('start', ev => {
-            console.warn('start', ev);
 
             // When selection starts if CTRL key is not held, clear all selection
             if (!ev.event?.ctrlKey) {
@@ -235,7 +204,6 @@ export class FsView {
             }
 
         }).on('move', ev => {
-            console.warn('move', ev);
 
             ev.store.changed.added.forEach(target => {
                 const itemName = target.getAttribute("data-name");
