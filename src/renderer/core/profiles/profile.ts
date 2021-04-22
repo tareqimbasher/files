@@ -15,31 +15,13 @@ export class Profile {
     }
 
     public load(): Profile {
-        const settings = this.settings;
-        const persisted = this.getPersisted();
-
-        this.name = persisted.name;
-        this.version = persisted.version;
-
-        settings.setTheme(persisted.settings.theme ?? "dark");
-        settings.setShowHiddenFiles(persisted.settings.showHiddenFiles === true ? true : false);
-        settings.setFileViewType(persisted.settings.fileViewType ?? FileViewTypes.Icons);
-        
+        this.getPersisted().applyTo(this, this.settings);
         return this;
     }
 
     public save(): Profile {
-        const settings = this.settings;
         const persisted = this.getPersisted();
-
-        persisted.name = this.name;
-        persisted.version = this.version;
-
-        persisted.settings = {
-            theme: settings.theme,
-            showHiddenFiles: settings.showHiddenFiles,
-            fileViewType: settings.fileViewType,
-        }
+        persisted.saveFrom(this, this.settings);
 
         const settingsFilePath = this.ensureAndGetSettingsFilePath();
         system.fss.writeFileSync(

@@ -6,6 +6,7 @@ export class Settings {
     public inverted!: string;
     public showHiddenFiles!: boolean;
     public fileViewType: FileViewTypes = FileViewTypes.Icons;
+    public confirmOnMove!: boolean;
 
     constructor(private eventBus: EventAggregator) {
     }
@@ -20,11 +21,19 @@ export class Settings {
         this.setTheme(this.theme === "dark" ? "light" : "dark");
     }
 
+
+
     public setShowHiddenFiles(show: boolean) {
         this.showHiddenFiles = show;
         this.eventBus.publish('show-hidden-changed');
         this.eventBus.publish('settings-changed');
     }
+
+    public toggleShowHiddenFiles() {
+        this.setShowHiddenFiles(!this.showHiddenFiles);
+    }
+
+
 
     public setFileViewType(fileViewType: FileViewTypes) {
         if (this.fileViewType == fileViewType)
@@ -35,6 +44,13 @@ export class Settings {
 
     public toggleFileViewType() {
         this.setFileViewType(this.fileViewType == FileViewTypes.Icons ? FileViewTypes.Details : FileViewTypes.Icons);
+    }
+
+
+
+    public setConfirmOnMove(confirm: boolean) {
+        this.confirmOnMove = confirm;
+        this.eventBus.publish('settings-changed');
     }
 }
 

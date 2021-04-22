@@ -6,11 +6,16 @@
     <div ref="itemList"
          if.bind="settings.fileViewType === 'Icons'"
          class="ui horizontal ${settings.inverted} list">
-        <fs-item-icon-view class="fs-item top aligned item"
-                           repeat.for="fsItem of fsItems.view"
-                           dblClick.delegate="openSelected()"
-                           item.bind="fsItem"
-                           data-name.bind="fsItem.name"></fs-item-icon-view>
+        <div class="top aligned item draggable"
+             repeat.for="fsItem of fsItems.view"
+             data-name.bind="fsItem.name"
+             data-is-dir.bind="fsItem.isDir">
+            <fs-item-icon-view class="fs-item"
+                               dblClick.delegate="openSelected()"
+                               item.bind="fsItem"
+                               data-name.bind="fsItem.name"
+                               data-dir.bind="fsItem.isDir"></fs-item-icon-view>
+        </div>
     </div>
 
     <div if.bind="settings.fileViewType === 'Details'">

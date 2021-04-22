@@ -4,6 +4,9 @@ import SelectionArea from "@simonwep/selection-js";
 import {
     Directory, FileService, FileSystemItem, FsItems, KeyCode, Settings, system, UiUtil, Util
 } from "../../../core";
+import dragula from "dragula";
+import "dragula/dist/dragula.css";
+import { access } from "fs";
 
 export class FsView {
 
@@ -25,8 +28,102 @@ export class FsView {
     }
 
     public attached() {
-        this.bindMouseEvents();
+        //this.bindMouseEvents();
         this.bindKeyboardEvents();
+
+        setTimeout(() => {
+            const fsItems = Array.from(document.getElementsByClassName("draggable"));
+            const folders = fsItems.filter(e => e.getAttribute("data-dir") === "true");
+
+            console.log(fsItems);
+            const drake = dragula([], {
+                //isContainer: el => {
+                //    //const r = UiUtil.hasOrParentHasClass(el as HTMLElement, "fs-item") && el?.getAttribute("data-dir") === "true";
+                //    //console.log("isContainer", r, el);
+                //    return false;
+                //},
+                //isContainer: el => {
+                //    const r = UiUtil.closestParentWithClass(el as HTMLElement, "fs-item");
+                //    console.log("isContainer", !!r);
+                //    return !r;
+                //},
+                //isContainer: el => {
+                //    const r = el?.tagName === "FS-ITEM-ICON-VIEW"
+                //    //console.log("isContainer", el, r);
+                //    return r;
+                //},
+                moves: (el, source, handle, sibling) => {
+                    //const r = UiUtil.hasOrParentHasClass(el as HTMLElement, "fs-item");
+                    //console.log("moves", r, el);
+                    //return r;
+                    return true;
+                },
+                accepts: (el, target, source, sibling) => {
+                    return target?.getAttribute("data-is-dir") === "true";
+                },
+                copy: true
+            });
+
+            drake.containers.push(...fsItems);
+            //drake.containers.push(this.itemList);
+
+            //drake.on("over", (el, container, source) => {
+            //    console.log("over el", el);
+            //    console.log("over container", container);
+            //    console.log("over source", source);
+            //});
+
+            drake.on("shadow", (el, container, source) => {
+                //console.log("shadow el", el);
+                //console.log("shadow container", container);
+                //console.log("shadow source", source);
+                //container.querySelectorAll(".gu-transit").forEach(n => n.remove());
+                Array.from(container.children).forEach(c => {
+                    if (c.classList.contains("gu-transit"))
+                        c.remove();
+                });
+
+                Array.from(document.getElementsByClassName("drop-container"))
+                    .forEach(e => e.classList.remove("drop-container"));
+                container.classList.add("drop-container");
+                (el as HTMLElement).style.backgroundColor = "red";
+                (el as HTMLElement).style.color = "red";
+                console.log(el);
+            });
+
+            drake.on("drop", async (el, target, source, sibling) => {
+                //console.log("drop el", el);
+                //console.log("drop target", target);
+                //console.log("drop source", source);
+                //console.log("drop sibling", sibling);
+
+                if (!target) return;
+
+                const draggedItemName = source.getAttribute("data-name");
+                if (!draggedItemName) return;
+                const draggedItem = this.fsItems.get(draggedItemName);
+
+                const droppedOnItemName = target.getAttribute("data-name");
+                if (!droppedOnItemName) return;
+                const droppedOnItem = this.fsItems.get(droppedOnItemName);
+
+                const confirmed = this.settings.confirmOnMove
+                    ? await confirm(`Are you sure you want to move ${draggedItem.name} to ${droppedOnItem.name}?\n\n`
+                        + `From: ${draggedItem.path}\nTo: ${droppedOnItem.path}`)
+                    : true;
+
+                if (confirmed) {
+
+                    console.log("Moving from/to: ", draggedItem, droppedOnItem);
+                    this.fileService.move(draggedItem, droppedOnItem as Directory);
+                    this.fsItems.remove(draggedItem.name);
+                }
+
+                Array.from(document.getElementsByClassName("drop-container"))
+                    .forEach(e => e.classList.remove("drop-container"));
+            });
+
+        }, 1000);
     }
 
     public detaching() {

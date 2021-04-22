@@ -63,6 +63,12 @@ export class FileService {
         return items;
     }
 
+
+    public async move(source: FileSystemItem, target: Directory) {
+        //await system.fsx.move(source.path, system.path.join(target.path, source.name));
+        await system.fs.rename(source.path, system.path.join(target.path, source.name));
+    }
+
     public async moveToTrash(path: string) {
         return system.shell.moveItemToTrash(path, false);
     }
