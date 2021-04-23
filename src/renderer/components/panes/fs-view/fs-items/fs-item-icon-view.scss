@@ -1,6 +1,6 @@
 @import "../../../../style/colors.scss";
 
-fs-item-icon-view {
+fs-item-icon-view:not(.gu-mirror) {
     display: block;
     width: 100px;
     text-align: center;
@@ -72,7 +72,7 @@ fs-item-icon-view {
 
 fs-view:not(:focus) .fs-item {
     &.selected {
-        background: red;
+        background: rgb(232 232 232 / 0.65);
         border-color: transparent;
     }
 }

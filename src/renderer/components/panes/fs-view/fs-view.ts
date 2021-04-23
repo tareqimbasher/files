@@ -114,10 +114,12 @@ export class FsView {
                     numberIndicator.style.transform = "translateX(-50%) translateY(-50%)";
                     mirrorContainer.append(numberIndicator);
                 }
+
+                console.log("mirrorContainer", mirrorContainer.style);
             });
 
             this.drake.on("drop", async (el, target, source, sibling) => {
-                //console.log("drop", el, target);
+                console.log("drop", el, target);
 
                 document.querySelectorAll(".drop-container").forEach(n => n.classList.remove("drop-container"))
 
@@ -328,6 +330,17 @@ export class FsView {
             }
 
             // Handle when to unselect all selected items
+            if (fsItemElement) {
+                const itemName = fsItemElement.getAttribute("data-name");
+                if (itemName) {
+                    const item = this.fsItems.get(itemName);
+                    if (!item.isSelected) {
+                        this.fsItems.unselectAll();
+                        this.fsItems.select(item);
+                    }
+                }
+            }
+
             if (!ev.event?.ctrlKey && !fsItemElement && !UiUtil.hasOrParentHasClass(target, "context-menu")) {
                 this.fsItems.unselectAll();
             }
@@ -345,6 +358,7 @@ export class FsView {
 
             // Handle when a fs item is clicked
             if (fsItemElement) {
+                console.log("fsItemElement", !!fsItemElement, isDrag);
                 if (!isDrag) {
                     if (!ev.event?.ctrlKey)
                         this.fsItems.unselectAll();
@@ -360,6 +374,16 @@ export class FsView {
                     }
                 }
                 else {
+                    const itemName = fsItemElement.getAttribute("data-name");
+                    if (itemName) {
+                        const item = this.fsItems.get(itemName);
+                        console.log("item", item.name, item.isSelected);
+                        if (!item.isSelected) {
+                            this.fsItems.unselectAll();
+                            this.fsItems.select(item);
+                        }
+                    }
+
                     console.log("Cancelling");
                     selection.cancel(false);
                 }

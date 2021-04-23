@@ -16,6 +16,8 @@ fs-view {
     .ui.table, .ui.basic.table {
         position: relative;
         border: none;
+        padding-left: 20px;
+        padding-right: 50px;
 
         thead th {
             background-color: rgb(255, 255, 255);

@@ -3,21 +3,22 @@
     <bindable name="dblClick"></bindable>
 
     <tr dblClick.trigger="dblClick()"
-        class="fs-item fs-item-detail-view ${item.isSelected ? 'selected' : ''} ${item.isHidden ? 'hidden' : ''}"
-        data-name.bind="item.name">
-        <td class="collapsing">
+        class="fs-item fs-item-detail-view draggable ${item.isSelected ? 'selected' : ''} ${item.isHidden ? 'hidden' : ''}"
+        data-name.bind="item.name"
+        data-is-dir.bind="item.isDir">
+        <td class="">
             <div class="fs-item-icon">
                 <img src.bind="icon" class="ui middle aligned image" />
             </div>
             <span class="fs-item-name" title.bind="item.name">${item.name}</span>
         </td>
-        <td class="collapsing">
+        <td class="">
             ${item.dateModified.toLocaleDateString()} ${item.dateModified.toLocaleTimeString()}
         </td>
-        <td class="collapsing">
+        <td class="">
             ${item.isDir ? 'Folder' : (item.extension ? item.extension : 'File')}
         </td>
-        <td class="collapsing">
+        <td class="">
             ${item.isDir ? (item.itemCount + ' items') : ''}
             ${!item.isDir ? item.size : '' | fileSize}
         </td>
