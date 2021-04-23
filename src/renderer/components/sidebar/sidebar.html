@@ -11,9 +11,10 @@
                     <div class="header">PC</div>
                 </div>
             </div>
-            <div class="item selectable ${windowManager.panes.active.tabs.active.path == dir.path ? 'active' : ''}"
+            <div class="item selectable sidebar-item ${windowManager.panes.active.tabs.active.path == dir.path ? 'active' : ''}"
                  repeat.for="dir of pinned"
-                 click.trigger="windowManager.panes.active.tabs.active.setPath(dir.path)">
+                 click.trigger="windowManager.panes.active.tabs.active.setPath(dir.path)"
+                 data-path.bind="dir.path">
 
                 <i class="blue folder icon"></i>
                 <div class="middle aligned content">

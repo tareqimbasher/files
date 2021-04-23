@@ -18,6 +18,7 @@ export class FsView {
     private itemList!: HTMLElement;
     private contextMenu!: HTMLElement;
     private detaches: (() => void)[] = [];
+    public drake?: dragula.Drake;
 
     constructor(
         private readonly fileService: FileService,
@@ -33,143 +34,6 @@ export class FsView {
         this.initDragAndDrop();
     }
 
-    public drake!: dragula.Drake;
-
-    @watch((vm: FsView) => vm.tab.path)
-    private initDragAndDrop() {
-        if (this.drake) {
-            this.drake.destroy();
-        }
-
-        setTimeout(() => {
-            const fsItems = Array.from(document.getElementsByClassName("draggable"));
-
-            this.drake = dragula([], {
-                accepts: (el, target, source, sibling) => {
-                    return target?.getAttribute("data-is-dir") === "true" || target?.tagName === "ADDRESS-CRUMB";
-                },
-                copy: true
-            });
-
-            this.drake.containers.push(...fsItems);
-            this.drake.containers.push(...Array.from(document.querySelectorAll("address-bar address-crumb")));
-
-            //drake.on("over", (el, container, source) => {
-            //    console.log("over el", el);
-            //    console.log("over container", container);
-            //    console.log("over source", source);
-            //});
-
-            // DnD multiple items
-            // https://jsfiddle.net/jw5e4c3c/9/
-
-            this.drake.on("shadow", (el, container, source) => {
-
-                //container.querySelectorAll(".gu-transit").forEach(n => n.remove());
-                Array.from(container.children).forEach(c => {
-                    if (c.classList.contains("gu-transit"))
-                        c.remove();
-                });
-
-                document.querySelectorAll(".drop-container").forEach(n => n.classList.remove("drop-container"))
-
-                container.classList.add("drop-container");
-            });
-
-            this.drake.on("cloned", (clone, original, type) => {
-                //console.log("cloned", clone);
-
-                const mirrorContainer = document.getElementsByClassName("gu-mirror")[0] as HTMLElement;
-                //console.log("mirrorContainer", mirrorContainer);
-                if (!mirrorContainer) return;
-
-                mirrorContainer.classList.remove("fs-item");
-                mirrorContainer.classList.remove("selected");
-                mirrorContainer.style.opacity = "1";
-
-                const selectedItems = this.element.querySelectorAll(".fs-item.selected");
-                //console.log("selectedItems", selectedItems);
-
-                Array.from(mirrorContainer.children).forEach(e => e.remove());
-
-                selectedItems.forEach(item => {
-                    const cloned = item.cloneNode(true) as HTMLElement;
-                    cloned.classList.remove("selected");
-                    cloned.style.position = "absolute";
-                    cloned.querySelector(".fs-item-name")?.remove()
-                    cloned.querySelector(".fs-item-info")?.remove()
-                    mirrorContainer.append(cloned);
-                });
-
-                if (selectedItems.length > 1) {
-                    const numberIndicator = document.createElement("p")
-                    numberIndicator.innerHTML = selectedItems.length.toString();
-                    numberIndicator.style.backgroundColor = "dodgerblue";
-                    numberIndicator.style.color = "white";
-                    numberIndicator.style.fontWeight = "bold";
-                    numberIndicator.style.padding = "1px 5px";
-                    numberIndicator.style.position = "absolute";
-                    numberIndicator.style.top = "50%";
-                    numberIndicator.style.left = "50%";
-                    numberIndicator.style.transform = "translateX(-50%) translateY(-50%)";
-                    mirrorContainer.append(numberIndicator);
-                }
-
-                console.log("mirrorContainer", mirrorContainer.style);
-            });
-
-            this.drake.on("drop", async (el, target, source, sibling) => {
-                console.log("drop", el, target);
-
-                document.querySelectorAll(".drop-container").forEach(n => n.classList.remove("drop-container"))
-
-                if (!target) return;
-
-                const selected = [...this.fsItems.selected];
-                const itemsToMoveNames = selected.length == 1
-                    ? selected[0].name
-                    : (selected.length + " items");
-
-                let droppedOnItem: FileSystemItem;
-                const droppedOnItemName = target.getAttribute("data-name");
-                if (droppedOnItemName) {
-                    droppedOnItem = this.fsItems.get(droppedOnItemName);
-                }
-                else {
-                    const path = target.getAttribute("data-path");
-                    const index = target.getAttribute("data-path-index");
-                    if (path && index) {
-                        const pathToMoveTo = path.split(/[\\\/]/).slice(0, Number(index) + 1).join("/");
-                        console.log("pathToMoveTo", pathToMoveTo);
-                        droppedOnItem = new Directory(pathToMoveTo);
-                    }
-                    else {
-                        return;
-                    }
-                }
-
-                // If path being dropped on matches one of the selected items, cancel.
-                if (selected.find(s => s.path == droppedOnItem.path))
-                    return;
-
-                const confirmed = this.settings.confirmOnMove
-                    ? await confirm(`Are you sure you want to move ${itemsToMoveNames} to ${droppedOnItem.name}?`)
-                    : true;
-
-                if (confirmed) {
-                    for (let item of selected) {
-                        console.log("Moving from/to: ", item, droppedOnItem);
-                        this.fileService.move(item, droppedOnItem as Directory);
-                        this.fsItems.remove(item.name);
-                    }
-                }
-
-                Array.from(document.getElementsByClassName("drop-container"))
-                    .forEach(e => e.classList.remove("drop-container"));
-            });
-
-        }, 1500);
-    }
 
     public detaching() {
         this.detaches.forEach(f => f());
@@ -419,6 +283,133 @@ export class FsView {
         });
     }
 
+    @watch((vm: FsView) => vm.tab.path)
+    private async initDragAndDrop() {
+        if (this.drake) {
+            this.drake.destroy();
+            this.drake = undefined;
+        }
+
+        let fsItems = Array.from(document.getElementsByClassName("draggable"));
+        while (fsItems.length === 0) {
+            await new Promise(resolve => setTimeout(resolve, 100));
+            fsItems = Array.from(document.getElementsByClassName("draggable"));
+        }
+
+        this.drake = dragula([], {
+            accepts: (el, target, source, sibling) => {
+                return target?.getAttribute("data-is-dir") === "true"
+                    || target?.tagName === "ADDRESS-CRUMB"
+                    || target?.classList.contains("sidebar-item") === true;;
+            },
+            copy: true
+        });
+
+        this.drake.containers.push(...fsItems);
+        this.drake.containers.push(...Array.from(document.querySelectorAll("address-bar address-crumb")));
+        this.drake.containers.push(...Array.from(document.querySelectorAll("sidebar .sidebar-item")));
+
+
+        this.drake.on("shadow", (el, container, source) => {
+            // Dragula adds the dragged items by default into the target container DOM, remove it
+            container.querySelectorAll(".gu-transit").forEach(n => n.remove());
+
+            // Style the container we are hover over with the dragged items
+            document.querySelectorAll(".drop-container").forEach(n => n.classList.remove("drop-container"))
+            container.classList.add("drop-container");
+        });
+
+        this.drake.on("cloned", (clone, original, type) => {
+
+            const mirrorContainer = document.getElementsByClassName("gu-mirror")[0] as HTMLElement;
+            if (!mirrorContainer) return;
+
+            Array.from(mirrorContainer.children).forEach(e => e.remove());
+            mirrorContainer.classList.remove("fs-item");
+            mirrorContainer.classList.remove("selected");
+            mirrorContainer.style.opacity = "1";
+
+            const selectedItems = this.element.querySelectorAll(".fs-item.selected");
+
+            selectedItems.forEach(item => {
+                const cloned = item.cloneNode(true) as HTMLElement;
+                cloned.classList.remove("selected");
+                cloned.style.position = "absolute";
+                cloned.querySelector(".fs-item-name")?.remove()
+                cloned.querySelector(".fs-item-info")?.remove()
+                mirrorContainer.append(cloned);
+            });
+
+            if (selectedItems.length > 1) {
+                const numberIndicator = document.createElement("p")
+                numberIndicator.innerHTML = selectedItems.length.toString();
+                numberIndicator.style.backgroundColor = "dodgerblue";
+                numberIndicator.style.color = "white";
+                numberIndicator.style.fontWeight = "bold";
+                numberIndicator.style.padding = "1px 5px";
+                numberIndicator.style.position = "absolute";
+                numberIndicator.style.top = "50%";
+                numberIndicator.style.left = "50%";
+                numberIndicator.style.transform = "translateX(-50%) translateY(-50%)";
+                mirrorContainer.append(numberIndicator);
+            }
+        });
+
+        this.drake.on("drop", async (el, target, source, sibling) => {
+
+            document.querySelectorAll(".drop-container").forEach(n => n.classList.remove("drop-container"))
+
+            if (!target) return;
+
+            const selected = [...this.fsItems.selected];
+
+            // Items could be dropped onto a folder or on the address bar
+            let droppedOnItem: FileSystemItem | null;
+
+            // If dropped on a folder, the target will have a data-name attribute
+            droppedOnItem = this.getFsItem(target);
+
+            // If dropped on the address bar, the address crumb items were dropped onto will have data-path and data-index attributes
+            if (!droppedOnItem) {
+                const path = target.getAttribute("data-path");
+                const index = target.getAttribute("data-path-index");
+                if (path && index) {
+                    const pathToMoveTo = path.split(/[\\/]/).slice(0, Number(index) + 1).join("/");
+                    droppedOnItem = new Directory(pathToMoveTo);
+                }
+                else if (path && !index) {
+                    droppedOnItem = new Directory(path);
+                }
+            }
+
+            if (!droppedOnItem)
+                return;
+
+            // If the path being dropped on matches one of the selected items, cancel.
+            if (selected.find(s => s.path == droppedOnItem!.path))
+                return;
+
+            const draggedItemsNames = selected.length == 1
+                ? selected[0].name
+                : (selected.length + " items");
+
+            const confirmed = this.settings.confirmOnMove
+                ? await confirm(`Are you sure you want to move ${draggedItemsNames} to ${droppedOnItem.name}?`)
+                : true;
+
+            if (confirmed) {
+                for (const item of selected) {
+                    console.log("Moving from/to: ", item, droppedOnItem);
+                    this.fileService.move(item, droppedOnItem as Directory);
+                    this.fsItems.remove(item.name);
+                }
+            }
+
+            Array.from(document.getElementsByClassName("drop-container"))
+                .forEach(e => e.classList.remove("drop-container"));
+        });
+    }
+
     private toggleContextMenu(behavior: "show" | "hide", x: number | undefined = undefined, y: number | undefined = undefined) {
 
         const currentlyShowing = this.contextMenu.classList.contains("visible");
@@ -451,5 +442,16 @@ export class FsView {
         }
         else if (behavior == "hide" && currentlyShowing)
             this.contextMenu.classList.remove("visible");
+    }
+
+    private getFsItem(element: Element | HTMLElement | undefined | null): FileSystemItem | null {
+        if (!element)
+            return null;
+
+        const itemName = element.getAttribute("data-name");
+        if (!itemName)
+            return null;
+
+        return this.fsItems.get(itemName);
     }
 }
