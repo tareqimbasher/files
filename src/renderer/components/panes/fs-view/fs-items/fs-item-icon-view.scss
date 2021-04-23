@@ -78,7 +78,7 @@ fs-view:not(:focus) .fs-item {
 }
 
 .dark {
-    fs-item:hover:not(.selected) {
+    fs-item-icon-view:hover:not(.selected) {
         background: $dark-hover-color;
     }
 
