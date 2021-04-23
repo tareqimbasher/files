@@ -1,4 +1,4 @@
-import { bindable, ILogger } from "aurelia";
+import { bindable, ILogger, watch } from "aurelia";
 import { Tab } from "../tabs/tab";
 import SelectionArea from "@simonwep/selection-js";
 import {
@@ -30,20 +30,29 @@ export class FsView {
     public attached() {
         this.bindMouseEvents();
         this.bindKeyboardEvents();
+        this.initDragAndDrop();
+    }
+
+    public drake!: dragula.Drake;
+
+    @watch((vm: FsView) => vm.tab.path)
+    private initDragAndDrop() {
+        if (this.drake) {
+            this.drake.destroy();
+        }
 
         setTimeout(() => {
             const fsItems = Array.from(document.getElementsByClassName("draggable"));
-            const folders = fsItems.filter(e => e.getAttribute("data-dir") === "true");
 
-            console.log(fsItems);
-            const drake = dragula([], {
+            this.drake = dragula([], {
                 accepts: (el, target, source, sibling) => {
-                    return target?.getAttribute("data-is-dir") === "true";
+                    return target?.getAttribute("data-is-dir") === "true" || target?.tagName === "ADDRESS-CRUMB";
                 },
                 copy: true
             });
 
-            drake.containers.push(...fsItems);
+            this.drake.containers.push(...fsItems);
+            this.drake.containers.push(...Array.from(document.querySelectorAll("address-bar address-crumb")));
 
             //drake.on("over", (el, container, source) => {
             //    console.log("over el", el);
@@ -54,7 +63,8 @@ export class FsView {
             // DnD multiple items
             // https://jsfiddle.net/jw5e4c3c/9/
 
-            drake.on("shadow", (el, container, source) => {
+            this.drake.on("shadow", (el, container, source) => {
+
                 //container.querySelectorAll(".gu-transit").forEach(n => n.remove());
                 Array.from(container.children).forEach(c => {
                     if (c.classList.contains("gu-transit"))
@@ -66,40 +76,90 @@ export class FsView {
                 container.classList.add("drop-container");
             });
 
-            drake.on("cloned", (clone, original, type) => {
+            this.drake.on("cloned", (clone, original, type) => {
+                //console.log("cloned", clone);
 
-                const mirrorContainer = document.getElementsByClassName(".gu-mirror");
-                console.log(mirrorContainer);
+                const mirrorContainer = document.getElementsByClassName("gu-mirror")[0] as HTMLElement;
+                //console.log("mirrorContainer", mirrorContainer);
+                if (!mirrorContainer) return;
 
+                mirrorContainer.classList.remove("fs-item");
+                mirrorContainer.classList.remove("selected");
+                mirrorContainer.style.opacity = "1";
+
+                const selectedItems = this.element.querySelectorAll(".fs-item.selected");
+                //console.log("selectedItems", selectedItems);
+
+                Array.from(mirrorContainer.children).forEach(e => e.remove());
+
+                selectedItems.forEach(item => {
+                    const cloned = item.cloneNode(true) as HTMLElement;
+                    cloned.classList.remove("selected");
+                    cloned.style.position = "absolute";
+                    cloned.querySelector(".fs-item-name")?.remove()
+                    cloned.querySelector(".fs-item-info")?.remove()
+                    mirrorContainer.append(cloned);
+                });
+
+                if (selectedItems.length > 1) {
+                    const numberIndicator = document.createElement("p")
+                    numberIndicator.innerHTML = selectedItems.length.toString();
+                    numberIndicator.style.backgroundColor = "dodgerblue";
+                    numberIndicator.style.color = "white";
+                    numberIndicator.style.fontWeight = "bold";
+                    numberIndicator.style.padding = "1px 5px";
+                    numberIndicator.style.position = "absolute";
+                    numberIndicator.style.top = "50%";
+                    numberIndicator.style.left = "50%";
+                    numberIndicator.style.transform = "translateX(-50%) translateY(-50%)";
+                    mirrorContainer.append(numberIndicator);
+                }
             });
 
-            drake.on("drop", async (el, target, source, sibling) => {
-                //console.log("drop el", el);
-                //console.log("drop target", target);
-                //console.log("drop source", source);
-                //console.log("drop sibling", sibling);
+            this.drake.on("drop", async (el, target, source, sibling) => {
+                //console.log("drop", el, target);
+
                 document.querySelectorAll(".drop-container").forEach(n => n.classList.remove("drop-container"))
 
                 if (!target) return;
 
-                const draggedItemName = source.getAttribute("data-name");
-                if (!draggedItemName) return;
-                const draggedItem = this.fsItems.get(draggedItemName);
+                const selected = [...this.fsItems.selected];
+                const itemsToMoveNames = selected.length == 1
+                    ? selected[0].name
+                    : (selected.length + " items");
 
+                let droppedOnItem: FileSystemItem;
                 const droppedOnItemName = target.getAttribute("data-name");
-                if (!droppedOnItemName) return;
-                const droppedOnItem = this.fsItems.get(droppedOnItemName);
+                if (droppedOnItemName) {
+                    droppedOnItem = this.fsItems.get(droppedOnItemName);
+                }
+                else {
+                    const path = target.getAttribute("data-path");
+                    const index = target.getAttribute("data-path-index");
+                    if (path && index) {
+                        const pathToMoveTo = path.split(/[\\\/]/).slice(0, Number(index) + 1).join("/");
+                        console.log("pathToMoveTo", pathToMoveTo);
+                        droppedOnItem = new Directory(pathToMoveTo);
+                    }
+                    else {
+                        return;
+                    }
+                }
+
+                // If path being dropped on matches one of the selected items, cancel.
+                if (selected.find(s => s.path == droppedOnItem.path))
+                    return;
 
                 const confirmed = this.settings.confirmOnMove
-                    ? await confirm(`Are you sure you want to move ${draggedItem.name} to ${droppedOnItem.name}?\n\n`
-                        + `From: ${draggedItem.path}\nTo: ${droppedOnItem.path}`)
+                    ? await confirm(`Are you sure you want to move ${itemsToMoveNames} to ${droppedOnItem.name}?`)
                     : true;
 
                 if (confirmed) {
-
-                    console.log("Moving from/to: ", draggedItem, droppedOnItem);
-                    //this.fileService.move(draggedItem, droppedOnItem as Directory);
-                    //this.fsItems.remove(draggedItem.name);
+                    for (let item of selected) {
+                        console.log("Moving from/to: ", item, droppedOnItem);
+                        this.fileService.move(item, droppedOnItem as Directory);
+                        this.fsItems.remove(item.name);
+                    }
                 }
 
                 Array.from(document.getElementsByClassName("drop-container"))
@@ -227,9 +287,10 @@ export class FsView {
         this.detaches.push(() => selection.destroy());
 
         selection.on("beforestart", ev => {
+            console.log("beforestart");
 
             const target = ev.event?.target as HTMLElement;
-            const fsItemElement = UiUtil.closestParentWithClass(target, "fs-item");
+            const fsItemElement = UiUtil.selfOrClosestParentWithClass(target, "fs-item");
 
             // Handle right-click actions
             if (ev.event instanceof MouseEvent) {
@@ -266,47 +327,63 @@ export class FsView {
                     return false;
             }
 
-            //const ifTrueDoNotUnselectAll =
-            //    (ev.event?.ctrlKey && fsItemElement)
-            //    || (UiUtil.hasOrParentHasClass(target, "context-menu"))
-
-            //if (!ifTrueDoNotUnselectAll) {
-            //    this.fsItems.unselectAll();
-            //}
-
-            if (fsItemElement)
-                return false;
+            // Handle when to unselect all selected items
+            if (!ev.event?.ctrlKey && !fsItemElement && !UiUtil.hasOrParentHasClass(target, "context-menu")) {
+                this.fsItems.unselectAll();
+            }
 
             return true;
 
         }).on("start", ev => {
 
-            // When selection starts if CTRL key is not held, clear all selection
-            if (!ev.event?.ctrlKey) {
-                this.fsItems.unselectAll();
+            const isDrag = ev.event?.type === "mousemove";
+            console.log("start", ev);
+
+            const target = ev.event?.target as HTMLElement;
+            const fsItemElement = UiUtil.selfOrClosestParentWithClass(target, "fs-item")
+                ?? UiUtil.selfOrClosestParentWithClass(target, "gu-mirror");
+
+            // Handle when a fs item is clicked
+            if (fsItemElement) {
+                if (!isDrag) {
+                    if (!ev.event?.ctrlKey)
+                        this.fsItems.unselectAll();
+
+                    const itemName = fsItemElement.getAttribute("data-name");
+                    if (itemName) {
+                        const item = this.fsItems.get(itemName);
+
+                        if (ev.event?.ctrlKey)
+                            this.fsItems.inverseSelection(item);
+                        else
+                            this.fsItems.select(item);
+                    }
+                }
+                else {
+                    console.log("Cancelling");
+                    selection.cancel(false);
+                }
             }
 
         }).on("move", ev => {
+
+            // If ev.event is null/undefined then it is not a drag event, it is a single click event
+            // We only want to handle drag/move events here
+            if (!ev.event)
+                return;
+
+            const event = ev.event;
 
             ev.store.changed.added.forEach(target => {
                 const itemName = target.getAttribute("data-name");
                 if (itemName) {
                     const item = this.fsItems.get(itemName);
 
-                    // When ev.event is null, that means the user click-selected a single item, it is not a drag action.
-                    // In this case we want to inverse the current selection of the item. If CTRL is not held the item
-                    // would not be selected because we would have cleared selection in the 'start' event, and this will select the item.
-                    // If CTRL is held, then this will inverse the selection of this element.
-                    if (!ev.event) {
+                    // The user is drag selecting
+                    if (event.ctrlKey)
                         this.fsItems.inverseSelection(item);
-                    }
-                    else {
-                        // The user is drag selecting
-                        if (ev.event.ctrlKey)
-                            this.fsItems.inverseSelection(item);
-                        else
-                            this.fsItems.select(item);
-                    }
+                    else
+                        this.fsItems.select(item);
                 }
             });
 

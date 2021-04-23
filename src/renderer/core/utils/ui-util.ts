@@ -57,10 +57,10 @@ export class UiUtil {
         }
     }
 
-    public static closestParentWithClass(element: HTMLElement | null, className: string): HTMLElement | null {
+    public static selfOrClosestParentWithClass(element: HTMLElement | null, className: string): HTMLElement | null {
         if (element === null) return null;
         if (element.classList.contains(className)) return element;
-        return UiUtil.closestParentWithClass(element.parentElement, className);
+        return UiUtil.selfOrClosestParentWithClass(element.parentElement, className);
     }
 
     public static hasOrParentHasClass(element: HTMLElement | null, className: string): boolean {

@@ -72,7 +72,7 @@ fs-item-icon-view {
 
 fs-view:not(:focus) .fs-item {
     &.selected {
-        background: rgb(232 232 232 / 0.65);
+        background: red;
         border-color: transparent;
     }
 }

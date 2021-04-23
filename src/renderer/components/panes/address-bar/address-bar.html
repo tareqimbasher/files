@@ -62,7 +62,9 @@
                                    click.trigger="addressPartSelected($index)"
                                    part.bind="part"
                                    last.bind="$last"
-                                   if.bind="!!part"></address-crumb>
+                                   if.bind="!!part"
+                                   data-path="${pane.tabs.active.path}"
+                                   data-path-index="${$index}"></address-crumb>
                 </div>
 
                 <!--PATH INPUT-->
