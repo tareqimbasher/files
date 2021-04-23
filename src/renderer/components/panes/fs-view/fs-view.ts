@@ -6,7 +6,6 @@ import {
 } from "../../../core";
 import dragula from "dragula";
 import "dragula/dist/dragula.css";
-import { access } from "fs";
 
 export class FsView {
 
@@ -153,16 +152,17 @@ export class FsView {
         this.detaches.push(() => selection.destroy());
 
         selection.on("beforestart", ev => {
-            console.log("beforestart");
 
             const target = ev.event?.target as HTMLElement;
             const fsItemElement = UiUtil.selfOrClosestParentWithClass(target, "fs-item");
+            const fsItem = this.getFsItem(fsItemElement);
+            const ctrlKey = ev.event?.ctrlKey ?? false;
 
             // Handle right-click actions
             if (ev.event instanceof MouseEvent) {
                 if (ev.event.which == 3) {
                     if (fsItemElement) {
-                        if (!ev.event.ctrlKey) {
+                        if (!ctrlKey) {
                             const itemName = fsItemElement.getAttribute("data-name")!;
                             const item = this.fsItems.get(itemName);
 
@@ -193,19 +193,17 @@ export class FsView {
                     return false;
             }
 
-            // Handle when to unselect all selected items
-            if (fsItemElement) {
-                const itemName = fsItemElement.getAttribute("data-name");
-                if (itemName) {
-                    const item = this.fsItems.get(itemName);
-                    if (!item.isSelected) {
-                        this.fsItems.unselectAll();
-                        this.fsItems.select(item);
-                    }
-                }
+            // If clicking on a fsitem that isn't selected and without the CTRL key
+            // We handle this here instead of in the start event becuase we need to handle this
+            // early enough for the drag and drop mechanism to pick it up as a selected item
+            if (fsItem && !fsItem.isSelected && !ctrlKey) {
+                this.fsItems.unselectAll();
+                this.fsItems.select(fsItem);
             }
 
-            if (!ev.event?.ctrlKey && !fsItemElement && !UiUtil.hasOrParentHasClass(target, "context-menu")) {
+            // If we aren't clicking a fsitem with the CTRL key and we aren't selecting a context-menu option
+            // deselect all items
+            if (!ctrlKey && !fsItem && !UiUtil.hasOrParentHasClass(target, "context-menu")) {
                 this.fsItems.unselectAll();
             }
 
@@ -214,41 +212,29 @@ export class FsView {
         }).on("start", ev => {
 
             const isDrag = ev.event?.type === "mousemove";
-            console.log("start", ev);
-
+            const ctrlKey = ev.event?.ctrlKey ?? false;
             const target = ev.event?.target as HTMLElement;
             const fsItemElement = UiUtil.selfOrClosestParentWithClass(target, "fs-item")
                 ?? UiUtil.selfOrClosestParentWithClass(target, "gu-mirror");
+            const fsItem = this.getFsItem(fsItemElement);
+
 
             // Handle when a fs item is clicked
-            if (fsItemElement) {
-                console.log("fsItemElement", !!fsItemElement, isDrag);
+            if (fsItem) {
                 if (!isDrag) {
-                    if (!ev.event?.ctrlKey)
+                    if (!ctrlKey) {
                         this.fsItems.unselectAll();
-
-                    const itemName = fsItemElement.getAttribute("data-name");
-                    if (itemName) {
-                        const item = this.fsItems.get(itemName);
-
-                        if (ev.event?.ctrlKey)
-                            this.fsItems.inverseSelection(item);
-                        else
-                            this.fsItems.select(item);
+                        this.fsItems.select(fsItem);
                     }
+                    else
+                        this.fsItems.inverseSelection(fsItem);
                 }
                 else {
-                    const itemName = fsItemElement.getAttribute("data-name");
-                    if (itemName) {
-                        const item = this.fsItems.get(itemName);
-                        console.log("item", item.name, item.isSelected);
-                        if (!item.isSelected) {
-                            this.fsItems.unselectAll();
-                            this.fsItems.select(item);
-                        }
+                    if (!fsItem.isSelected) {
+                        this.fsItems.unselectAll();
+                        this.fsItems.select(fsItem);
                     }
 
-                    console.log("Cancelling");
                     selection.cancel(false);
                 }
             }
@@ -263,28 +249,26 @@ export class FsView {
             const event = ev.event;
 
             ev.store.changed.added.forEach(target => {
-                const itemName = target.getAttribute("data-name");
-                if (itemName) {
-                    const item = this.fsItems.get(itemName);
-
-                    // The user is drag selecting
+                const fsItem = this.getFsItem(target);
+                if (fsItem) {
                     if (event.ctrlKey)
-                        this.fsItems.inverseSelection(item);
+                        this.fsItems.inverseSelection(fsItem);
                     else
-                        this.fsItems.select(item);
+                        this.fsItems.select(fsItem);
                 }
             });
 
             ev.store.changed.removed.forEach(target => {
-                const itemName = target.getAttribute("data-name");
-                if (itemName)
-                    this.fsItems.unselect(this.fsItems.get(itemName));
+                const fsItem = this.getFsItem(target);
+                if (fsItem)
+                    this.fsItems.unselect(fsItem);
             });
         });
     }
 
     @watch((vm: FsView) => vm.tab.path)
     private async initDragAndDrop() {
+        
         if (this.drake) {
             this.drake.destroy();
             this.drake = undefined;
