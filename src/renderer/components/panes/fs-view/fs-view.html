@@ -6,7 +6,7 @@
     <div ref="itemList"
          if.bind="settings.fileViewType === 'Icons'"
          class="ui horizontal ${settings.inverted} list">
-        <div class="top aligned item draggable"
+        <div class="top aligned item draggable ${fsItem.isSelected ? 'selected' : ''}"
              repeat.for="fsItem of fsItems.view"
              data-name.bind="fsItem.name"
              data-is-dir.bind="fsItem.isDir">

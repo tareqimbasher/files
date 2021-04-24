@@ -94,8 +94,8 @@ export class FsView {
         if (!ev.ctrlKey && !ev.shiftKey)
             this.fsItems.unselectAll();
 
-        UiUtil.navigateGrid(this.itemList, "selected", direction, nextItemIndex => {
-            console.log(nextItemIndex);
+        UiUtil.navigateGrid(this.itemList, ".draggable.selected", direction, nextItemIndex => {
+            //console.log(nextItemIndex);
             const item = this.fsItems.view[nextItemIndex];
             if (!ev.ctrlKey) {
                 this.fsItems.select(item);
@@ -152,6 +152,8 @@ export class FsView {
         this.detaches.push(() => selection.destroy());
 
         selection.on("beforestart", ev => {
+
+            this.element.focus();
 
             const target = ev.event?.target as HTMLElement;
             const fsItemElement = UiUtil.selfOrClosestParentWithClass(target, "fs-item");

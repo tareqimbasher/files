@@ -1,9 +1,9 @@
 export class UiUtil {
     public static navigateGrid(
         grid: Element,
-        activeItemClass: string,
+        activeItemSelector: string,
         direction: "up" | "down" | "right" | "left",
-        select: (nextItemIndex: number) => void) {
+        select: (nextItemIndex: number) => void): void {
 
         // Get all grid children (items to select from)
         const gridChildren = Array.from(grid.children) as HTMLElement[];
@@ -14,7 +14,7 @@ export class UiUtil {
             return;
 
         // Get the currently selected item(s)
-        const selected = grid.querySelectorAll(`.${activeItemClass}`);
+        const selected = grid.querySelectorAll(activeItemSelector);
 
         // If no item(s) currently selected, select the first child in the grid
         if (selected.length == 0) {
