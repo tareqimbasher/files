@@ -1,6 +1,8 @@
-# files
+# Files
 
 A cross-platform file manager that features panes and tabs and more.
+
+(**Still under development**)
 
 ## Getting Started
 
