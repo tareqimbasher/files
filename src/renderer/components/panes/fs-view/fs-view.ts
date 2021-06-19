@@ -2,6 +2,7 @@ import { bindable, ILogger, watch } from "aurelia";
 import { Tab } from "../tabs/tab";
 import SelectionArea from "@simonwep/selection-js";
 import {
+    delay,
     Directory, FileService, FileSystemItem, FsItems, KeyCode, Settings, system, UiUtil, Util
 } from "../../../core";
 import dragula from "dragula";
@@ -270,11 +271,19 @@ export class FsView {
 
     @watch((vm: FsView) => vm.tab.path)
     private async initDragAndDrop() {
-        
-        if (this.drake) {
-            this.drake.destroy();
-            this.drake = undefined;
-        }
+
+        const destroyDnd = () => {
+            if (this.drake) {
+                this.drake.destroy();
+                this.drake = undefined;
+            }
+        };
+
+        this.detaches.push(() => { destroyDnd(); });
+        destroyDnd();
+
+        // HACK: to wait for files to load into DOM
+        await delay(1000);
 
         let fsItems = Array.from(document.getElementsByClassName("draggable"));
         while (fsItems.length === 0) {

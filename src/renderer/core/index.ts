@@ -1,3 +1,4 @@
+export * from './global';
 export * from './settings';
 export * from './profiles/profile';
 export * from './data/dictionary';
