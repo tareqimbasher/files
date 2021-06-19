@@ -1,3 +1,4 @@
+import { Stats } from 'fs';
 import * as pathUtil from 'path';
 import { FileType } from "./file-system-item-type";
 
@@ -31,5 +32,11 @@ export abstract class FileSystemItem {
         if (info.size || info.size == 0) this.size = info.size;
         if (info.dateModified) this.dateModified = info.dateModified;
         if (info.dateCreated) this.dateCreated = info.dateCreated;
+    }
+
+    public updateInfo(stats: Stats) {
+        if (stats.size || stats.size == 0) this.size = stats.size;
+        if (stats.mtime) this.dateModified = stats.mtime;
+        if (stats.birthtime) this.dateCreated = stats.birthtime;
     }
 }

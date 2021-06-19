@@ -1,6 +1,8 @@
 ﻿import { EventAggregator, IContainer, IDisposable, IEventAggregator } from "aurelia";
 import { FileService, FileSystemItem, FsItems, Settings, system, Util } from "../../../core";
 import { Tabs } from "./tabs";
+import * as chokidar from "chokidar";
+import { Stats } from "fs";
 
 export class Tab implements IDisposable {
     public id: string;
@@ -15,7 +17,8 @@ export class Tab implements IDisposable {
     private fileService: FileService;
     private settings: Settings;
     private eventBus: IEventAggregator;
-    private disposables: IDisposable[] = [];
+    private disposables: (() => void)[] = [];
+    private fsWatcher: chokidar.FSWatcher | undefined;
 
     constructor(public tabs: Tabs, path: string, private container: IContainer) {
         this.id = Util.newGuid();
@@ -23,23 +26,30 @@ export class Tab implements IDisposable {
         this.settings = container.get(Settings);;
         this.fsItems = new FsItems();
         this.eventBus = container.get(EventAggregator)
-        this.disposables.push(
-            this.eventBus.subscribe('show-hidden-changed', () => this.fsItems.updateView(this.settings.showHiddenFiles)));
+
+        const token = this.eventBus.subscribe('show-hidden-changed', () => this.fsItems.updateView(this.settings.showHiddenFiles))
+        this.disposables.push(() => token.dispose());
 
         this.history = new TabHistory(path);
         this.setPath(this.history.current);
     }
 
-    public setPath(state: TabHistoryState) : void;
+    public setPath(state: TabHistoryState): void;
     public setPath(path: string): void;
 
-    public setPath(path: string | TabHistoryState) {
-        if (!path)
+    public setPath(pathOrHistoryState: string | TabHistoryState) {
+        if (!pathOrHistoryState)
             throw new Error("path is null or undefined.");
 
         this.history.current.remember(this.fsItems);
 
-        if (typeof path === 'string') {
+        const oldPath = this.path;
+        let newPath: string;
+
+        if (typeof pathOrHistoryState === 'string') {
+
+            let path = pathOrHistoryState as string;
+
             // Handle special path locations
             if (path.startsWith("~"))
                 path = path.replace("~", system.os.homedir());
@@ -57,42 +67,23 @@ export class Tab implements IDisposable {
             if (this.path == path)
                 return;
 
-            this.path = this.history.set(new TabHistoryState(path)).path;
+            newPath = this.history.set(new TabHistoryState(path)).path;
         }
         else {
-            this.path = this.history.set(path).path;
+            newPath = this.history.set(pathOrHistoryState).path;
         }
-        
-        this.pathChanged();
+
+        this.path = newPath;
+        this.pathChanged(oldPath, this.path);
     }
 
-    private async pathChanged() {
-        this.pathName = system.path.basename(this.path);
-        if (!this.pathName.trim()) this.pathName = this.path;
+    private async pathChanged(oldPath: string, newPath: string) {
+        this.pathName = system.path.basename(newPath);
+        if (!this.pathName.trim()) this.pathName = newPath;
 
-        this.pathParts = this.path.split(/[/\\]+/);
+        //this.pathParts = newPath.split(/[/\\]+/);
 
-
-
-
-        performance.mark("pathChangedStart");
-        //chokidar.watch('');
-        let fsItems = await this.fileService.list(this.path);
-        this.fsItems.clear();
-        this.fsItems.addOrSetRange(...fsItems.map(f => {
-            return {
-                key: f.name,
-                value: f
-            };
-        }));
-        this.fsItems.updateView(this.settings.showHiddenFiles);
-
-        performance.mark("pathChangedEnd");
-        performance.measure('pathChanged', 'pathChangedStart', 'pathChangedEnd');
-        console.warn(performance.getEntriesByName('pathChanged').slice(-1)[0]);
-
-
-
+        await this.updateFileListing(newPath);
 
         this.history.current.restore(this.fsItems);
     }
@@ -126,7 +117,127 @@ export class Tab implements IDisposable {
     }
 
     public dispose(): void {
-        this.disposables.forEach(d => d.dispose());
+        this.disposables.forEach(d => d());
+    }
+
+    private async updateFileListing(newPath: string) {
+        performance.clearMarks();
+        performance.mark("tab.getfiles.start");
+
+        let fsItems = await this.fileService.list(newPath);
+        this.fsItems.clear();
+
+
+        performance.mark("tab.fsItems.addOrSetRange.start");
+        this.fsItems.addOrSetRange(...fsItems.map(f => {
+            return {
+                key: f.name,
+                value: f
+            };
+        }));
+        performance.mark("tab.fsItems.addOrSetRange.end");
+
+
+        performance.mark("tab.fsItems.updateView.start");
+        this.fsItems.updateView(this.settings.showHiddenFiles);
+        performance.mark("tab.fsItems.updateView.end");
+
+
+        const itemAdded = async (itemPath: string, stats: Stats | undefined) => {
+            const name = system.path.basename(itemPath);
+
+            if (this.fsItems.containsKey(name))
+                return;
+
+            const item = await this.fileService.createFileSystemItem(
+                itemPath,
+                stats,
+                this.fileService.getUnixMethodItemAttributes(name)
+            );
+
+            if (!item) {
+                return;
+            }
+
+            this.fsItems.addOrSet(item.name, item);
+            this.fsItems.updateView(this.settings.showHiddenFiles);
+        }
+
+        const itemRemoved = async (itemPath: string) => {
+            const name = system.path.basename(itemPath);
+
+            if (!this.fsItems.containsKey(name))
+                return;
+
+            this.fsItems.remove(name);
+            this.fsItems.updateView(this.settings.showHiddenFiles);
+        }
+
+
+
+        if (!this.fsWatcher) {
+            this.fsWatcher = chokidar.watch(newPath, {
+                depth: 0,
+                persistent: true,
+                awaitWriteFinish: true
+            });
+            this.disposables.push(() => this.fsWatcher?.close());
+        }
+        else {
+            await this.fsWatcher.close();
+            this.fsWatcher.add(newPath);
+        }
+
+        this.fsWatcher
+            .on('add', async (path, stats) => {
+                //console.log(`File ${path} has been added`, stats);
+                itemAdded(path, stats);
+            })
+            .on('change', (path, stats) => {
+                //console.log(`File ${path} has been changed`, stats);
+                const item = this.fsItems.get(system.path.basename(path));
+                if (stats)
+                    item.updateInfo(stats);
+            })
+            .on('unlink', path => {
+                //console.log(`File ${path} has been removed`);
+                itemRemoved(path);
+            })
+            .on('addDir', async (path, stats) => {
+                //console.log(`Directory ${path} has been added`, stats);
+                itemAdded(path, stats);
+            })
+            .on('unlinkDir', path => {
+                //console.log(`Directory ${path} has been removed`);
+                itemRemoved(path);
+            })
+            .on('error', error => console.log(`Watcher error: ${error}`));
+
+        performance.mark("tab.getfiles.end");
+
+
+        const showPerfInfo = false;
+
+        if (showPerfInfo) {
+            const marks = Array.from(performance.getEntriesByType("mark"));
+            for (let item of marks) {
+                if (item.name.endsWith('.start')) continue;
+
+                const endMark = item;
+                const measurementName = endMark.name.split('.').slice(0, -1).join('.');
+                const startMarkName = measurementName + '.start';
+                const startMark = marks.find(m => m.name == startMarkName);
+
+                if (!startMark) throw new Error("Could not find start mark for: " + endMark.name);
+                performance.measure(measurementName, startMark.name, endMark.name);
+
+                const measurement = performance.getEntriesByName(measurementName).slice(-1)[0];
+                console.warn({
+                    name: measurement.name,
+                    duration: measurement.duration
+                });
+            }
+        }
     }
 }
 

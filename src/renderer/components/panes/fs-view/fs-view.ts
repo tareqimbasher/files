@@ -83,10 +83,6 @@ export class FsView {
                     break;
                 }
             }
-
-            for (const item of removedItems) {
-                this.fsItems.remove(item.name);
-            }
         }
     }
 
@@ -396,7 +392,6 @@ export class FsView {
                 for (const item of selected) {
                     console.log("Moving from/to: ", item, droppedOnItem);
                     this.fileService.move(item, droppedOnItem as Directory);
-                    this.fsItems.remove(item.name);
                 }
             }
 

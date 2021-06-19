@@ -7,6 +7,7 @@ import { SymbolicLink } from './symbolic-link';
 import { exec } from "child_process";
 import { Dictionary } from '../data/dictionary';
 import { ILogger } from 'aurelia';
+import { Stats } from 'fs';
 
 export class FileService {
 
@@ -14,55 +15,75 @@ export class FileService {
     }
 
     public async list(dirPath: string): Promise<FileSystemItem[]> {
+        performance.mark("fileservice.list.fs.readdir.start");
         let itemNames = await system.fs.readdir(dirPath);
+        performance.mark("fileservice.list.fs.readdir.end");
 
-        let itemInfos = system.platform == "win32" ?
-            await this.getWinInfo(dirPath) :
-            this.getUnixInfo(itemNames);
+        performance.mark("fileservice.list.getDirItemAttributes.start");
+        let itemAttributes = await this.getDirItemAttributes(dirPath, itemNames);
+        performance.mark("fileservice.list.getDirItemAttributes.end");
 
+
+        performance.mark("fileservice.list.createItems.start");
         let items: FileSystemItem[] = [];
         for (let name of itemNames) {
-            let path = pathUtil.join(dirPath, name);
-            try {
-                let stats = await system.fs.stat(path);
-                let item: FileSystemItem;
 
-                if (stats.isFile()) {
-                    item = new File(path);
-                }
-                else if (stats.isDirectory()) {
-                    item = new Directory(path);
-                }
-                else if (stats.isSymbolicLink()) {
-                    item = new SymbolicLink(path);
-                }
-                else
-                    continue;
+            let attributes;
 
-                item.setInfo({
-                    size: stats.size,
-                    dateModified: stats.mtime,
-                    dateCreated: stats.birthtime
-                });
-
-                if (itemInfos.containsKey(name)) {
-                    let itemInfo = itemInfos.get(name);
-                    if (itemInfo) {
-                        item.isHidden = itemInfo.hidden;
-                        item.isSystem = itemInfo.system;
-                    }
-                }
-
-                items.push(item);
-
-            } catch (ex) {
-                this.logger.error(`Could not read file: ${name}`, ex);
+            if (itemAttributes.containsKey(name)) {
+                attributes = itemAttributes.get(name);
             }
+
+            let item = await this.createFileSystemItem(
+                pathUtil.join(dirPath, name),
+                undefined,
+                attributes
+            );
+
+            if (!item)
+                continue;
+
+            items.push(item);
         }
+        performance.mark("fileservice.list.createItems.end");
 
         return items;
     }
 
+    public async createFileSystemItem(itemPath: string, stats?: Stats, attributes?: { hidden: boolean, system: boolean } | undefined | null): Promise<FileSystemItem | null> {
+        try {
+            let item: FileSystemItem;
+
+            if (!stats) {
+                stats = await system.fs.stat(itemPath);
+            }
+
+            if (stats.isFile()) {
+                item = new File(itemPath);
+            }
+            else if (stats.isDirectory()) {
+                item = new Directory(itemPath);
+            }
+            else if (stats.isSymbolicLink()) {
+                item = new SymbolicLink(itemPath);
+            }
+            else
+                return null;
+
+            item.updateInfo(stats);
+
+            if (attributes) {
+                item.isHidden = attributes.hidden;
+                item.isSystem = attributes.system;
+            }
+
+            return item;
+
+        } catch (ex) {
+            this.logger.error(`Could not read file: ${itemPath}`, ex);
+            return null;
+        }
+    }
 
     public async move(source: FileSystemItem, target: Directory) {
         //await system.fsx.move(source.path, system.path.join(target.path, source.name));
@@ -73,11 +94,20 @@ export class FileService {
         return system.shell.moveItemToTrash(path, false);
     }
 
-    private async getWinInfo(path: string) {
+    public async getDirItemAttributes(dirPath: string, itemNames: string[]): Promise<Dictionary<string, { hidden: boolean, system: boolean }>> {
+
+        return this.getUnixDirItemAttributes(itemNames);
+
+        //return system.platform == "win32" ?
+        //    await this.getWinDirItemAttributes(dirPath) :
+        //    this.getUnixDirItemAttributes(itemNames);
+    }
+
+    public async getWinDirItemAttributes(dirPath: string): Promise<Dictionary<string, { hidden: boolean, system: boolean }>> {
         return new Promise<Dictionary<string, { hidden: boolean, system: boolean }>>((resolve, reject) => {
             let data = new Dictionary<string, { hidden: boolean, system: boolean }>();
 
-            exec(`ls "${path}" -Hidden | select Name, Attributes | format-list`,
+            exec(`ls "${dirPath}" -Hidden | select Name, Attributes | format-list`,
                 { shell: "powershell.exe" },
                 (error, stdout, stderr) => {
 
@@ -111,17 +141,21 @@ export class FileService {
         });
     }
 
-    private getUnixInfo(itemNames: string[]) {
+    public getUnixDirItemAttributes(itemNames: string[]): Dictionary<string, { hidden: boolean, system: boolean }> {
         let data = new Dictionary<string, { hidden: boolean, system: boolean }>();
 
         for (var i = 0; i < itemNames.length; i++) {
             let itemName = itemNames[i];
-            data.addOrSet(itemName, {
-                hidden: itemName.startsWith('.'),
-                system: false
-            });
+            data.addOrSet(itemName, this.getUnixMethodItemAttributes(itemName));
         }
 
         return data;
+    }
+
+    public getUnixMethodItemAttributes(itemName: string): { hidden: boolean, system: boolean } {
+        return {
+            hidden: itemName.startsWith('.'),
+            system: false
+        };
     }
 }

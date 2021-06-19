@@ -14,7 +14,7 @@ export class Directory extends FileSystemItem {
         system.fs.readdir(this.path).then(files => {
             this.itemCount = files.length;
         }).catch(err => {
-
+            //console.error(`Could not get file count of dir: ${path}`);
         });
     }
 }
