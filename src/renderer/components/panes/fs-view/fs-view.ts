@@ -1,3 +1,4 @@
+import { IDialogService } from "@aurelia/runtime-html";
 import { bindable, ILogger, watch } from "aurelia";
 import { Tab } from "../tabs/tab";
 import SelectionArea from "@simonwep/selection-js";
@@ -7,6 +8,7 @@ import {
 } from "../../../core";
 import dragula from "dragula";
 import "dragula/dist/dragula.css";
+import { ItemProperties } from "../../popups/properties/item-properties";
 
 export class FsView {
 
@@ -24,6 +26,7 @@ export class FsView {
         private readonly fileService: FileService,
         private readonly settings: Settings,
         private readonly element: HTMLElement,
+        @IDialogService private readonly dialogService: IDialogService,
         @ILogger private readonly logger: ILogger) {
         this.id = Util.newGuid();
     }
@@ -84,6 +87,14 @@ export class FsView {
                 }
             }
         }
+    }
+
+    public showSelectedItemProperties() {
+        this.dialogService.open({
+            component: () => ItemProperties,
+            model: this.fsItems.selected,
+            host: document.getElementsByClassName("window")[0]
+        });
     }
 
     private navigateGrid(direction: "up" | "down" | "right" | "left", ev: KeyboardEvent) {

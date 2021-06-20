@@ -1,0 +1,85 @@
+<div class="item-properties">
+    <div class="main ui ${settings.inverted} segment">
+
+        <button class="ui red circular icon mini close button"
+                click.delegate="cancel()">
+            <i class="ui close icon"></i>
+        </button>
+
+        <h6 class="ui header">
+            ${item.name} Properties
+        </h6>
+
+        <div class="ui hidden divider"></div>
+
+        <div class="ui items" style="margin: 0">
+            <div class="item">
+                <div class="ui mini image">
+                    <img src.bind="icon">
+                </div>
+                <div class="middle aligned content">
+                    <div class="ui mini fluid ${settings.inverted} input" style="margin-left: 35px">
+                        <input type="text" value.bind="editableInfo.name" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ui divider"></div>
+
+        <div class="properties">
+            <div class="property">
+                <div class="label">Type:</div>
+                <div class="value">
+                    ${item.type}
+                    <span if.bind="item.type === 'File'">(${item.extension})</span>
+                </div>
+            </div>
+            <div class="property">
+                <div class="label">Location:</div>
+                <div class="value">${item.directoryPath}</div>
+            </div>
+            <div class="property">
+                <div class="label">Size:</div>
+                <div class="value">
+                    <span if.bind="item.type === 'Directory'">Contians ${item.itemCount} items</span>
+                    <span else>${item.size | fileSize} (${item.size} bytes)</span>
+                </div>
+            </div>
+
+            <div class="ui divider"></div>
+
+            <div class="property">
+                <div class="label">Created:</div>
+                <div class="value">${item.dateCreated.toLocaleString(undefined, dateOptions)}</div>
+            </div>
+            <div class="property">
+                <div class="label">Modified:</div>
+                <div class="value">${item.dateModified.toLocaleString(undefined, dateOptions)}</div>
+            </div>
+            <div class="property">
+                <div class="label">Accessed:</div>
+                <div class="value">${item.dateAccessed.toLocaleString(undefined, dateOptions)}</div>
+            </div>
+
+            <div class="ui divider"></div>
+
+            <div class="property">
+                <div class="label">Hidden:</div>
+                <div class="value">
+                    <input type="checkbox"
+                           checked.bind="editableInfo.isHidden">
+                </div>
+            </div>
+        </div>
+
+        <div class="buttons clearfix">
+            <button class="ui right floated mini ${changePending ? '' : 'disabled'} button"
+                    click.delegate="apply()">Apply</button>
+            <button class="ui right floated mini button"
+                    click.delegate="ok()">OK</button>
+            <button class="ui right floated mini button"
+                    click.delegate="cancel()">Cancel</button>
+        </div>
+    </div>
+</div>

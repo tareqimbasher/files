@@ -80,8 +80,7 @@ export class Tab implements IDisposable {
     private async pathChanged(oldPath: string, newPath: string) {
         this.pathName = system.path.basename(newPath);
         if (!this.pathName.trim()) this.pathName = newPath;
-
-        //this.pathParts = newPath.split(/[/\\]+/);
+        this.pathParts = newPath.split(/[/\\]+/);
 
         await this.updateFileListing(newPath);
 
@@ -145,6 +144,9 @@ export class Tab implements IDisposable {
 
         const itemAdded = async (itemPath: string, stats: Stats | undefined) => {
             const name = system.path.basename(itemPath);
+
+            if (itemPath == newPath)
+                return;
 
             if (this.fsItems.containsKey(name))
                 return;

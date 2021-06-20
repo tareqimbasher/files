@@ -12,6 +12,9 @@ export * from './file-system/directory';
 export * from './file-system/symbolic-link';
 export * from './file-system/file-service';
 export * from './file-system/fs-items';
+export * from './file-system/icon-loader';
+
+export * from './ui/dialog-base';
 
 export * from './utils/util';
 export * from './utils/keycodes';

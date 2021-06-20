@@ -1,3 +1,4 @@
+import { DialogDefaultConfiguration } from "@aurelia/runtime-html";
 import { Aurelia, ColorOptions, ConsoleSink, LoggerConfiguration, LogLevel } from 'aurelia';
 import "./jquery.load";
 import "./style/semantic-ui/dist/semantic.css";
@@ -13,6 +14,9 @@ Aurelia
             colorOptions: ColorOptions.colors,
             level: LogLevel.info,
             sinks: [ConsoleSink]
+        }),
+        DialogDefaultConfiguration.customize(config => {
+            config.lock = true;
         }),
         converters
     )

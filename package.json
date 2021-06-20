@@ -65,7 +65,7 @@
     }
   },
   "devDependencies": {
-    "@aurelia/webpack-loader": "dev",
+    "@aurelia/webpack-loader": "latest",
     "@electron-forge/cli": "6.0.0-beta.54",
     "@electron-forge/maker-deb": "6.0.0-beta.54",
     "@electron-forge/maker-rpm": "6.0.0-beta.54",
@@ -97,7 +97,7 @@
   },
   "dependencies": {
     "@simonwep/selection-js": "^2.0.2",
-    "aurelia": "dev",
+    "aurelia": "latest",
     "chokidar": "^3.5.1",
     "custom-electron-titlebar": "^3.2.6",
     "dragula": "^3.7.3",
