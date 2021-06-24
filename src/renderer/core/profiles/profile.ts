@@ -1,4 +1,5 @@
 import { EventAggregator, singleton } from "aurelia";
+import { SettingsChangedEvent } from "../events/settings-changed-event";
 import { FileViewTypes, Settings } from "../settings";
 import { system } from "../system/system";
 import { PersistedProfile } from "./persisted-profile";
@@ -11,7 +12,7 @@ export class Profile {
     constructor(private settings: Settings, private eventBus: EventAggregator) {
         this.name = "Default";
         this.version = "1";
-        this.eventBus.subscribe("settings-changed", () => this.save());
+        this.eventBus.subscribe(SettingsChangedEvent, () => this.save());
     }
 
     public load(): Profile {

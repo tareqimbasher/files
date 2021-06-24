@@ -1,5 +1,5 @@
 ﻿import { EventAggregator, IContainer, IDisposable, IEventAggregator } from "aurelia";
-import { FileService, FileSystemItem, FsItems, Settings, system, Util } from "../../../core";
+import { FileService, FileSystemItem, FsItems, HiddenFileVisibilityChangedEvent, Settings, system, Util } from "../../../core";
 import { Tabs } from "./tabs";
 import * as chokidar from "chokidar";
 import { Stats } from "fs";
@@ -27,7 +27,7 @@ export class Tab implements IDisposable {
         this.fsItems = new FsItems();
         this.eventBus = container.get(EventAggregator)
 
-        const token = this.eventBus.subscribe('show-hidden-changed', () => this.fsItems.updateView(this.settings.showHiddenFiles))
+        const token = this.eventBus.subscribe(HiddenFileVisibilityChangedEvent, () => this.fsItems.updateView(this.settings.showHiddenFiles))
         this.disposables.push(() => token.dispose());
 
         this.history = new TabHistory(path);

@@ -1,5 +1,5 @@
 import { bindable, EventAggregator, watch } from "aurelia";
-import { KeyCode, Settings, system } from "../../../core";
+import { KeyCode, Settings, system, ViewCommandEditAddressBarEvent, ViewCommandSearchEvent } from "../../../core";
 import { Pane } from "../pane";
 
 export class AddressBar {
@@ -18,13 +18,13 @@ export class AddressBar {
     public attached() {
         this.addressBarPath = this.pane.tabs.active.path;
 
-        let sub = this.eventBus.subscribe("edit-address", () => {
+        let sub = this.eventBus.subscribe(ViewCommandEditAddressBarEvent, () => {
             if (this.pane.isActive)
                 this.enableEditAddress();
         });
         this.detaches.push(() => sub.dispose());
 
-        sub = this.eventBus.subscribe("search", () => {
+        sub = this.eventBus.subscribe(ViewCommandSearchEvent, () => {
             if (this.pane.isActive) {
                 this.searchInput.focus();
                 this.searchInput.select();

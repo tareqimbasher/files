@@ -1,6 +1,6 @@
 import { EventAggregator } from "aurelia";
 import { WindowManager } from "./window-manager";
-import { Settings, KeyCode, KeyCodeUtil, Profile } from "../core";
+import { Settings, KeyCode, KeyCodeUtil, Profile, ViewCommandSearchEvent, ViewCommandEditAddressBarEvent } from "../core";
 
 export class Window {
     constructor(
@@ -93,10 +93,10 @@ export class Window {
             let panes = this.windowManager.panes;
 
             if (ev.ctrlKey && ev.code == KeyCode.KeyL) {
-                this.eventBus.publish('edit-address');
+                this.eventBus.publish(new ViewCommandEditAddressBarEvent());
             }
             else if (ev.ctrlKey && ev.code == KeyCode.KeyS) {
-                this.eventBus.publish('search');
+                this.eventBus.publish(new ViewCommandSearchEvent());
             }
             else if (ev.ctrlKey && ev.code == KeyCode.KeyT) {
                 panes.active.tabs.add().activate();

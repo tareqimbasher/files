@@ -1,4 +1,6 @@
 import { EventAggregator, singleton } from "aurelia";
+import { HiddenFileVisibilityChangedEvent } from "./events/hidden-file-visibility-changed-event";
+import { SettingsChangedEvent } from "./events/settings-changed-event";
 
 @singleton
 export class Settings {
@@ -14,7 +16,7 @@ export class Settings {
     public setTheme(theme: string) {
         this.theme = theme;
         this.inverted = theme == "dark" ? "inverted" : "";
-        this.eventBus.publish('settings-changed');
+        this.publishSettingsChangedEvent();
     }
 
     public toggleTheme() {
@@ -22,11 +24,10 @@ export class Settings {
     }
 
 
-
     public setShowHiddenFiles(show: boolean) {
         this.showHiddenFiles = show;
-        this.eventBus.publish('show-hidden-changed');
-        this.eventBus.publish('settings-changed');
+        this.eventBus.publish(new HiddenFileVisibilityChangedEvent(show));
+        this.publishSettingsChangedEvent();
     }
 
     public toggleShowHiddenFiles() {
@@ -39,7 +40,7 @@ export class Settings {
         if (this.fileViewType == fileViewType)
             return;
         this.fileViewType = fileViewType;
-        this.eventBus.publish('settings-changed');
+        this.publishSettingsChangedEvent();
     }
 
     public toggleFileViewType() {
@@ -50,7 +51,11 @@ export class Settings {
 
     public setConfirmOnMove(confirm: boolean) {
         this.confirmOnMove = confirm;
-        this.eventBus.publish('settings-changed');
+        this.publishSettingsChangedEvent();
+    }
+
+    private publishSettingsChangedEvent() {
+        this.eventBus.publish(new SettingsChangedEvent(this));
     }
 }
 
