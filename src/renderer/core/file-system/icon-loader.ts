@@ -71,7 +71,10 @@ export class IconLoader {
             case ".cdr": return "146-cdr";
             case ".sketch": return "095-sketch";
 
-            case ".css": return "060-css";
+            case ".css":
+            case ".less":
+            case ".scss":
+                return "060-css";
             case ".php": return "210-php";
             case ".swf": return "009-swf";
             case ".ps": return "120-ps";

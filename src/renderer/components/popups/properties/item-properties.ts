@@ -1,7 +1,6 @@
 import { IDialogDom, DefaultDialogDom, IDialogController } from '@aurelia/runtime-html';
-import { observable } from '@aurelia/runtime';
-import { watch } from 'aurelia';
-import { DialogBase, FileSystemItem, IconLoader, Settings } from "../../../core";
+import { IEventAggregator, ILogger, watch } from 'aurelia';
+import { DialogBase, FileSystemItem, FileSystemItemPropertiesChangedEvent, IconLoader, Settings } from "../../../core";
 
 export class ItemProperties extends DialogBase {
     item!: FileSystemItem;
@@ -19,7 +18,9 @@ export class ItemProperties extends DialogBase {
     constructor(
         public settings: Settings,
         @IDialogDom dialogDom: DefaultDialogDom,
-        @IDialogController controller: IDialogController) {
+        @IDialogController controller: IDialogController,
+        @IEventAggregator private readonly eventBus: IEventAggregator,
+        @ILogger private readonly logger: ILogger) {
         super(dialogDom, controller);
     }
 
@@ -47,12 +48,33 @@ export class ItemProperties extends DialogBase {
             || this.editableInfo.isHidden != this.item.isHidden;
     }
 
-    public apply() {
-        alert("test: Apply");
+    public apply(): boolean {
+
+        try {
+            if (this.changePending) {
+                if (this.item.name != this.editableInfo.name) {
+                    this.item.name = this.editableInfo.name;
+                    // but if name changes, so does path, ext...etc
+                }
+
+                if (this.item.isHidden != this.editableInfo.isHidden)
+                    this.item.isHidden = this.editableInfo.isHidden;
+
+                this.eventBus.publish(new FileSystemItemPropertiesChangedEvent(this.item));
+            }
+
+            return true;
+        } catch (ex) {
+            this.logger.error("An error occurred applying changes.", ex);
+            alert("Error occurred.");
+            return false;
+        }
+
     }
 
     public ok() {
-        alert("test: OK");
+        if (this.apply())
+            this.controller.ok();
     }
 
     public cancel() {
