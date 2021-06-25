@@ -43,7 +43,6 @@ export class AddressBar {
 
     @watch<AddressBar>(x => x.searchTerm)
     public searchTermChanged() {
-        console.log(this.searchTerm);
         this.pane.tabs.active.fsItems.search(this.searchTerm);
     }
 

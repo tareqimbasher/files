@@ -53,7 +53,7 @@ export class ItemProperties extends DialogBase {
         try {
             if (this.changePending) {
                 if (this.item.name != this.editableInfo.name) {
-                    this.item.name = this.editableInfo.name;
+                    //this.item.name = this.editableInfo.name;
                     // but if name changes, so does path, ext...etc
                 }
 

@@ -5,11 +5,9 @@ import { FileType } from "./file-system-item-type";
 export abstract class FileSystemItem {
 
     public path: string;
-    public name: string;
-    public extension: string;
-    public directoryPath: string;
-    public type!: FileType;
-    public isDir: boolean = false;
+    public type: FileType;
+    public isDir: boolean;
+
     public size: number = 0;
     public dateModified!: Date;
     public dateCreated!: Date;
@@ -18,13 +16,28 @@ export abstract class FileSystemItem {
     public isHidden: boolean = false;
     public isSystem: boolean = false;
 
-    constructor(path: string) {
+    constructor(path: string, type: FileType) {
         this.path = path;
-        this.name = pathUtil.basename(path);
-        this.extension = pathUtil.extname(path);
-        if (!!this.extension)
-            this.extension = this.extension.toLowerCase();
-        this.directoryPath = pathUtil.dirname(path);
+        this.type = type;
+        this.isDir = type == FileType.Directory;
+
+        //setTimeout(() => {
+        //    if (this.path.endsWith("ansel")) {
+        //        this.path = this.path.replace("ansel", "hello");
+        //    }
+        //}, 5000);
+    }
+
+    public get name() {
+        return pathUtil.basename(this.path);
+    }
+
+    public get extension() {
+        return pathUtil.extname(this.path)?.toLowerCase();
+    }
+
+    public get directoryPath() {
+        return pathUtil.dirname(this.path);
     }
 
     public setInfo(info: {

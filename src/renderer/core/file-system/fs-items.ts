@@ -1,40 +1,40 @@
 import { Dictionary, FileSystemItem } from "../";
+import { Settings } from "../settings";
 
 export class FsItems extends Dictionary<string, FileSystemItem> {
 
-    public searchTerm?: string;
-    public selected: FileSystemItem[] = [];
-    public view: FileSystemItem[] = [];
+    private searchTerm?: string;
 
-    public remove(key: string): FileSystemItem | undefined {
-        const removed = super.remove(key);
-        if (!!removed) {
-            const ixSelected = this.selected.indexOf(removed)
-            if (ixSelected >= 0)
-                this.selected.splice(ixSelected, 1);
+    constructor(private settings: Settings) {
+        super();
+    }
 
-            const ixView = this.view.indexOf(removed);
-            if (ixView >= 0)
-                this.view.splice(ixView, 1);
+    public get selected(): FileSystemItem[] {
+        return this.view.filter(i => i.isSelected);
+    }
+
+    public get view(): FileSystemItem[] {
+
+        let results: FileSystemItem[] = [];
+
+        if (this.settings.showHiddenFiles && !this.searchTerm) {
+            results = this.values;
+        }
+        else {
+            results = this.values
+                .filter(i =>
+                    (this.settings.showHiddenFiles || !i.isHidden) &&
+                    (!this.searchTerm || i.name.toLowerCase().indexOf(this.searchTerm) >= 0)
+                );
         }
 
-        return removed;
+        return results.sort((a, b) => {
+            const n1 = a.name.toLowerCase();
+            const n2 = b.name.toLowerCase();
+
+            return ((n1 > n2) ? 1 : -1);
+        });
     }
-
-    public clear() {
-        super.clear();
-        this.selected.splice(0, this.selected.length);
-        this.view.splice(0, this.selected.length);
-    }
-
-
-    public updateView(showHidden: boolean) {
-        this.view = this.values
-            .filter(i => showHidden || !i.isHidden)
-            //.sort((a, b) => (a.name < b.name) ? 0 : ((b.name < a.name) ? -1 : 1))
-        ;
-    }
-
 
     public select(...items: FileSystemItem[]) {
         for (let item of items) {
@@ -42,7 +42,6 @@ export class FsItems extends Dictionary<string, FileSystemItem> {
                 continue;
 
             item.isSelected = true;
-            this.selected.push(item);
         }
     }
 
@@ -56,7 +55,6 @@ export class FsItems extends Dictionary<string, FileSystemItem> {
                 continue;
 
             item.isSelected = false;
-            this.selected.splice(this.selected.indexOf(item), 1);
         }
     }
 
@@ -70,13 +68,7 @@ export class FsItems extends Dictionary<string, FileSystemItem> {
         }
     }
 
-
     public search(term: string) {
-        if (!term) {
-            this.view = [...this.values];
-            return;
-        }
-        term = term.toLocaleLowerCase();
-        this.view = this.values.filter(x => x.name.toLocaleLowerCase().indexOf(term) >= 0);
+        this.searchTerm = term;
     }
 }

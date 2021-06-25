@@ -1,5 +1,4 @@
 import { EventAggregator, singleton } from "aurelia";
-import { HiddenFileVisibilityChangedEvent } from "./events/hidden-file-visibility-changed-event";
 import { SettingsChangedEvent } from "./events/settings-changed-event";
 
 @singleton
@@ -26,7 +25,6 @@ export class Settings {
 
     public setShowHiddenFiles(show: boolean) {
         this.showHiddenFiles = show;
-        this.eventBus.publish(new HiddenFileVisibilityChangedEvent(show));
         this.publishSettingsChangedEvent();
     }
 

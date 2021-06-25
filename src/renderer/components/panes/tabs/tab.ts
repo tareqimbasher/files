@@ -1,5 +1,5 @@
-﻿import { EventAggregator, IContainer, IDisposable, IEventAggregator } from "aurelia";
-import { FileService, FileSystemItem, FsItems, HiddenFileVisibilityChangedEvent, Settings, system, Util } from "../../../core";
+﻿import { IContainer, IDisposable } from "aurelia";
+import { FileService, FileSystemItem, FsItems, Settings, system, Util } from "../../../core";
 import { Tabs } from "./tabs";
 import * as chokidar from "chokidar";
 import { Stats } from "fs";
@@ -16,19 +16,14 @@ export class Tab implements IDisposable {
 
     private fileService: FileService;
     private settings: Settings;
-    private eventBus: IEventAggregator;
     private disposables: (() => void)[] = [];
     private fsWatcher: chokidar.FSWatcher | undefined;
 
     constructor(public tabs: Tabs, path: string, private container: IContainer) {
         this.id = Util.newGuid();
         this.fileService = container.get(FileService);
-        this.settings = container.get(Settings);;
-        this.fsItems = new FsItems();
-        this.eventBus = container.get(EventAggregator)
-
-        const token = this.eventBus.subscribe(HiddenFileVisibilityChangedEvent, () => this.fsItems.updateView(this.settings.showHiddenFiles))
-        this.disposables.push(() => token.dispose());
+        this.settings = container.get(Settings);
+        this.fsItems = new FsItems(this.settings);
 
         this.history = new TabHistory(path);
         this.setPath(this.history.current);
@@ -137,11 +132,6 @@ export class Tab implements IDisposable {
         performance.mark("tab.fsItems.addOrSetRange.end");
 
 
-        performance.mark("tab.fsItems.updateView.start");
-        this.fsItems.updateView(this.settings.showHiddenFiles);
-        performance.mark("tab.fsItems.updateView.end");
-
-
         const itemAdded = async (itemPath: string, stats: Stats | undefined) => {
             const name = system.path.basename(itemPath);
 
@@ -162,7 +152,6 @@ export class Tab implements IDisposable {
             }
 
             this.fsItems.addOrSet(item.name, item);
-            this.fsItems.updateView(this.settings.showHiddenFiles);
         }
 
         const itemRemoved = async (itemPath: string) => {
@@ -172,7 +161,6 @@ export class Tab implements IDisposable {
                 return;
 
             this.fsItems.remove(name);
-            this.fsItems.updateView(this.settings.showHiddenFiles);
         }
 
 
@@ -218,7 +206,7 @@ export class Tab implements IDisposable {
         performance.mark("tab.getfiles.end");
 
 
-        const showPerfInfo = false;
+        const showPerfInfo = true;
 
         if (showPerfInfo) {
             const marks = Array.from(performance.getEntriesByType("mark"));

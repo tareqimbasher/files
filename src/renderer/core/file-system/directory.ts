@@ -7,9 +7,7 @@ export class Directory extends FileSystemItem {
     public itemCount = 0;
 
     constructor(path: string) {
-        super(path);
-        this.type = FileType.Directory;
-        this.isDir = true;
+        super(path, FileType.Directory);
 
         system.fs.readdir(this.path).then(files => {
             this.itemCount = files.length;

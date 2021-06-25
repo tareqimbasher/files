@@ -103,7 +103,6 @@ export class FsView {
             this.fsItems.unselectAll();
 
         UiUtil.navigateGrid(this.itemList, ".draggable.selected", direction, nextItemIndex => {
-            //console.log(nextItemIndex);
             const item = this.fsItems.view[nextItemIndex];
             if (!ev.ctrlKey) {
                 this.fsItems.select(item);
