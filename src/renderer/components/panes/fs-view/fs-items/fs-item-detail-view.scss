@@ -12,13 +12,17 @@
         height: 1rem;
         width: 20px;
         text-align: center;
-        margin-right: 5px;
+        margin-right: 3px;
 
         img {
             max-width: 20px !important;
             height: 1rem;
             margin-top: -3px;
         }
+    }
+
+    &.hidden .fs-item-icon {
+        opacity: 0.5;
     }
 
     .fs-item-name {

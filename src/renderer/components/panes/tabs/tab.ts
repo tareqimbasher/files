@@ -168,8 +168,7 @@ export class Tab implements IDisposable {
         if (!this.fsWatcher) {
             this.fsWatcher = chokidar.watch(newPath, {
                 depth: 0,
-                persistent: true,
-                awaitWriteFinish: true
+                persistent: true
             });
             this.disposables.push(() => this.fsWatcher?.close());
         }

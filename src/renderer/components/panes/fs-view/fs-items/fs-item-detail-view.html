@@ -16,7 +16,7 @@
             ${item.dateModified.toLocaleDateString()} ${item.dateModified.toLocaleTimeString()}
         </td>
         <td class="">
-            ${item.isDir ? 'Folder' : (item.extension ? item.extension : 'File')}
+            ${item.typeDescription}
         </td>
         <td class="">
             ${item.isDir ? (item.itemCount + ' items') : ''}

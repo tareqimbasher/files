@@ -85,9 +85,20 @@ export class FileService {
         }
     }
 
-    public async move(source: FileSystemItem, target: Directory) {
-        //await system.fsx.move(source.path, system.path.join(target.path, source.name));
-        await system.fs.rename(source.path, system.path.join(target.path, source.name));
+    public move(source: FileSystemItem, targetPath: string): Promise<void>;
+    public move(source: FileSystemItem, targetDirectory: Directory): Promise<void>;
+
+    public async move(source: FileSystemItem, target: string | Directory): Promise<void> {
+        if (typeof target === 'string') {
+            await system.fs.rename(source.path, target);
+        }
+        else {
+            await system.fs.rename(source.path, system.path.join(target.path, source.name));
+        }
+    }
+
+    public async rename(source: FileSystemItem, newName: string): Promise<void> {
+        await this.move(source, system.path.join(source.directoryPath, newName));
     }
 
     public async moveToTrash(path: string) {

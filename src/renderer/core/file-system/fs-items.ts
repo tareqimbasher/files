@@ -28,12 +28,14 @@ export class FsItems extends Dictionary<string, FileSystemItem> {
                 );
         }
 
-        return results.sort((a, b) => {
-            const n1 = a.name.toLowerCase();
-            const n2 = b.name.toLowerCase();
+        //results = results.sort((a: FileSystemItem, b: FileSystemItem) => {
+        //    if (a.name > b.name)
+        //        return 1;
+        //    else
+        //        return -1;
+        //});
 
-            return ((n1 > n2) ? 1 : -1);
-        });
+        return results;
     }
 
     public select(...items: FileSystemItem[]) {

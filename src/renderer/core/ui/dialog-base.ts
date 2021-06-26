@@ -6,6 +6,7 @@ export class DialogBase {
         @IDialogDom protected readonly dialogDom: DefaultDialogDom,
         @IDialogController protected readonly controller: IDialogController) {
 
+
         dialogDom.contentHost.style.position = "relative";
         dialogDom.contentHost.style.margin = "auto";
         dialogDom.contentHost.style.display = "flex";
@@ -13,6 +14,7 @@ export class DialogBase {
         dialogDom.contentHost.style.alignItems = "center";
         dialogDom.contentHost.style.top = "50%";
         dialogDom.contentHost.style.transform = "translateY(-50%)";
+        dialogDom.overlay.style.zIndex = "1";
         dialogDom.overlay.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
     }
 

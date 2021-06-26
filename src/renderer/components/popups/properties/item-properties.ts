@@ -1,6 +1,6 @@
 import { IDialogDom, DefaultDialogDom, IDialogController } from '@aurelia/runtime-html';
 import { IEventAggregator, ILogger, watch } from 'aurelia';
-import { DialogBase, FileSystemItem, FileSystemItemPropertiesChangedEvent, IconLoader, Settings } from "../../../core";
+import { DialogBase, FileService, FileSystemItem, FileSystemItemPropertiesChangedEvent, IconLoader, Settings } from "../../../core";
 
 export class ItemProperties extends DialogBase {
     item!: FileSystemItem;
@@ -16,7 +16,8 @@ export class ItemProperties extends DialogBase {
     };
 
     constructor(
-        public settings: Settings,
+        private readonly settings: Settings,
+        private readonly fileService: FileService,
         @IDialogDom dialogDom: DefaultDialogDom,
         @IDialogController controller: IDialogController,
         @IEventAggregator private readonly eventBus: IEventAggregator,
@@ -52,16 +53,17 @@ export class ItemProperties extends DialogBase {
 
         try {
             if (this.changePending) {
-                if (this.item.name != this.editableInfo.name) {
-                    //this.item.name = this.editableInfo.name;
-                    // but if name changes, so does path, ext...etc
+                if (!!this.editableInfo.name && this.item.name != this.editableInfo.name) {
+                    this.fileService.rename(this.item, this.editableInfo.name);
                 }
 
-                if (this.item.isHidden != this.editableInfo.isHidden)
-                    this.item.isHidden = this.editableInfo.isHidden;
+                //if (this.item.isHidden != this.editableInfo.isHidden)
+                //    this.item.isHidden = this.editableInfo.isHidden;
 
                 this.eventBus.publish(new FileSystemItemPropertiesChangedEvent(this.item));
             }
+
+            this.changePending = false;
 
             return true;
         } catch (ex) {

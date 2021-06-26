@@ -13,3 +13,19 @@
         border-color: $dark-border-color !important;
     }
 }
+
+.ui.button, .ui.buttons .button {
+    &.primary {
+        background-color: dodgerblue;
+
+        &:hover {
+            background-color: #2185D0;
+        }
+    }
+}
+
+.ui.button, .ui.buttons.button {
+    border-radius: 0;
+    padding-top: 0.5em;
+    padding-bottom: 0.52em;
+}

@@ -40,6 +40,41 @@ export abstract class FileSystemItem {
         return pathUtil.dirname(this.path);
     }
 
+    public get typeDescription() {
+        if (this.type == FileType.Directory)
+            return "Folder";
+        else if (this.type == FileType.File) {
+            // Handle files like .gitconfig
+            if (!this.extension && this.name.startsWith('.'))
+                return this.name.replace('.', '').toUpperCase() + " File";
+            else if (!this.extension)
+                return "File";
+
+            const ext = this.extension.replace('.', '');
+
+            switch (ext) {
+                //case "txt": return "Text Document";
+                //case "pdf": return "PDF Document";
+                //case "doc":
+                //case "docx":
+                //    return "Word Document";
+                //case "xls":
+                //case "xlsx":
+                //    return "Excel Document";
+                //case "ppt":
+                //case "pptx":
+                //    return "PowerPoint Document";
+                default: return ext.toUpperCase();
+            }
+        }
+        else if (this.type == FileType.SymbolicLink) {
+            return "Shortcut";
+        }
+        else {
+            return "Unknown";
+        }
+    }
+
     public setInfo(info: {
         size?: number,
         dateModified?: Date,
