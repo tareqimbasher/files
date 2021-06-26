@@ -1,8 +1,9 @@
-import { FileSizeValueConverter, TakeValueConverter, TitleCaseFormatValueConverter, TruncateValueConverter } from "./components/common/value-converters";
+import * as valueConverters from "./components/common/value-converters";
 
 export const converters = [
-    FileSizeValueConverter,
-    TakeValueConverter,
-    TitleCaseFormatValueConverter,
-    TruncateValueConverter,
+    valueConverters.FileSizeValueConverter,
+    valueConverters.TakeValueConverter,
+    valueConverters.TitleCaseFormatValueConverter,
+    valueConverters.TruncateValueConverter,
+    valueConverters.SortValueConverter,
 ];

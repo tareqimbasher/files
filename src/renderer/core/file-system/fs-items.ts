@@ -28,13 +28,6 @@ export class FsItems extends Dictionary<string, FileSystemItem> {
                 );
         }
 
-        //results = results.sort((a: FileSystemItem, b: FileSystemItem) => {
-        //    if (a.name > b.name)
-        //        return 1;
-        //    else
-        //        return -1;
-        //});
-
         return results;
     }
 

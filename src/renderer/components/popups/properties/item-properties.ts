@@ -1,6 +1,7 @@
 import { IDialogDom, DefaultDialogDom, IDialogController } from '@aurelia/runtime-html';
 import { IEventAggregator, ILogger, watch } from 'aurelia';
-import { DialogBase, FileService, FileSystemItem, FileSystemItemPropertiesChangedEvent, IconLoader, Settings } from "../../../core";
+import { FileService, FileSystemItem, FileSystemItemPropertiesChangedEvent, IconLoader, Settings } from "../../../core";
+import { DialogBase } from '../../common';
 
 export class ItemProperties extends DialogBase {
     item!: FileSystemItem;
