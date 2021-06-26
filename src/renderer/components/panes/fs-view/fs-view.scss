@@ -24,10 +24,18 @@ fs-view {
             position: sticky;
             top: 0;
             z-index: 1;
-            padding: 0.5em 0.6em;
+            padding: 0;
 
-            &:hover {
-                background-color: #eee;
+            .heading {
+                padding: 0.5em 0.6em;
+
+                &:hover {
+                    background-color: #eee;
+                }
+
+                &.sort-target {
+                    background-color: $light-active-color;
+                }
             }
         }
     }
@@ -45,11 +53,19 @@ fs-view {
 
 .dark {
     .ui.inverted.table, .ui.inverted.basic.table {
+
         thead th {
             background-color: $dark-background;
 
-            &:hover {
-                background-color: $dark-hover-color;
+            .heading {
+
+                &:hover {
+                    background-color: #2f2f2f;
+                }
+
+                &.sort-target {
+                    background-color: $dark-active-color;
+                }
             }
         }
     }

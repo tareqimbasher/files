@@ -17,29 +17,29 @@
             <span style="padding-left: 28px">Sort by</span>
             <i class="dropdown icon" style="float:right"></i>
             <div class="menu" style="margin-left: 0;">
-                <div class="item">
-                    <i class="tiny circle icon"></i>
+                <div class="item" click.trigger="model.sorting.sortBy('name')">
+                    <i class="tiny ${model.sorting.by === 'name' ? 'circle' : 'blank'} icon"></i>
                     Name
                 </div>
-                <div class="item">
-                    <i class="tiny blank icon"></i>
+                <div class="item" click.trigger="model.sorting.sortBy('dateModified')">
+                    <i class="tiny ${model.sorting.by === 'dateModified' ? 'circle' : 'blank'} icon"></i>
                     Date modified
                 </div>
-                <div class="item">
-                    <i class="tiny blank icon"></i>
+                <div class="item" click.trigger="model.sorting.sortBy('typeDescription')">
+                    <i class="tiny ${model.sorting.by === 'typeDescription' ? 'circle' : 'blank'} icon"></i>
                     Type
                 </div>
-                <div class="item">
-                    <i class="tiny blank icon"></i>
+                <div class="item" click.trigger="model.sorting.sortBy('size')">
+                    <i class="tiny ${model.sorting.by === 'size' ? 'circle' : 'blank'} icon"></i>
                     Size
                 </div>
                 <div class="ui divider"></div>
-                <div class="item">
-                    <i class="tiny circle icon"></i>
+                <div class="item" click.trigger="model.sorting.sortDir('asc')">
+                    <i class="tiny ${model.sorting.dir === 'asc' ? 'circle' : 'blank'} icon"></i>
                     Ascending
                 </div>
-                <div class="item">
-                    <i class="tiny blank icon"></i>
+                <div class="item" click.trigger="model.sorting.sortDir('desc')">
+                    <i class="tiny ${model.sorting.dir === 'desc' ? 'circle' : 'blank'} icon"></i>
                     Descending
                 </div>
             </div>

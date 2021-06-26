@@ -7,7 +7,7 @@
          if.bind="settings.fileViewType === 'Icons'"
          class="ui horizontal ${settings.inverted} list">
         <div class="top aligned item draggable ${fsItem.isSelected ? 'selected' : ''}"
-             repeat.for="fsItem of fsItems.view | sort:'name':'ordinalIgnoreCase':'asc'"
+             repeat.for="fsItem of fsItems.view | sort:sorting.by:sorting.dir:sorting.type"
              data-name.bind="fsItem.name"
              data-is-dir.bind="fsItem.isDir">
             <fs-item-icon-view class="fs-item"
@@ -18,18 +18,42 @@
     </div>
 
     <div if.bind="settings.fileViewType === 'Details'">
-        <table class="ui sortable selectable single line ${settings.inverted} basic very compact small table">
+        <table class="ui sortable selectable single line ${settings.inverted} basic very compact small table" rules="groups">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Date modified</th>
-                    <th>Type</th>
-                    <th>Size</th>
+                    <th click.trigger="sorting.sort('name')">
+                        <div class="heading ${sorting.by === 'name' ? 'sort-target' : ''}">
+                            Name
+                            <i class="ui caret ${sorting.dir === 'asc' ? 'up' : 'down'} icon"
+                               show.bind="sorting.by === 'name'"></i>
+                        </div>
+                    </th>
+                    <th click.trigger="sorting.sort('dateModified')">
+                        <div class="heading ${sorting.by === 'dateModified' ? 'sort-target' : ''}">
+                            Date modified
+                            <i class="ui caret ${sorting.dir === 'asc' ? 'up' : 'down'} icon"
+                               show.bind="sorting.by === 'dateModified'"></i>
+                        </div>
+                    </th>
+                    <th click.trigger="sorting.sort('typeDescription')">
+                        <div class="heading ${sorting.by === 'typeDescription' ? 'sort-target' : ''}">
+                            Type
+                            <i class="ui caret ${sorting.dir === 'asc' ? 'up' : 'down'} icon"
+                               show.bind="sorting.by === 'typeDescription'"></i>
+                        </div>
+                    </th>
+                    <th click.trigger="sorting.sort('size')">
+                        <div class="heading ${sorting.by === 'size' ? 'sort-target' : ''}">
+                            Size
+                            <i class="ui caret ${sorting.dir === 'asc' ? 'up' : 'down'} icon"
+                               show.bind="sorting.by === 'size'"></i>
+                        </div>
+                    </th>
                 </tr>
             </thead>
             <tbody>
                 <tr as-element="fs-item-detail-view"
-                    repeat.for="fsItem of fsItems.view"
+                    repeat.for="fsItem of fsItems.view | sort:sorting.by:sorting.dir:sorting.type"
                     item.bind="fsItem"
                     dbl-click.call="openSelected()"></tr>
             </tbody>

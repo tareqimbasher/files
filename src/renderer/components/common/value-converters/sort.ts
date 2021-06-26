@@ -1,6 +1,13 @@
+import moment from 'moment';
+
 export class SortValueConverter {
-    toView(array: any[], propertyName: string, comparison = 'numeral', direction = 'desc') {
+    toView(array: any[], propertyName: string, direction = 'desc', comparison = 'ordinalIgnoreCase') {
         if (array == null) return;
+
+        if (!comparison)
+            comparison = 'ordinalIgnoreCase';
+
+        console.warn(comparison);
 
         let self: any = this;
         var directionFactor = direction === 'asc' ? 1 : -1,
@@ -62,17 +69,17 @@ export class SortValueConverter {
         return 0;
     }
 
-    //dateComparison(a: any, b: any) {
-    //    a = new Date(a);
-    //    b = new Date(b);
-    //    if ((a === null || a === undefined) && (b === null || b === undefined))
-    //        return 0;
-    //    if (a === null || a === undefined)
-    //        return -1;
-    //    if (b === null || b === undefined)
-    //        return 1;
-    //    return moment(a).diff(moment(b));
-    //}
+    dateComparison(a: any, b: any) {
+        a = new Date(a);
+        b = new Date(b);
+        if ((a === null || a === undefined) && (b === null || b === undefined))
+            return 0;
+        if (a === null || a === undefined)
+            return -1;
+        if (b === null || b === undefined)
+            return 1;
+        return moment(a).diff(moment(b));
+    }
 
     numberComparison(a: any, b: any) {
         if ((a === null || a === undefined) && (b === null || b === undefined))

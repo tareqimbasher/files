@@ -75,20 +75,24 @@ export abstract class FileSystemItem {
         }
     }
 
-    public setInfo(info: {
-        size?: number,
-        dateModified?: Date,
-        dateCreated?: Date,
-        dateAccessed?: Date
-    }) {
-        if (info.size || info.size == 0) this.size = info.size;
-        if (info.dateModified) this.dateModified = info.dateModified;
-        if (info.dateCreated) this.dateCreated = info.dateCreated;
-        if (info.dateAccessed) this.dateAccessed = info.dateAccessed;
-    }
+    //public setInfo(info: {
+    //    size?: number,
+    //    dateModified?: Date,
+    //    dateCreated?: Date,
+    //    dateAccessed?: Date
+    //}) {
+    //    if (info.size || info.size == 0) this.size = info.size;
+    //    if (info.dateModified) this.dateModified = info.dateModified;
+    //    if (info.dateCreated) this.dateCreated = info.dateCreated;
+    //    if (info.dateAccessed) this.dateAccessed = info.dateAccessed;
+    //}
 
     public updateInfo(stats: Stats) {
-        if (stats.size || stats.size == 0) this.size = stats.size;
+        if (this.type == FileType.Directory)
+            this.size = -1;
+        else if (stats.size || stats.size == 0)
+            this.size = stats.size;
+
         if (stats.mtime) this.dateModified = stats.mtime;
         if (stats.atime) this.dateAccessed = stats.atime;
         if (stats.birthtime) this.dateCreated = stats.birthtime;

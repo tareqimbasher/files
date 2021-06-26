@@ -9,6 +9,7 @@ import {
 import dragula from "dragula";
 import "dragula/dist/dragula.css";
 import { ItemProperties } from "../../popups/properties/item-properties";
+import { FsViewSorting } from "./fs-view-sorting";
 
 export class FsView {
 
@@ -17,10 +18,12 @@ export class FsView {
     @bindable public tab!: Tab;
     @bindable public fsItems!: FsItems;
 
+
+    private sorting: FsViewSorting;
     private itemList!: HTMLElement;
     private contextMenu!: HTMLElement;
     private detaches: (() => void)[] = [];
-    public drake?: dragula.Drake;
+    private drake?: dragula.Drake;
 
     constructor(
         private readonly fileService: FileService,
@@ -28,7 +31,9 @@ export class FsView {
         private readonly element: HTMLElement,
         @IDialogService private readonly dialogService: IDialogService,
         @ILogger private readonly logger: ILogger) {
+
         this.id = Util.newGuid();
+        this.sorting = new FsViewSorting();
     }
 
     public attached() {
