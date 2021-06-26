@@ -72,20 +72,29 @@ export class FsView {
         }
     }
 
-    public async deleteSelected() {
+    public async deleteSelected(permanent: boolean = false) {
         const fsItems = this.fsItems.selected;
-        if (fsItems.length == 0)
+        if (!fsItems.length)
             return;
 
-        if (confirm(`Are you sure you want to move ${fsItems.length} items to the trash?`)) {
-            const removedItems = [];
+        const items = fsItems.length === 1 ? `'${fsItems[0].name}'` : `${fsItems.length} items`;
 
+        if (!permanent && confirm(`Are you sure you want to move ${items} to the trash?`)) {
             for (const item of fsItems) {
                 try {
-                    if (!this.fileService.moveToTrash(item.path))
+                    if (!await this.fileService.moveToTrash(item.path))
                         throw new Error(`${item.name} could not be moved to the trash.`);
-
-                    removedItems.push(item);
+                } catch (ex) {
+                    alert(`One or more files did not get moved to the trash. Error: ${ex}`);
+                    break;
+                }
+            }
+        }
+        else if (permanent && confirm(`Are you sure you want to permanently delete ${items}? This cannot be undone.`)) {
+            for (const item of fsItems) {
+                try {
+                    console.warn("will delete", item);
+                    await this.fileService.delete(item.path);
                 } catch (ex) {
                     alert(`One or more files did not get moved to the trash. Error: ${ex}`);
                     break;
@@ -200,8 +209,9 @@ export class FsView {
                     // Do not continue with selection
                     return false;
                 }
-                else
+                else if (target.classList.contains('dropdown') === false) {
                     this.toggleContextMenu("hide");
+                }
 
                 if (this.contextMenu.contains(fsItemElement))
                     return false;
@@ -278,6 +288,11 @@ export class FsView {
                     this.fsItems.unselect(fsItem);
             });
         });
+
+
+        const hideContextMenuOnLostFocus = () => this.toggleContextMenu('hide');
+        this.element.addEventListener("focusout", hideContextMenuOnLostFocus);
+        this.detaches.push(() => this.element.removeEventListener("focusout", hideContextMenuOnLostFocus));
     }
 
     @watch((vm: FsView) => vm.tab.path)
@@ -430,7 +445,6 @@ export class FsView {
                 this.contextMenu.style.left = (x - menuWidth) + "px";
             else
                 this.contextMenu.style.left = x + "px";
-
 
 
             const windowHeight = Math.floor(window.innerHeight);

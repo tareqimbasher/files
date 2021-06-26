@@ -105,6 +105,10 @@ export class FileService {
         return system.shell.moveItemToTrash(path, false);
     }
 
+    public async delete(path: string) {
+        await system.fs.unlink(path);
+    }
+
     public async getDirItemAttributes(dirPath: string, itemNames: string[]): Promise<Dictionary<string, { hidden: boolean, system: boolean }>> {
 
         return this.getUnixDirItemAttributes(itemNames);

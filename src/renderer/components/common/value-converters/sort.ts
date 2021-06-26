@@ -7,8 +7,6 @@ export class SortValueConverter {
         if (!comparison)
             comparison = 'ordinalIgnoreCase';
 
-        console.warn(comparison);
-
         let self: any = this;
         var directionFactor = direction === 'asc' ? 1 : -1,
             comparer = self[comparison + 'Comparison'];

@@ -205,7 +205,7 @@ export class Tab implements IDisposable {
         performance.mark("tab.getfiles.end");
 
 
-        const showPerfInfo = true;
+        const showPerfInfo = false;
 
         if (showPerfInfo) {
             const marks = Array.from(performance.getEntriesByType("mark"));
