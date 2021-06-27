@@ -1,14 +1,18 @@
 import { watch } from "aurelia";
 import { Settings } from "../../core";
 import { WindowManager } from "../";
+import { Clipboard } from "../common";
 
 export class StatusBar {
 
     public allFsItemsCount = 0;
     public selectedFsItemsCount = 0;
-    public selectedFsItemsSize? = 0;
+    public selectedFsItemsSize?= 0;
+    public showClipboard = false;
 
-    constructor(public settings: Settings, public windowManager: WindowManager) {
+    constructor(private readonly settings: Settings,
+        private readonly windowManager: WindowManager,
+        private readonly clipboard: Clipboard) {
     }
 
     @watch((sb: StatusBar) => sb.windowManager.panes.active.tabs.active.fsItems.view.length)

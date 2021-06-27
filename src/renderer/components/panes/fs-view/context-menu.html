@@ -77,21 +77,23 @@
             </div>
         </div>
         <div class="item"
-             show.bind="selected.any">
+             show.bind="selected.any"
+             click.trigger="model.cutSelectedItems()">
             <i class="cut icon"></i>
             <div class="muted text content">
                 Cut
             </div>
         </div>
         <div class="item"
-             show.bind="selected.any">
+             show.bind="selected.any"
+             click.trigger="model.copySelectedItems()">
             <i class="copy outline icon"></i>
             <div class="content">
                 Copy
             </div>
         </div>
         <div class="item"
-             show.bind="selected.any">
+             show.bind="!selected.any">
             <i class="paste icon"></i>
             <div class="content">
                 Paste

@@ -1,6 +1,5 @@
 <template class="${item.isSelected ? 'selected' : ''} ${item.isHidden ? 'hidden' : ''}"
-          title="${item.isDir ? ('Contents: ' + item.itemCount + ' items') : ''}${!item.isDir ? 'Size: ' : ''}${!item.isDir ? item.size : '' | fileSize}
-Date modified: ${item.dateModified.toLocaleString()}">
+          title="${title}">
 
     <div class="fs-item-icon" >
         <img src.bind="icon" />

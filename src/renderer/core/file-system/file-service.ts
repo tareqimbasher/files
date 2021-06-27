@@ -1,4 +1,3 @@
-import * as pathUtil from 'path';
 import { system } from '../system/system';
 import { Directory } from './directory';
 import { File } from './file';
@@ -35,7 +34,7 @@ export class FileService {
             }
 
             let item = await this.createFileSystemItem(
-                pathUtil.join(dirPath, name),
+                system.path.join(dirPath, name),
                 undefined,
                 attributes
             );
@@ -85,6 +84,17 @@ export class FileService {
         }
     }
 
+    public async copy(source: FileSystemItem, targetPath: string, overwrite: boolean): Promise<void> {
+        const targetPathExists = this.pathExists(targetPath);
+
+        if (!overwrite && targetPathExists) {
+            throw new Error(`Target path already exists: ${targetPathExists}`);
+        }
+
+        // TODO for a safer copy (also for move), copy to a temp file, then rename it
+        await system.fs.copyFile(source.path, targetPath, !overwrite ? system.fss.constants.COPYFILE_EXCL : undefined);
+    }
+
     public move(source: FileSystemItem, targetPath: string): Promise<void>;
     public move(source: FileSystemItem, targetDirectory: Directory): Promise<void>;
 
@@ -107,6 +117,10 @@ export class FileService {
 
     public async delete(path: string) {
         await system.fs.unlink(path);
+    }
+
+    public pathExists(path: string): boolean {
+        return system.fss.existsSync(path);
     }
 
     public async getDirItemAttributes(dirPath: string, itemNames: string[]): Promise<Dictionary<string, { hidden: boolean, system: boolean }>> {

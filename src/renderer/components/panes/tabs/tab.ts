@@ -148,6 +148,7 @@ export class Tab implements IDisposable {
             );
 
             if (!item) {
+                console.warn("no item");
                 return;
             }
 

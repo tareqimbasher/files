@@ -1,3 +1,5 @@
+@import "../../style/colors.scss";
+
 status-bar {
     border-top: 2px solid #808080;
 
@@ -5,5 +7,50 @@ status-bar {
         padding-left: 10px;
         padding-right: 10px;
         user-select: none;
+
+        .ui.grid, .ui.grid .row, .ui.grid .column {
+            padding: 0;
+            margin: 0;
+        }
+    }
+
+    .clipboard-contents {
+        position: fixed;
+        bottom: 30px;
+        right: 10px;
+        height: 200px;
+        width: 200px;
+        display: flex;
+        flex-direction: column;
+        background: #eee;
+        border: 1px solid #808080;
+
+        .ui.list {
+            flex: 1;
+            padding: 5px;
+            overflow-y: auto;
+        }
+
+        .ui.divider {
+            margin-top: 5px;
+            margin-bottom: 0px;
+        }
+
+        button, .ui.button, .ui.inverted.button {
+            background: transparent;
+            box-shadow: none;
+            color: #cbcbcb;
+
+            &:hover {
+                color: white;
+            }
+        }
+    }
+}
+
+.dark status-bar {
+    .clipboard-contents {
+        background: $dark-background-lighter;
+        border: 1px solid $dark-hover-color;
     }
 }

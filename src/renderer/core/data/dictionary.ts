@@ -55,8 +55,10 @@ export class Dictionary<TKey extends string | number | Date, TValue> {
         if (this.containsKey(key)) {
             const stringKey = this.getStringKey(key);
             const valueToRemove = this.data[stringKey];
+
             delete this.data[stringKey];
             delete this.keyMap[stringKey];
+
             this.values.splice(this.values.indexOf(valueToRemove), 1);
             this.length = this.values.length;
             return valueToRemove;
@@ -105,8 +107,9 @@ export class Dictionary<TKey extends string | number | Date, TValue> {
      */
     public clear() {
         this.data = {};
-        this.values.splice(0, this.values.length);
+        this.keyMap = {};
         this.length = 0;
+        this.values.splice(0, this.values.length);
     }
 
     private getStringKey(key: TKey) {

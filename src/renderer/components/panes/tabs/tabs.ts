@@ -11,6 +11,12 @@ export class Tabs implements IDisposable {
     constructor(pane: Pane, private container: IContainer) {
         this.pane = pane;
         this.setActive(this.add());
+
+        // A simple way of getting tab dragging to work
+        //setTimeout(() => {
+        //    let elms = Array.from(document.getElementsByClassName("tabular"));
+        //    dragula(elms);
+        //}, 1000);
     }
 
     public add(path?: string): Tab {

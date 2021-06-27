@@ -1,5 +1,9 @@
 export class FileSizeValueConverter {
     public toView(size: number): string {
+        return FileSizeValueConverter.toFormattedString(size);
+    }
+
+    public static toFormattedString(size: number): string {
         if (size === undefined || size === null)
             return '';
 

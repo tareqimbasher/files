@@ -1,13 +1,39 @@
 <template>
     <div class="ui basic ${settings.inverted} segment p-0">
         <div class="container">
-            ${allFsItemsCount} items
-            <span show.bind="selectedFsItemsCount > 0">
-                | ${selectedFsItemsCount} item selected
-            </span>
-            <span show.bind="selectedFsItemsSize !== undefined">
-                | Size: ${selectedFsItemsSize | fileSize}
-            </span>
+            <div class="ui equal width grid">
+                <div class="column">
+                    ${allFsItemsCount} items
+                    <span show.bind="selectedFsItemsCount > 0">
+                        | ${selectedFsItemsCount} item selected
+                    </span>
+                    <span show.bind="selectedFsItemsSize !== undefined">
+                        | Size: ${selectedFsItemsSize | fileSize}
+                    </span>
+                </div>
+                <div class="right aligned column">
+                    <span if.bind="clipboard.items.length" click.trigger="showClipboard = !showClipboard">
+                        <i class="ui green check circle icon"></i> ${clipboard.items.length} items ${clipboard.type === 'Copy' ? 'copied' : 'cut'}
+                    </span>
+                    <span else click.trigger="showClipboard = !showClipboard">
+                        <i class="ui grey clipboard icon" title="Clipboard is empty"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="clipboard-contents" show.bind="showClipboard">
+            <div class="ui list">
+                <div class="item" repeat.for="ci of clipboard.items" title="${ci.item.path}">
+                    <i class="ui ${ci.item.isDir ? 'yellow folder' : 'file'} icon"></i>
+                    ${ci.item.name | truncate:20}
+                </div>
+            </div>
+            <div class="ui divider"></div>
+            <button class="ui fluid ${settings.inverted} ${clipboard.items.length ? '' : 'disabled'} button"
+                    click.delegate="clipboard.clear()">
+                Clear
+            </button>
         </div>
     </div>
 </template>

@@ -10,6 +10,7 @@ import dragula from "dragula";
 import "dragula/dist/dragula.css";
 import { ItemProperties } from "../../popups/properties/item-properties";
 import { FsViewSorting } from "./fs-view-sorting";
+import { Clipboard, ClipboardItemType } from "../../common";
 
 export class FsView {
 
@@ -17,7 +18,6 @@ export class FsView {
 
     @bindable public tab!: Tab;
     @bindable public fsItems!: FsItems;
-
 
     private sorting: FsViewSorting;
     private itemList!: HTMLElement;
@@ -29,6 +29,7 @@ export class FsView {
         private readonly fileService: FileService,
         private readonly settings: Settings,
         private readonly element: HTMLElement,
+        private readonly clipboard: Clipboard,
         @IDialogService private readonly dialogService: IDialogService,
         @ILogger private readonly logger: ILogger) {
 
@@ -42,10 +43,11 @@ export class FsView {
         this.initDragAndDrop();
     }
 
-
     public detaching() {
         this.detaches.forEach(f => f());
     }
+
+
 
     public openSelected() {
 
@@ -70,6 +72,48 @@ export class FsView {
                 this.logger.error(ex);
             }
         }
+    }
+
+    public copySelectedItems() {
+        let fsItems = this.fsItems.selected;
+
+        if (!fsItems.length)
+            return;
+
+        this.clipboard.addCopyItems(...fsItems);
+    }
+
+    public cutSelectedItems() {
+        let fsItems = this.fsItems.selected;
+
+        if (!fsItems.length)
+            return;
+
+        this.clipboard.addCutItems(...fsItems);
+    }
+
+    public async pasteItems() {
+        if (!this.clipboard.items.length)
+            return;
+
+        for (let ci of this.clipboard.items) {
+
+            const targetPath = system.path.join(this.tab.path, ci.item.name);
+
+            if (this.fileService.pathExists(targetPath)) {
+                alert(`Destination: '${targetPath}' aleady exists. This item will not be ${ci.type === ClipboardItemType.Copy ? 'copied' : 'moved'}.`);
+                continue;
+            }
+
+            if (ci.type === ClipboardItemType.Copy) {
+                await this.fileService.copy(ci.item, targetPath, false);
+            }
+            else if (ci.type === ClipboardItemType.Cut) {
+                await this.fileService.move(ci.item, targetPath);
+            }
+        }
+
+        this.clipboard.clear();
     }
 
     public async deleteSelected(permanent: boolean = false) {
@@ -111,6 +155,8 @@ export class FsView {
         });
     }
 
+
+
     private navigateGrid(direction: "up" | "down" | "right" | "left", ev: KeyboardEvent) {
 
         if (!ev.ctrlKey && !ev.shiftKey)
@@ -132,25 +178,42 @@ export class FsView {
 
     private bindKeyboardEvents() {
         const keyHandler = (ev: KeyboardEvent) => {
-            if (!ev.altKey) {
-                if (ev.code == KeyCode.KeyA) {
+            if (ev.ctrlKey && !ev.altKey) {
+                if (ev.code === KeyCode.KeyA) {
                     this.fsItems.selectAll();
                     ev.preventDefault();
                 }
-                else if (ev.code == KeyCode.ArrowRight) {
+                else if (ev.code === KeyCode.KeyC) {
+                    this.copySelectedItems();
+                }
+                else if (ev.code === KeyCode.KeyX) {
+                    this.cutSelectedItems();
+                }
+                else if (ev.code === KeyCode.KeyV) {
+                    this.pasteItems();
+                }
+            }
+            else if (!ev.ctrlKey && !ev.altKey) {
+                if (ev.code === KeyCode.ArrowRight) {
                     this.navigateGrid("right", ev);
                 }
-                else if (ev.code == KeyCode.ArrowLeft) {
+                else if (ev.code === KeyCode.ArrowLeft) {
                     this.navigateGrid("left", ev);
                 }
-                else if (ev.code == KeyCode.ArrowUp) {
+                else if (ev.code === KeyCode.ArrowUp) {
                     this.navigateGrid("up", ev);
                 }
-                else if (ev.code == KeyCode.ArrowDown) {
+                else if (ev.code === KeyCode.ArrowDown) {
                     this.navigateGrid("down", ev);
                 }
-                else if (ev.code == KeyCode.Enter && this.fsItems.selected.length > 0) {
+                else if (ev.code === KeyCode.Enter && this.fsItems.selected.length > 0) {
                     this.openSelected();
+                }
+                else if (ev.shiftKey && ev.code === KeyCode.Delete) {
+                    this.deleteSelected(true);
+                }
+                else if (ev.code === KeyCode.Delete) {
+                    this.deleteSelected(false);
                 }
             }
         };
