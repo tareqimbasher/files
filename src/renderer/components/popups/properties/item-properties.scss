@@ -11,7 +11,7 @@
     width: 350px;
     height: 380px;
 
-    .ui.main.segment {
+    .ui.wrapper.segment {
         height: 100%;
     }
 
@@ -27,6 +27,19 @@
         font-size: 0.6em;
     }
 
+    .ui.hidden.divider {
+        margin-top: 7px;
+        margin-bottom: 7px;
+    }
+
+    .item-icon {
+        margin-left: 5px !important;
+    }
+
+    .item-name {
+        margin-left: 10px;
+    }
+
     .buttons {
         position: absolute;
         bottom: 15px;
@@ -37,7 +50,7 @@
 .properties {
     .property {
         .label {
-            width: 90px;
+            width: 70px;
             display: inline-block;
             font-weight: bold;
         }

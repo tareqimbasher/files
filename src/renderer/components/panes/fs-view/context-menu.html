@@ -6,7 +6,8 @@
 
         <!--IF NO FILES SELECTED-->
         <div class="item"
-             show.bind="!selected.any">
+             show.bind="!selected.any"
+             click.trigger="model.createNewFolder()">
             <i class="folder plus icon"></i>
             <div class="content">
                 New Folder
@@ -52,7 +53,8 @@
             </div>
         </div>
         <div class="item"
-             show.bind="!selected.any">
+             show.bind="!selected.any"
+             click.trigger="model.tab.refresh()">
             <i class="redo alternate icon"></i>
             <div class="content">
                 Refresh
@@ -93,7 +95,8 @@
             </div>
         </div>
         <div class="item"
-             show.bind="!selected.any">
+             show.bind="model.clipboard.items.length"
+             click.trigger="model.pasteItems()">
             <i class="paste icon"></i>
             <div class="content">
                 Paste

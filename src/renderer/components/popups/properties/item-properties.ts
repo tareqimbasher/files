@@ -1,4 +1,4 @@
-import { IDialogDom, DefaultDialogDom, IDialogController } from '@aurelia/runtime-html';
+import { IDialogDom, DefaultDialogDom, IDialogController, IDialogService } from '@aurelia/runtime-html';
 import { IEventAggregator, ILogger, watch } from 'aurelia';
 import { FileService, FileSystemItem, FileSystemItemPropertiesChangedEvent, IconLoader, Settings } from "../../../core";
 import { DialogBase } from '../../common';
@@ -82,5 +82,14 @@ export class ItemProperties extends DialogBase {
 
     public cancel() {
         this.controller.cancel();
+    }
+
+    public static async openAsDialog(dialogService: IDialogService, items: FileSystemItem[]): Promise<void> {
+        const opened = await dialogService.open({
+            component: () => ItemProperties,
+            model: items
+        });
+
+        await opened.dialog.closed;
     }
 }

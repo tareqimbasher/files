@@ -1,5 +1,24 @@
 @import './colors.scss';
 
+.primary, .blue {
+    &.text {
+        color: dodgerblue;
+    }
+
+    &.icon {
+        color: dodgerblue !important;
+    }
+
+    &.ui.button, .ui.buttons &.button {
+        background-color: dodgerblue;
+
+        &:hover {
+            background-color: #2185D0;
+        }
+    }
+}
+
+
 .item .header, .ui.menu {
     font-family: Arabic, 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif !important;
 }
@@ -14,18 +33,8 @@
     }
 }
 
-.ui.button, .ui.buttons .button {
-    &.primary {
-        background-color: dodgerblue;
-
-        &:hover {
-            background-color: #2185D0;
-        }
-    }
-}
-
 .ui.button, .ui.buttons.button {
     border-radius: 0;
-    padding-top: 0.5em;
-    padding-bottom: 0.52em;
+    padding-top: 0.4em;
+    padding-bottom: 0.6em;
 }

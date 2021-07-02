@@ -1,8 +1,10 @@
 ﻿import { IContainer, IDisposable } from "aurelia";
-import { FileService, FileSystemItem, FsItems, Settings, system, Util } from "../../../core";
+import { Directory, FileService, FsItems, Settings, system, Util } from "../../../core";
 import { Tabs } from "./tabs";
 import * as chokidar from "chokidar";
 import { Stats } from "fs";
+import { TabHistory } from "./tab-history";
+import { TabHistoryState } from "./tab-history-state";
 
 export class Tab implements IDisposable {
     public id: string;
@@ -10,6 +12,7 @@ export class Tab implements IDisposable {
     public path!: string;
     public pathName!: string;
     public pathParts: string[] = [];
+    public directory!: Directory;
 
     public fsItems: FsItems;
     public history: TabHistory;
@@ -77,6 +80,9 @@ export class Tab implements IDisposable {
         if (!this.pathName.trim()) this.pathName = newPath;
         this.pathParts = newPath.split(/[/\\]+/);
 
+        this.directory = new Directory(newPath);
+        this.directory.updateInfo(await system.fs.stat(newPath));
+
         await this.updateFileListing(newPath);
 
         this.history.current.restore(this.fsItems);
@@ -106,6 +112,10 @@ export class Tab implements IDisposable {
         this.tabs.setActive(this);
     }
 
+    public refresh() {
+        this.updateFileListing(this.path);
+    }
+
     public close() {
         this.tabs.remove(this);
     }
@@ -133,10 +143,18 @@ export class Tab implements IDisposable {
 
 
         const itemAdded = async (itemPath: string, stats: Stats | undefined) => {
-            const name = system.path.basename(itemPath);
 
-            if (itemPath == newPath)
+            if (itemPath == newPath) return;
+
+            const name = system.path.basename(itemPath);
+            const dirPath = system.path.dirname(itemPath);
+
+            // if an item was added at depth 1
+            if (dirPath != newPath) {
+                const dir = this.fsItems.values.find(i => i.path == dirPath) as Directory;
+                if (dir) await dir.containingItemsChanged();
                 return;
+            }
 
             if (this.fsItems.containsKey(name))
                 return;
@@ -157,6 +175,14 @@ export class Tab implements IDisposable {
 
         const itemRemoved = async (itemPath: string) => {
             const name = system.path.basename(itemPath);
+            const dirPath = system.path.dirname(itemPath);
+
+            // if an item was removed at depth 1
+            if (dirPath != newPath) {
+                const dir = this.fsItems.values.find(i => i.path == dirPath) as Directory;
+                if (dir) await dir.containingItemsChanged();
+                return;
+            }
 
             if (!this.fsItems.containsKey(name))
                 return;
@@ -165,10 +191,9 @@ export class Tab implements IDisposable {
         }
 
 
-
         if (!this.fsWatcher) {
             this.fsWatcher = chokidar.watch(newPath, {
-                depth: 0,
+                depth: 1,
                 persistent: true
             });
             this.disposables.push(() => this.fsWatcher?.close());
@@ -227,94 +252,6 @@ export class Tab implements IDisposable {
                     duration: measurement.duration
                 });
             }
-        }
-    }
-}
-
-/**
- * Keeps track of the navigation history for a Tab.
- */
-class TabHistory {
-
-    public list: TabHistoryState[];
-    public current!: TabHistoryState;
-    public currentIndex = 0;
-    public canGoBack = false;
-    public canGoForward = false;
-
-    constructor(current: string) {
-        this.list = [];
-        this.set(new TabHistoryState(current));
-    }
-
-    public set(state: TabHistoryState): TabHistoryState {
-
-        this.current = state;
-
-        const ix = this.list.indexOf(state);
-        const isNew = ix < 0;
-
-        if (isNew) {
-            // If we had previouly gone "back" and we now have a new destination (not going forward in history)
-            // then remove the rest of the forward history
-            if (this.currentIndex != this.list.length - 1)
-                this.list.splice(this.currentIndex + 1, this.list.length - this.currentIndex);
-
-            this.list.push(state);
-            this.currentIndex = this.list.length - 1;
-        }
-        else
-            this.currentIndex = ix;
-
-        this.canGoBack = this.currentIndex > 0;
-        this.canGoForward = this.currentIndex < (this.list.length - 1);
-
-        return state;
-    }
-
-    public getPrevious(): TabHistoryState | undefined {
-        return this.currentIndex >= 1
-            ? this.list[this.currentIndex - 1]
-            : undefined;
-    }
-
-    public getNext(): TabHistoryState | undefined {
-        return this.currentIndex < (this.list.length - 1)
-            ? this.list[this.currentIndex + 1]
-            : undefined;
-    }
-}
-
-class TabHistoryState {
-
-    /**
-     * The single selected file system item before this state was navigated away from.
-     */
-    public selectedFileSystemItem: FileSystemItem | undefined;
-
-    constructor(public path: string) {
-    }
-
-    /**
-     * Remembers some information that can be restored when this history state is navigated to.
-     */
-    public remember(fsItems: FsItems) {
-        // Remember the single seleceted fs item if applicable
-        if (fsItems.selected.length == 1)
-            this.selectedFileSystemItem = fsItems.selected[0];
-        else
-            this.selectedFileSystemItem = undefined;
-    }
-
-    /**
-     * Restore remembered information.
-     */
-    public restore(fsItems: FsItems) {
-        // Restore the single selected item if applicable
-        if (this.selectedFileSystemItem) {
-            const item = fsItems.view.find(i => i.name == this.selectedFileSystemItem?.name);
-            if (item)
-                fsItems.select(item);
         }
     }
 }

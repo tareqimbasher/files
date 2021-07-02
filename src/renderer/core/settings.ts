@@ -13,6 +13,8 @@ export class Settings {
     }
 
     public setTheme(theme: string) {
+        document.body.classList.remove(this.theme);
+        document.body.classList.add(theme);
         this.theme = theme;
         this.inverted = theme == "dark" ? "inverted" : "";
         this.publishSettingsChangedEvent();

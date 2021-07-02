@@ -8,14 +8,21 @@ export class IconLoader {
     private static imgFormats = [".jpg", ".jpeg", ".png", ".gif", ".jfif", ".bmp", ".svg"];
 
     public static async getIcon(item: FileSystemItem): Promise<string> {
-        if (item.extension && IconLoader.imgFormats.indexOf(item.extension.toLocaleLowerCase()) >= 0)
-            return this.thumbnail(item);
-        else if (item.extension.toLowerCase() == ".exe") {
-            let icon = await system.app.getFileIcon(item.path, { size: "large" });
-            return icon.toDataURL();
+        let iconPath = "";
+
+        if (!!item.extension) {
+            if (IconLoader.imgFormats.indexOf(item.extension.toLocaleLowerCase()) >= 0)
+                iconPath = this.thumbnail(item);
+            else if (item.extension.toLowerCase() == ".exe") {
+                let icon = await system.app.getFileIcon(item.path, { size: "large" });
+                iconPath = icon.toDataURL();
+            }
         }
-        else
-            return `${system.fileScheme}://assets/icons/file-system/png/${this.localIcon(item)}.png`;
+
+        if (!iconPath)
+            iconPath = `${system.fileScheme}://assets/icons/file-system/png/${this.localIcon(item)}.png`;
+
+        return iconPath;
     }
 
     private static localIcon(item: FileSystemItem): string {

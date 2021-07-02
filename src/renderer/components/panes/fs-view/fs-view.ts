@@ -11,6 +11,7 @@ import "dragula/dist/dragula.css";
 import { ItemProperties } from "../../popups/properties/item-properties";
 import { FsViewSorting } from "./fs-view-sorting";
 import { Clipboard, ClipboardItemType } from "../../common";
+import { AlertDialog, AlertDialogButtonType, AlertDialogHelper, AlertDialogOptions, AlertDialogType } from "../../common/dialogs/alert-dialog";
 
 export class FsView {
 
@@ -31,6 +32,7 @@ export class FsView {
         private readonly element: HTMLElement,
         private readonly clipboard: Clipboard,
         @IDialogService private readonly dialogService: IDialogService,
+        private readonly alertDialogHelper: AlertDialogHelper,
         @ILogger private readonly logger: ILogger) {
 
         this.id = Util.newGuid();
@@ -41,6 +43,16 @@ export class FsView {
         this.bindMouseEvents();
         this.bindKeyboardEvents();
         this.initDragAndDrop();
+
+        //setTimeout(() => {
+        //    this.dialogService.open({
+        //        component: () => AlertDialog,
+        //        model: new AlertDialogOptions({
+        //            title: 'Title Text',
+        //            text: `This is a test.`
+        //        })
+        //    });
+        //}, 500);
     }
 
     public detaching() {
@@ -96,20 +108,38 @@ export class FsView {
         if (!this.clipboard.items.length)
             return;
 
+        let targetDirPath: string;
+
+        if (this.fsItems.selected.length === 1 && this.fsItems.selected[0].isDir)
+            targetDirPath = this.fsItems.selected[0].path;
+        else
+            targetDirPath = this.tab.path;
+
         for (let ci of this.clipboard.items) {
 
-            const targetPath = system.path.join(this.tab.path, ci.item.name);
+            const targetPath = system.path.join(targetDirPath, ci.item.name);
+
+            const actionVerb = ci.type === ClipboardItemType.Copy ? 'copied' : 'moved';
 
             if (this.fileService.pathExists(targetPath)) {
-                alert(`Destination: '${targetPath}' aleady exists. This item will not be ${ci.type === ClipboardItemType.Copy ? 'copied' : 'moved'}.`);
+                await this.alertDialogHelper.alert(
+                    ci.type,
+                    `Destination: '${targetPath}' aleady exists. This item will not be ${actionVerb}.`,
+                    AlertDialogType.Warning
+                );
                 continue;
             }
 
-            if (ci.type === ClipboardItemType.Copy) {
-                await this.fileService.copy(ci.item, targetPath, false);
-            }
-            else if (ci.type === ClipboardItemType.Cut) {
-                await this.fileService.move(ci.item, targetPath);
+            try {
+                if (ci.type === ClipboardItemType.Copy) {
+                    await this.fileService.copy(ci.item, targetPath, false);
+                }
+                else if (ci.type === ClipboardItemType.Cut) {
+                    await this.fileService.move(ci.item, targetPath);
+                }
+            } catch (ex) {
+                await this.alertDialogHelper.alert(`${ci.type} Error`, `'${ci.item.name}' was not ${actionVerb}.\n${ex}`, AlertDialogType.Error);
+                break;
             }
         }
 
@@ -123,36 +153,65 @@ export class FsView {
 
         const items = fsItems.length === 1 ? `'${fsItems[0].name}'` : `${fsItems.length} items`;
 
-        if (!permanent && confirm(`Are you sure you want to move ${items} to the trash?`)) {
+        if (!permanent && await this.alertDialogHelper.confirm(
+            "Move to Trash",
+            `Are you sure you want to move ${items} to the trash?`,
+            'Trash',
+            AlertDialogButtonType.Danger
+        )) {
             for (const item of fsItems) {
                 try {
-                    if (!await this.fileService.moveToTrash(item.path))
+                    if (!await this.fileService.moveToTrash(item))
                         throw new Error(`${item.name} could not be moved to the trash.`);
                 } catch (ex) {
-                    alert(`One or more files did not get moved to the trash. Error: ${ex}`);
+
+                    await this.alertDialogHelper.alert("Error", `One or more files did not get moved to the trash. Error: ${ex}`, AlertDialogType.Error);
                     break;
                 }
             }
         }
-        else if (permanent && confirm(`Are you sure you want to permanently delete ${items}? This cannot be undone.`)) {
+        else if (permanent && await this.alertDialogHelper.confirm(
+            "Delete",
+            `Are you sure you want to permanently delete ${items}? This cannot be undone.`,
+            'Delete',
+            AlertDialogButtonType.Danger
+        )) {
             for (const item of fsItems) {
                 try {
-                    console.warn("will delete", item);
-                    await this.fileService.delete(item.path);
+                    await this.fileService.delete(item);
                 } catch (ex) {
-                    alert(`One or more files did not get moved to the trash. Error: ${ex}`);
+                    await this.alertDialogHelper.alert("Error", `One or more files did not get deleted. Error: ${ex}`, AlertDialogType.Error);
                     break;
                 }
             }
         }
     }
 
-    public showSelectedItemProperties() {
-        this.dialogService.open({
-            component: () => ItemProperties,
-            model: this.fsItems.selected,
-            host: document.getElementsByClassName("window")[0]
-        });
+    public async createNewFolder() {
+        let newDirPath: string = system.path.join(this.tab.path, "New Folder");
+
+        while (this.fileService.pathExists(newDirPath)) {
+            const split = newDirPath.split(' ');
+            const numStr = split.slice(-1)[0];
+            let num = Number(numStr);
+
+            if (isNaN(num)) {
+                newDirPath = split.join(' ') + ' 2';
+            }
+            else {
+                newDirPath = split.slice(0, -1).join(' ') + ' ' + (num + 1);
+            }
+        }
+
+        try {
+            await system.fs.mkdir(newDirPath);
+        } catch (ex) {
+            await this.alertDialogHelper.alert("New Folder Error", `Could not create new directory.\n${ex}`, AlertDialogType.Error);
+        }
+    }
+
+    public async showSelectedItemProperties() {
+        await ItemProperties.openAsDialog(this.dialogService, this.fsItems.selected.length > 0 ? this.fsItems.selected : [this.tab.directory]);
     }
 
 
@@ -477,14 +536,27 @@ export class FsView {
                 ? selected[0].name
                 : (selected.length + " items");
 
-            const confirmed = this.settings.confirmOnMove
-                ? await confirm(`Are you sure you want to move ${draggedItemsNames} to ${droppedOnItem.name}?`)
-                : true;
+            let confirmed = false;
+
+            if (this.settings.confirmOnMove) {
+                confirmed = await this.alertDialogHelper.confirm(
+                    "Confirm Move",
+                    `Are you sure you want to move ${draggedItemsNames} to ${droppedOnItem.name}?`,
+                    'Move'
+                );
+            }
+            else
+                confirmed = true;
 
             if (confirmed) {
                 for (const item of selected) {
                     console.log("Moving from/to: ", item, droppedOnItem);
-                    this.fileService.move(item, droppedOnItem as Directory);
+                    try {
+                        await this.fileService.move(item, droppedOnItem as Directory);
+                    } catch (ex) {
+                        await this.alertDialogHelper.alert("Move Error", `'${item.name}' was not moved.\n${ex}`, AlertDialogType.Error);
+                        break;
+                    }
                 }
             }
 

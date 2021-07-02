@@ -37,5 +37,34 @@ export class Util {
 			return str;
 
 		return str.substr(0, maxLength - 3) + "...";
-	}
+    }
+
+    /**
+     * Creates a debounced function that delays invoking func until after wait milliseconds have elapsed since the last time the
+     * debounced function was invoked.
+     * @param thisContext The context of 'this'
+     * @param func The function to debounce.
+     * @param waitMs The number of milliseconds to debounce.
+     * @param immediate If true, will execute the function immediatly and then waits for the interval before being called again.
+     */
+    public static debounce(thisContext: any, func: Function, waitMs: number, immediate?: boolean) {
+        var timeout: any;
+
+        return function executedFunction() {
+            var args = arguments;
+
+            var later = function () {
+                timeout = null;
+                if (!immediate) func.apply(thisContext, args);
+            };
+
+            var callNow = immediate && !timeout;
+
+            clearTimeout(timeout);
+
+            timeout = setTimeout(later, waitMs);
+
+            if (callNow) func.apply(thisContext, args);
+        };
+    };
 }

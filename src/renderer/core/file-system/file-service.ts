@@ -95,28 +95,42 @@ export class FileService {
         await system.fs.copyFile(source.path, targetPath, !overwrite ? system.fss.constants.COPYFILE_EXCL : undefined);
     }
 
-    public move(source: FileSystemItem, targetPath: string): Promise<void>;
-    public move(source: FileSystemItem, targetDirectory: Directory): Promise<void>;
+    public move(item: FileSystemItem, targetPath: string, overwrite?: boolean): Promise<void>;
+    public move(item: FileSystemItem, targetDirectory: Directory, overwrite?: boolean): Promise<void>;
 
-    public async move(source: FileSystemItem, target: string | Directory): Promise<void> {
+    public async move(item: FileSystemItem, target: string | Directory, overwrite: boolean = false): Promise<void> {
+        if (overwrite !== true)
+            overwrite = false;
+
+        let targetPath: string;
+
         if (typeof target === 'string') {
-            await system.fs.rename(source.path, target);
+            targetPath = target;
         }
         else {
-            await system.fs.rename(source.path, system.path.join(target.path, source.name));
+            targetPath = system.path.join(target.path, item.name);
         }
+
+        if (!overwrite && this.pathExists(targetPath)) {
+            throw new Error(`Target path already exists: ${targetPath}`);
+        }
+
+        await system.fs.rename(item.path, targetPath);
     }
 
-    public async rename(source: FileSystemItem, newName: string): Promise<void> {
-        await this.move(source, system.path.join(source.directoryPath, newName));
+    public async rename(item: FileSystemItem, newName: string): Promise<void> {
+        await this.move(item, system.path.join(item.directoryPath, newName));
     }
 
-    public async moveToTrash(path: string) {
-        return system.shell.moveItemToTrash(path, false);
+    public async moveToTrash(item: FileSystemItem) {
+        return system.shell.moveItemToTrash(item.path, false);
     }
 
-    public async delete(path: string) {
-        await system.fs.unlink(path);
+    public async delete(item: FileSystemItem) {
+        if (item.isDir)
+            await system.fs.rmdir(item.path, { recursive: true });
+        else
+            await system.fs.unlink(item.path);
     }
 
     public pathExists(path: string): boolean {

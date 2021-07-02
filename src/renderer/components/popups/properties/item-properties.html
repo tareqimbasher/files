@@ -1,5 +1,5 @@
 <div class="item-properties">
-    <div class="main ui ${settings.inverted} segment">
+    <div class="wrapper ui ${settings.inverted} segment">
 
         <button class="ui red circular icon mini close button"
                 click.delegate="cancel()">
@@ -14,11 +14,11 @@
 
         <div class="ui items" style="margin: 0">
             <div class="item">
-                <div class="ui mini image">
+                <div class="item-icon ui mini image">
                     <img src.bind="icon">
                 </div>
                 <div class="middle aligned content">
-                    <div class="ui mini fluid ${settings.inverted} input" style="margin-left: 35px">
+                    <div class="item-name ui mini fluid ${settings.inverted} input">
                         <input type="text" value.bind="editableInfo.name" />
                     </div>
                 </div>
@@ -39,11 +39,26 @@
                 <div class="label">Location:</div>
                 <div class="value">${item.directoryPath}</div>
             </div>
-            <div class="property">
+            <!--<div class="property" if.bind="item.type === 'Directory'">
                 <div class="label">Size:</div>
                 <div class="value">
-                    <span if.bind="item.type === 'Directory'">Contians ${item.itemCount} items</span>
-                    <span else>${item.size | fileSize} (${item.size} bytes)</span>
+                    <span>Contians ${item.itemCount} items</span>
+                </div>
+            </div>-->
+            <div class="property" if.bind="item.type === 'Directory'">
+                <div class="label">Contains:</div>
+                <div class="value">
+                    <span>
+                        ${item.directoriesCount} Folders,
+                        ${item.filesCount} files
+                        <span if.bind="item.filesCount">(${item.filesTotalSize | fileSize})</span>
+                    </span>
+                </div>
+            </div>
+            <div class="property" if.bind="item.type !== 'Directory'">
+                <div class="label">Size:</div>
+                <div class="value">
+                    <span>${item.size | fileSize} (${item.size} bytes)</span>
                 </div>
             </div>
 
@@ -75,11 +90,20 @@
 
         <div class="buttons clearfix">
             <button class="ui right floated mini ${changePending ? '' : 'disabled'} button"
-                    click.delegate="apply()">Apply</button>
+                    tabindex="3"
+                    click.delegate="apply()">
+                Apply
+            </button>
             <button class="ui right floated mini primary button"
-                    click.delegate="ok()">OK</button>
+                    tabindex="2"
+                    click.delegate="ok()">
+                OK
+            </button>
             <button class="ui right floated mini button"
-                    click.delegate="cancel()">Cancel</button>
+                    tabindex="1"
+                    click.delegate="cancel()">
+                Cancel
+            </button>
         </div>
     </div>
 </div>
