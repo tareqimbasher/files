@@ -1,6 +1,7 @@
 $accent-color: dodgerblue;
 
-$dark-background: #1B1C1D;
+$dark-background: rgb(27, 28, 29);
+$dark-background-transparent: rgb(27, 28, 29, 0.95);
 $dark-background-light: #1E1E1E;
 $dark-background-lighter: #2c2c2c;
 $dark-border-color: #505152;
@@ -11,5 +12,7 @@ $dark-active-unfocused-color: rgba(255, 255, 255, 0.15);
 $dark-muted-text-color: rgba(255, 255, 255, 0.6);
 $dark-splitter-color: #4d4d4d;
 
+$light-background: rgb(255, 255, 255);
+$light-background-transparent: rgba(255, 255, 255, 0.95);
 $light-active-color: rgba(30, 144, 255, 0.25);
 $light-hover-color: rgba(238, 238, 238, 0.50);

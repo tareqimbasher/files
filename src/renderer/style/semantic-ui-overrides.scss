@@ -23,8 +23,9 @@
     font-family: Arabic, 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif !important;
 }
 
-.ui.segments, .ui.segment {
+.ui.segments, .ui.segment, .ui.segment.inverted {
     border-radius: 0 !important;
+    background: none;
 }
 
 .dark {

@@ -48,7 +48,13 @@ status-bar {
     }
 }
 
+.light status-bar {
+    background-color: $light-background-transparent;
+}
+
 .dark status-bar {
+    background-color: $dark-background-transparent;
+
     .clipboard-contents {
         background: $dark-background-lighter;
         border: 1px solid $dark-hover-color;

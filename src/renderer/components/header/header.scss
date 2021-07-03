@@ -1,14 +1,15 @@
 @import "../../style/colors.scss";
 
 header {
-    background-color: #eee;
     height: 20px;
     border-bottom: 1px solid #eee;
 }
 
-.dark {
-    header {
-        background-color: $dark-background;
-        border-bottom-color: $dark-border-color;
-    }
+.light header {
+    background-color: #eee;
+}
+
+.dark header {
+    background-color: $dark-background;
+    border-bottom-color: $dark-border-color;
 }

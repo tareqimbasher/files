@@ -6,7 +6,7 @@ pane-group {
 
     &:before {
         content: " ";
-        background-color: #ccc;
+        /*background-color: #ccc;*/
         width: 2px;
         min-width: 2px;
         max-width: 2px;
@@ -15,6 +15,14 @@ pane-group {
     }
 }
 
-.dark pane-group:before {
-    background-color: $dark-splitter-color;
+.light pane-group {
+    background-color: $light-background;
+}
+
+.dark pane-group {
+    background-color: $dark-background;
+
+    &:before {
+        background-color: $dark-splitter-color;
+    }
 }

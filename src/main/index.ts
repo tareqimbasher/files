@@ -24,7 +24,10 @@ const windowManager = new WindowManager(MAIN_WINDOW_WEBPACK_ENTRY);
 
 
 app.on('ready', (event, launchInfo) => {
-    windowManager.createWindow();
+    // Without a timeout, transparency does not seem to work
+    setTimeout(() => {
+        windowManager.createWindow();
+    }, 10);
     registerProtocols(app);
 });
 

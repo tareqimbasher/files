@@ -6,7 +6,7 @@ export class DialogBase {
         @IDialogDom protected readonly dialogDom: DefaultDialogDom,
         @IDialogController protected readonly controller: IDialogController) {
 
-
+        dialogDom.contentHost.classList.add('dialog');
         dialogDom.contentHost.style.position = "relative";
         dialogDom.contentHost.style.margin = "auto";
         dialogDom.contentHost.style.display = "flex";

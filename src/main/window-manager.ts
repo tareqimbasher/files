@@ -1,20 +1,22 @@
-import { BrowserWindow } from 'electron';
+import { BrowserWindow, screen } from 'electron';
 
 export class WindowManager {
     private windows = new Set<BrowserWindow>();
 
     constructor(private readonly windowEntryPoint: string) {
-
     }
 
     public createWindow() {
         let window: BrowserWindow | null;
 
+        const displaySize = screen.getPrimaryDisplay().size;
+
         window = new BrowserWindow({
             show: false,
-            height: 900,
-            width: 1400,
+            height: Math.floor(displaySize.height * 2 / 3),
+            width: Math.floor(displaySize.width * 2 / 3),
             frame: false,
+            transparent: true,
             webPreferences: {
                 enableRemoteModule: true,
                 nodeIntegration: true,

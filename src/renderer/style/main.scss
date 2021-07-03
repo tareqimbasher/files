@@ -1,4 +1,5 @@
 @import './variables.scss';
+@import './colors.scss';
 @import './common.scss';
 @import './semantic-ui-overrides.scss';
 
@@ -23,6 +24,7 @@
 body {
     font-family: Arabic, Calibri, 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif !important;
     height: 100%;
+    background-color: transparent;
 }
 
 .container-after-titlebar {
@@ -31,3 +33,10 @@ body {
     width: 100%;
 }
 
+.light .dialog > *:first-child {
+    background: $light-background;
+}
+
+.dark .dialog > *:first-child {
+    background: $dark-background;
+}

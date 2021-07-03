@@ -36,7 +36,13 @@ sidebar {
     }
 }
 
-.dark {
+.light sidebar {
+    background-color: $light-background-transparent;
+}
+
+.dark sidebar {
+    background-color: $dark-background-transparent;
+
     .ui.list.pinned-directories {
         > .item {
             &.selectable {
