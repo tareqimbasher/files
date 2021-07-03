@@ -63,7 +63,7 @@ export class FsItems extends Dictionary<string, FileSystemItem> {
         }
     }
 
-    public search(term: string) {
+    public search(term?: string) {
         this.searchTerm = term;
     }
 }

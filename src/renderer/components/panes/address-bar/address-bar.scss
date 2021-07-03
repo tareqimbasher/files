@@ -13,17 +13,6 @@
         vertical-align: middle;
     }
 
-    .search-container {
-        flex: 0 0 25%;
-        max-width: 250px;
-        vertical-align: middle;
-        margin-left: 10px;
-
-        .ui.icon.input > input:focus ~ i.icon {
-            color: dodgerblue;
-        }
-    }
-
     .breadcrumb-container {
         flex: 1;
 
@@ -37,12 +26,12 @@
     .breadcrumb {
         border: 1px solid rgba(34, 36, 38, 0.15);
         width: 100%;
-        padding: 0px 14px;
+        padding: 0px 8px;
         user-select: none;
 
         address-crumb {
             display: inline-block;
-            padding: 6px 3px;
+            padding: 5px 3px;
         }
 
         address-crumb:not(.active):hover {
@@ -56,8 +45,8 @@
 
     .ui.input {
         input {
-            padding-top: 7px;
-            padding-bottom: 7px;
+            padding-top: 6.5px;
+            padding-bottom: 6.5px;
             border-radius: 0 !important;
             background: transparent;
         }
@@ -96,20 +85,14 @@
             background: $dark-hover-color;
         }
     }
+}
 
-    .search-container {
-        flex: 0 0 400px;
-        vertical-align: middle;
-        margin-left: 10px;
 
-        .ui.icon.input {
-            .icon {
-                color: white;
-            }
+.light address-bar {
+}
 
-            > input:focus ~ .icon {
-                color: dodgerblue;
-            }
-        }
+.dark address-bar {
+    .breadcrumb {
+        /*background-color: #333;*/
     }
 }

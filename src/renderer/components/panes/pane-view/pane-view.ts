@@ -1,4 +1,4 @@
-import { bindable, EventAggregator } from "aurelia";
+import { bindable } from "aurelia";
 import { Settings } from "../../../core";
 import { Pane } from "../pane";
 
@@ -6,7 +6,7 @@ import { Pane } from "../pane";
 export class PaneView {
     @bindable public pane!: Pane;
 
-    constructor(public settings: Settings, private eventBus: EventAggregator) {
+    constructor(public settings: Settings) {
     }
 
     public attached() {

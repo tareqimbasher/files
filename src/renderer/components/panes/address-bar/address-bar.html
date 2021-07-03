@@ -1,5 +1,4 @@
 <template>
-
     <template as-custom-element="address-crumb" class="${last ? 'active' : ''}">
         <bindable property="part"></bindable>
         <bindable property="last"></bindable>
@@ -10,49 +9,9 @@
 
     <div class="ui ${settings.inverted} segment address-bar">
         <div class="inner-container">
-            <div class="buttons-container">
-                <!--ATTACHED ICONS-->
-                <!--<div class="ui tiny icon buttons">
-                    <button class="ui button" click.delegate="pane.tabs.active.goHome()">
-                        <i class="home icon"></i>
-                    </button>
-                    <button class="ui button"
-                            click.delegate="pane.tabs.active.goBack()"
-                            disabled.bind="!pane.tabs.active.history.canGoBack">
-                        <i class="left arrow icon"></i>
-                    </button>
-                    <button class="ui button"
-                            click.delegate="pane.tabs.active.goForward()"
-                            disabled.bind="!pane.tabs.active.history.canGoForward">
-                        <i class="right arrow icon"></i>
-                    </button>
-                    <button class="ui button" click.delegate="pane.tabs.active.goUp()">
-                        <i class="up arrow icon"></i>
-                    </button>
-                </div>-->
-
-                <!--CIRCULAR ICONS-->
-                <button class="tiny circular ui icon button" click.delegate="pane.tabs.active.goHome()">
-                    <i class="home icon"></i>
-                </button>
-                <button class="tiny circular ui icon button"
-                        click.delegate="pane.tabs.active.goBack()"
-                        disabled.bind="!pane.tabs.active.history.canGoBack">
-                    <i class="left arrow icon"></i>
-                </button>
-                <button class="tiny circular ui icon button"
-                        click.delegate="pane.tabs.active.goForward()"
-                        disabled.bind="!pane.tabs.active.history.canGoForward">
-                    <i class="right arrow icon"></i>
-                </button>
-                <button class="tiny circular ui icon button"
-                        click.delegate="pane.tabs.active.goUp()">
-                    <i class="up arrow icon"></i>
-                </button>
-            </div>
             <div class="breadcrumb-container">
                 <!--BREADCRUMBS-->
-                <div class="ui ${settings.inverted} breadcrumb"
+                <div class="ui ${settings.inverted} small breadcrumb"
                      click.trigger="enableEditAddress() & self"
                      show.bind="!isEditAddress">
 
@@ -68,22 +27,13 @@
                 </div>
 
                 <!--PATH INPUT-->
-                <div class="ui fluid left icon ${settings.inverted} input"
+                <div class="ui fluid left icon ${settings.inverted} small input"
                      show.bind="isEditAddress">
                     <input ref="addressInput"
                            value.bind="addressBarPath"
                            type="text"
                            blur.trigger="isEditAddress = false">
                     <i class="folder icon"></i>
-                </div>
-            </div>
-            <div class="search-container">
-                <!--SEARCH INPUT-->
-                <div class="ui fluid search left icon ${settings.inverted} input">
-                    <input ref="searchInput"
-                           value.bind="searchTerm"
-                           type="text" placeholder="Search">
-                    <i class="search icon"></i>
                 </div>
             </div>
         </div>

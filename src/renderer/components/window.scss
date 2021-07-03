@@ -12,3 +12,13 @@
         flex: 1;
     }
 }
+
+.light .window-body {
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+}
+
+.dark .window-body {
+    border-left: 1px solid $dark-border-color;
+    border-right: 1px solid $dark-border-color;
+}

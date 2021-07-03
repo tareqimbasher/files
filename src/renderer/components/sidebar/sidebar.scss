@@ -1,7 +1,7 @@
 @import "../../style/colors.scss";
 
 sidebar {
-    flex: 0 0 12em;
+    flex: 0 0 15em;
     order: -1;
     display: flex;
     background-color: #d0d0d0;
@@ -18,7 +18,11 @@ sidebar {
     .ui.list.pinned-directories {
         > .item {
             height: 22px;
-            padding-left: 10px;
+            padding-left: 20px;
+
+            &.header {
+                padding-left: 10px;
+            }
 
             &.selectable {
                 cursor: pointer;
@@ -37,11 +41,11 @@ sidebar {
 }
 
 .light sidebar {
-    background-color: $light-background-transparent;
+    background-color: rgb(232 232 232 / 0.90);
 }
 
 .dark sidebar {
-    background-color: $dark-background-transparent;
+    background-color: rgb(27, 28, 29, 0.90);
 
     .ui.list.pinned-directories {
         > .item {

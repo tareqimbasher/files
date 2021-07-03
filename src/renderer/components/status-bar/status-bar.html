@@ -12,13 +12,13 @@
                     </span>
                 </div>
                 <div class="right aligned column">
-                    <span if.bind="clipboard.items.length" click.trigger="showClipboard = !showClipboard">
+                    <span class="selectable" if.bind="clipboard.items.length" click.trigger="showClipboard = !showClipboard">
                         <i class="ui green check circle icon"></i> 
                         ${clipboard.items.length} 
                         item${clipboard.items.length > 1 ? 's' : ''} 
                         ${clipboard.type === 'Copy' ? 'copied' : 'cut'}
                     </span>
-                    <span else click.trigger="showClipboard = !showClipboard">
+                    <span else class="selectable" click.trigger="showClipboard = !showClipboard">
                         <i class="ui grey clipboard icon" title="Clipboard is empty"></i>
                     </span>
                 </div>

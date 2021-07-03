@@ -1,15 +1,69 @@
 @import "../../style/colors.scss";
 
 header {
-    height: 20px;
-    border-bottom: 1px solid #eee;
+    $header-height: 45px;
+
+    height: $header-height;
+    line-height: $header-height;
+    color: white;
+    -webkit-app-region: drag;
+
+    .button, .input {
+        -webkit-app-region: none;
+    }
+
+    .controls {
+        white-space: nowrap;
+
+        .ui.buttons {
+            margin-right: 10px !important;
+        }
+
+        button {
+            padding: 0.5em !important;
+            height: 2.5em;
+            width: 3.5em;
+
+            .icon {
+                font-size: 1.15em;
+            }
+
+            &:active .icon {
+                color: $accent-color;
+            }
+
+            svg {
+                height: 1.15em;
+            }
+
+            svg.active path, path.active {
+                fill: $accent-color;
+            }
+        }
+    }
+
+    .search.input {
+        input {
+            $search-input-padding: 0.35em;
+            padding-top: $search-input-padding;
+            padding-bottom: $search-input-padding;
+            background-color: #E0E1E2;
+
+            &::placeholder {
+                color: #808080;
+            }
+        }
+    }
 }
 
 .light header {
-    background-color: #eee;
+    /*background: rgb(231,230,231);
+    background: linear-gradient(180deg, rgba(231,230,231,1) 0%, rgba(209,208,209,1) 100%);*/
+    background-color: #333;
+    border-bottom: 1px solid #eee;
 }
 
 .dark header {
-    background-color: $dark-background;
-    border-bottom-color: $dark-border-color;
+    background-color: #333;
+    border-bottom: 1px solid $dark-border-color;
 }

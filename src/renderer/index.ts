@@ -1,11 +1,10 @@
 import { DialogDefaultConfiguration } from "@aurelia/runtime-html";
 import { Aurelia, ColorOptions, ConsoleSink, LoggerConfiguration, LogLevel } from 'aurelia';
-import "./jquery.load";
 import "./style/semantic-ui/dist/semantic.css";
+import "./jquery.load";
 import "./style/semantic-ui/dist/semantic.js";
-import { converters } from './global-resources';
-import "./components/titlebar";
 import "./style/main.scss";
+import { converters } from './global-resources';
 import { Window } from './components/window';
 
 Aurelia

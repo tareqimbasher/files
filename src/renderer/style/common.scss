@@ -24,6 +24,19 @@ input::selection {
     background: rgba(74, 204, 254, 0.4);
 }
 
-.selectable.icon {
+.selectable {
     cursor: pointer;
+}
+
+.ui.grid.unstyled, .ui.grid.unstyled .row, .ui.grid.unstyled .column {
+    padding: 0;
+    margin: 0;
+}
+
+.ui.buttons {
+    &.divided {
+        .ui.button:not(:last-child) {
+            border-right: 1px solid #ccc;
+        }
+    }
 }

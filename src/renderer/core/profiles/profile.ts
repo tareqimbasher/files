@@ -1,4 +1,4 @@
-import { EventAggregator, singleton } from "aurelia";
+import { IEventAggregator, singleton } from "aurelia";
 import { SettingsChangedEvent } from "../events/settings-changed-event";
 import { FileViewTypes, Settings } from "../settings";
 import { system } from "../system/system";
@@ -9,7 +9,7 @@ export class Profile {
     public name: string;
     public version: string;
 
-    constructor(private settings: Settings, private eventBus: EventAggregator) {
+    constructor(private settings: Settings, @IEventAggregator private readonly eventBus: IEventAggregator) {
         this.name = "Default";
         this.version = "1";
         this.eventBus.subscribe(SettingsChangedEvent, () => this.save());

@@ -1,4 +1,4 @@
-import { EventAggregator, singleton } from "aurelia";
+import { IEventAggregator, singleton } from "aurelia";
 import { SettingsChangedEvent } from "./events/settings-changed-event";
 
 @singleton
@@ -9,7 +9,7 @@ export class Settings {
     public fileViewType: FileViewTypes = FileViewTypes.Icons;
     public confirmOnMove!: boolean;
 
-    constructor(private eventBus: EventAggregator) {
+    constructor(@IEventAggregator private readonly eventBus: IEventAggregator) {
     }
 
     public setTheme(theme: string) {

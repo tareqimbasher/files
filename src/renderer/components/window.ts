@@ -1,13 +1,15 @@
-import { EventAggregator } from "aurelia";
+import { IEventAggregator } from "aurelia";
 import { WindowManager } from "./window-manager";
 import { Settings, KeyCode, KeyCodeUtil, Profile, ViewCommandSearchEvent, ViewCommandEditAddressBarEvent } from "../core";
+import { Titlebar } from "./titlebar/titlebar";
 
 export class Window {
     constructor(
+        private titleBar: Titlebar,
         private profile: Profile,
         private settings: Settings,
         private windowManager: WindowManager,
-        private eventBus: EventAggregator) {
+        @IEventAggregator private readonly eventBus: IEventAggregator) {
 
         profile.load();
     }
@@ -16,19 +18,6 @@ export class Window {
         this.setupSidebarResizing();
         this.setupPaneResizing();
         this.setupKeyboardShortcuts();
-
-        //setTimeout(() => {
-
-        //    console.clear();
-
-        //    console.log("homedir", os.homedir());
-        //    console.log("hostname", os.hostname());
-        //    console.log("networkInterfaces", os.networkInterfaces());
-        //    console.log("release", os.release());
-        //    console.log("userInfo", os.userInfo());
-        //    console.log("type", os.userInfo());
-
-        //}, 1000);
     }
 
     private setupSidebarResizing() {

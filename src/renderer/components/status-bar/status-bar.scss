@@ -49,11 +49,17 @@ status-bar {
 }
 
 .light status-bar {
-    background-color: $light-background-transparent;
+    background-color: $light-background;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
 }
 
 .dark status-bar {
-    background-color: $dark-background-transparent;
+    background-color: $dark-background;
+    border-left: 1px solid $dark-border-color;
+    border-right: 1px solid $dark-border-color;
+    border-bottom: 1px solid $dark-border-color;
 
     .clipboard-contents {
         background: $dark-background-lighter;

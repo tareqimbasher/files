@@ -1,7 +1,7 @@
+@import './semantic-ui-overrides.scss';
 @import './variables.scss';
 @import './colors.scss';
 @import './common.scss';
-@import './semantic-ui-overrides.scss';
 
 @font-face {
     font-family: Arabic;
@@ -39,4 +39,16 @@ body {
 
 .dark .dialog > *:first-child {
     background: $dark-background;
+}
+
+.titlebar {
+    .window-title {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .window-controls-container {
+        margin-left: auto !important;
+    }
 }

@@ -28,14 +28,18 @@
     background: none;
 }
 
+.ui.menu, .ui.menu.inverted {
+    background: none;
+}
+
 .dark {
     .ui.segments, .ui.inverted.segment {
         border-color: $dark-border-color !important;
     }
 }
 
-.ui.button, .ui.buttons.button {
+/*.ui.button, .ui.buttons.button {
     border-radius: 0;
     padding-top: 0.4em;
     padding-bottom: 0.6em;
-}
+}*/

@@ -72,7 +72,7 @@ export class Tab implements IDisposable {
         }
 
         this.path = newPath;
-        this.pathChanged(oldPath, this.path);
+        this.pathChanged(oldPath, newPath);
     }
 
     private async pathChanged(oldPath: string, newPath: string) {

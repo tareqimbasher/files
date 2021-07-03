@@ -1,18 +1,16 @@
-import { bindable, EventAggregator, watch } from "aurelia";
+import { bindable, IEventAggregator, watch } from "aurelia";
 import { KeyCode, Settings, system, ViewCommandEditAddressBarEvent, ViewCommandSearchEvent } from "../../../core";
 import { Pane } from "../pane";
 
 export class AddressBar {
 
     @bindable public pane!: Pane;
-    public searchTerm!: string;
     public isEditAddress = false;
-    public searchInput!: HTMLInputElement;
     public addressBarPath?: string;
     public addressInput!: HTMLInputElement;
     private detaches: Array<() => void> = [];
 
-    constructor(public settings: Settings, private eventBus: EventAggregator) {
+    constructor(public settings: Settings, @IEventAggregator private readonly eventBus: IEventAggregator) {
     }
 
     public attached() {
@@ -24,14 +22,6 @@ export class AddressBar {
         });
         this.detaches.push(() => sub.dispose());
 
-        sub = this.eventBus.subscribe(ViewCommandSearchEvent, () => {
-            if (this.pane.isActive) {
-                this.searchInput.focus();
-                this.searchInput.select();
-            }
-        });
-        this.detaches.push(() => sub.dispose());
-
         let f = (ev: KeyboardEvent) => this.addressBarPathEdited(ev);
         this.addressInput.addEventListener("keydown", f);
         this.detaches.push(() => this.addressInput.removeEventListener("keydown", f));
@@ -39,11 +29,6 @@ export class AddressBar {
 
     public detached() {
         this.detaches.forEach(f => f());
-    }
-
-    @watch<AddressBar>(x => x.searchTerm)
-    public searchTermChanged() {
-        this.pane.tabs.active.fsItems.search(this.searchTerm);
     }
 
     public enableEditAddress() {
