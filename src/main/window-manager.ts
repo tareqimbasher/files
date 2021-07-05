@@ -1,12 +1,12 @@
-import { BrowserWindow, screen } from 'electron';
+import { App, BrowserWindow, screen } from 'electron';
 
 export class WindowManager {
-    private windows = new Set<BrowserWindow>();
+    public windows = new Set<BrowserWindow>();
 
-    constructor(private readonly windowEntryPoint: string) {
+    constructor(private readonly app: App, private readonly windowEntryPoint: string) {
     }
 
-    public createWindow() {
+    public createWindow(): BrowserWindow {
         let window: BrowserWindow | null;
 
         const displaySize = screen.getPrimaryDisplay().size;
@@ -36,6 +36,24 @@ export class WindowManager {
             window = null;
         });
 
+        this.windows.add(window);
         return window;
+    }
+    
+    public openLastWindowOrCreateNew() {
+        const windows = Array.from(this.windows);
+
+        if (windows.length > 0) {
+            const window = windows[windows.length - 1];
+            if (window.isMinimized()) {
+                window.restore();
+            }
+            window.show();
+            window.moveTop();
+            window.focus();
+        }
+        else {
+            this.createWindow();
+        }
     }
 }

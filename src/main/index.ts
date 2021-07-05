@@ -1,5 +1,7 @@
-import { app, BrowserWindow, nativeImage, Tray, Menu } from 'electron';
+import { app, BrowserWindow } from 'electron';
+import { EnvironmentManager } from './environment-manager';
 import { registerProtocols } from './protocols';
+import { TrayAndDockManager } from './tray-and-dock-manager';
 import { WindowManager } from './window-manager';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
@@ -7,7 +9,6 @@ declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 
 // Only run single instance app mode in production builds
 const singleInstanceApp = app.commandLine.hasSwitch("dev") !== true;
-
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -20,15 +21,19 @@ if (singleInstanceApp && !app.requestSingleInstanceLock()) {
 }
 
 
-const windowManager = new WindowManager(MAIN_WINDOW_WEBPACK_ENTRY);
-
+const windowManager = new WindowManager(app, MAIN_WINDOW_WEBPACK_ENTRY);
+const trayAndDockManager = new TrayAndDockManager(app, windowManager);
+const environmentManager = new EnvironmentManager(windowManager);
 
 app.on('ready', (event, launchInfo) => {
     // Without a timeout, transparency does not seem to work
     setTimeout(() => {
         windowManager.createWindow();
     }, 10);
+
     registerProtocols(app);
+    trayAndDockManager.setup();
+    environmentManager.setup();
 });
 
 // For OSX
@@ -41,10 +46,6 @@ app.on('activate', () => {
 if (singleInstanceApp) {
     app.on('second-instance', (event, commandLine, workingDirectory) => {
         windowManager.createWindow();
-    });
-
-    app.on("will-quit", event => {
-        event.preventDefault();
     });
 }
 
