@@ -1,0 +1,25 @@
+@import '../colors.scss';
+
+$dark: ( 
+    backgroundColor: #222,
+    backgroundTranslucentColor: rgb(27, 28, 29, 0.95),
+    backgroundContrastingColor: #1E1E1E,
+    borderColor: #505152,
+    borderColorLight: #656565,
+    hoverColor: rgba(255, 255, 255, 0.08),
+    activeColor: rgba(255, 255, 255, 0.20),
+    activeUnfocusedColor: rgba(255, 255, 255, 0.15),
+    mutedTextColor: rgba(255, 255, 255, 0.6),
+
+    splitterColor: #4d4d4d,
+    headerBackground: #333,
+    windowBorderColor: #505152,
+    sidebarBackground: rgb(27, 28, 29, 0.90)
+);
+
+.dark {
+    /*header {
+        background: $dark-header-background;
+        border-bottom: 1px solid $dark-border-color;
+    }*/
+}

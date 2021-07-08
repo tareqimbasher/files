@@ -1,11 +1,11 @@
-@import "../../style/colors.scss";
+@import "../../style/themes/index";
 
 sidebar {
     flex: 0 0 15em;
     order: -1;
     display: flex;
-    background-color: #d0d0d0;
     user-select: none;
+    @include theme(background, sidebarBackground);
 
     > .ui.segment {
         flex: 1;
@@ -28,34 +28,12 @@ sidebar {
                 cursor: pointer;
 
                 &:hover {
-                    background: $light-hover-color;
+                    @include theme(background, hoverColor);
                 }
 
                 &.active {
-                    background: $light-active-color;
+                    @include theme(background, activeColor);
                     font-weight: bold;
-                }
-            }
-        }
-    }
-}
-
-.light sidebar {
-    background-color: rgb(232 232 232 / 0.90);
-}
-
-.dark sidebar {
-    background-color: rgb(27, 28, 29, 0.90);
-
-    .ui.list.pinned-directories {
-        > .item {
-            &.selectable {
-                &:hover {
-                    background: $dark-hover-color;
-                }
-
-                &.active {
-                    background: $dark-active-color;
                 }
             }
         }

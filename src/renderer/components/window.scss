@@ -1,6 +1,5 @@
 @import '../style/variables.scss';
-@import '../style/colors.scss';
-
+@import '../style/themes/index';
 
 .window {
     display: flex;
@@ -10,15 +9,7 @@
     .window-body {
         display: flex;
         flex: 1;
+        @include theme(border-left, windowBorderColor, 1px solid);
+        @include theme(border-right, windowBorderColor, 1px solid);
     }
-}
-
-.light .window-body {
-    border-left: 1px solid #ccc;
-    border-right: 1px solid #ccc;
-}
-
-.dark .window-body {
-    border-left: 1px solid $dark-border-color;
-    border-right: 1px solid $dark-border-color;
 }

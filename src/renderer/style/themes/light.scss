@@ -1,0 +1,29 @@
+@import '../colors.scss';
+
+$light: ( 
+    backgroundColor: rgb(255, 255, 255),
+    backgroundTranslucentColor: rgba(255, 255, 255, 0.95),
+    //backgroundContrastingColor: 
+    //borderColor: #505152,
+    //borderColorLight: #656565,
+    hoverColor: rgba(30, 144, 255, 0.15),
+    activeColor: rgba(30, 144, 255, 0.35),
+    //activeUnfocusedColor: rgba(255, 255, 255, 0.15),
+    //mutedTextColor: rgba(255, 255, 255, 0.6),
+
+    //splitterColor: #4d4d4d,
+    headerBackground: #333,
+    windowBorderColor: #ccc,
+    sidebarBackground: rgb(232 232 232 / 0.90)
+
+);
+
+.light {
+    /*header {*/
+        /*background: rgb(231,230,231);
+        background: linear-gradient(180deg, rgba(231,230,231,1) 0%, rgba(209,208,209,1) 100%);*/
+        /*background: $light-header-background;
+        border-bottom: 1px solid #eee;
+    }*/
+}
+
