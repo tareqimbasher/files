@@ -5,7 +5,7 @@ export class FsItems extends Dictionary<string, FileSystemItem> {
 
     private searchTerm?: string;
 
-    constructor(private settings: Settings) {
+    constructor(protected settings: Settings) {
         super();
     }
 

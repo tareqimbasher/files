@@ -14,7 +14,7 @@ export class Titlebar {
     private init() {
         window.addEventListener('DOMContentLoaded', () => {
             this.customTitlebar = new CustomTitlebar({
-                backgroundColor: Color.fromHex('#333'), //#2f3241
+                backgroundColor: Color.fromHex('#333'), // Default color, overriden in css
                 unfocusEffect: true,
             });
 

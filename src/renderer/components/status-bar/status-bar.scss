@@ -1,7 +1,9 @@
 @import "../../style/colors.scss";
+@import "../../style/themes/index";
 
 status-bar {
-    border-top: 2px solid #808080;
+    @include theme(background, backgroundColor);
+    @include theme(border, borderColor, 1px solid);
 
     .container {
         padding-left: 10px;
@@ -17,13 +19,13 @@ status-bar {
     .clipboard-contents {
         position: fixed;
         bottom: 30px;
-        right: 10px;
+        right: 20px;
         height: 200px;
         width: 200px;
         display: flex;
         flex-direction: column;
-        background: #eee;
-        border: 1px solid #808080;
+        @include theme(background, backgroundContrast2Color);
+        @include theme(border, borderColorLight, 1px solid);
 
         .ui.list {
             flex: 1;
@@ -45,24 +47,5 @@ status-bar {
                 color: white;
             }
         }
-    }
-}
-
-.light status-bar {
-    background-color: $light-background;
-    border-left: 1px solid #ccc;
-    border-right: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
-}
-
-.dark status-bar {
-    background-color: $dark-background;
-    border-left: 1px solid $dark-border-color;
-    border-right: 1px solid $dark-border-color;
-    border-bottom: 1px solid $dark-border-color;
-
-    .clipboard-contents {
-        background: $dark-background-lighter;
-        border: 1px solid $dark-hover-color;
     }
 }

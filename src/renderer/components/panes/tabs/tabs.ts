@@ -33,16 +33,23 @@ export class Tabs implements IDisposable {
     }
 
     public remove(tab: Tab) {
-        let ix = this.list.indexOf(tab);
+        if (this.list.length == 1)
+            return;
 
-        let newActive: Tab;
-        if (this.list.length > 1) {
-            newActive = ix == 0 ? this.list[1] : this.list[ix - 1];
-            this.setActive(newActive);
+        try {
+            let ix = this.list.indexOf(tab);
+
+            if (this.list.length > 1) {
+                const newActive = ix == 0 ? this.list[1] : this.list[ix - 1];
+                this.setActive(newActive);
+            }
+
+            this.list = this.list.filter((tab, index) => index != ix);
+
+            this.refreshTabBinding();
+        } finally {
+            tab.dispose();
         }
-
-        this.list.splice(ix, 1);
-        tab.dispose();
     }
 
     public setActive(tab: Tab) {

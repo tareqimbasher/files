@@ -1,10 +1,9 @@
 ﻿import { IContainer, IDisposable } from "aurelia";
-import { Directory, FileService, FsItems, Settings, system, Util } from "../../../core";
+import { Directory, FileService, Settings, system, Util } from "../../../core";
 import { Tabs } from "./tabs";
-import * as chokidar from "chokidar";
-import { Stats } from "fs";
 import { TabHistory } from "./tab-history";
 import { TabHistoryState } from "./tab-history-state";
+import { Files } from "./tab-files";
 
 export class Tab implements IDisposable {
     public id: string;
@@ -14,19 +13,16 @@ export class Tab implements IDisposable {
     public pathParts: string[] = [];
     public directory!: Directory;
 
-    public fsItems: FsItems;
     public history: TabHistory;
+    public fsItems: Files;
 
-    private fileService: FileService;
     private settings: Settings;
     private disposables: (() => void)[] = [];
-    private fsWatcher: chokidar.FSWatcher | undefined;
 
     constructor(public tabs: Tabs, path: string, private container: IContainer) {
         this.id = Util.newGuid();
-        this.fileService = container.get(FileService);
         this.settings = container.get(Settings);
-        this.fsItems = new FsItems(this.settings);
+        this.fsItems = new Files(this.settings, container.get(FileService));
 
         this.history = new TabHistory(path);
         this.setPath(this.history.current);
@@ -83,7 +79,7 @@ export class Tab implements IDisposable {
         this.directory = new Directory(newPath);
         this.directory.updateInfo(await system.fs.stat(newPath));
 
-        await this.updateFileListing(newPath);
+        await this.fsItems.updateFileListing(newPath);
 
         this.history.current.restore(this.fsItems);
     }
@@ -113,7 +109,7 @@ export class Tab implements IDisposable {
     }
 
     public refresh() {
-        this.updateFileListing(this.path);
+        this.fsItems.updateFileListing(this.path);
     }
 
     public close() {
@@ -122,136 +118,5 @@ export class Tab implements IDisposable {
 
     public dispose(): void {
         this.disposables.forEach(d => d());
-    }
-
-    private async updateFileListing(newPath: string) {
-        performance.clearMarks();
-        performance.mark("tab.getfiles.start");
-
-        let fsItems = await this.fileService.list(newPath);
-        this.fsItems.clear();
-
-
-        performance.mark("tab.fsItems.addOrSetRange.start");
-        this.fsItems.addOrSetRange(...fsItems.map(f => {
-            return {
-                key: f.name,
-                value: f
-            };
-        }));
-        performance.mark("tab.fsItems.addOrSetRange.end");
-
-
-        const itemAdded = async (itemPath: string, stats: Stats | undefined) => {
-
-            if (itemPath == newPath) return;
-
-            const name = system.path.basename(itemPath);
-            const dirPath = system.path.dirname(itemPath);
-
-            // if an item was added at depth 1
-            if (dirPath != newPath) {
-                const dir = this.fsItems.values.find(i => i.path == dirPath) as Directory;
-                if (dir) await dir.containingItemsChanged();
-                return;
-            }
-
-            if (this.fsItems.containsKey(name))
-                return;
-
-            const item = await this.fileService.createFileSystemItem(
-                itemPath,
-                stats,
-                this.fileService.getUnixMethodItemAttributes(name)
-            );
-
-            if (!item) {
-                console.warn("no item");
-                return;
-            }
-
-            this.fsItems.addOrSet(item.name, item);
-        }
-
-        const itemRemoved = async (itemPath: string) => {
-            const name = system.path.basename(itemPath);
-            const dirPath = system.path.dirname(itemPath);
-
-            // if an item was removed at depth 1
-            if (dirPath != newPath) {
-                const dir = this.fsItems.values.find(i => i.path == dirPath) as Directory;
-                if (dir) await dir.containingItemsChanged();
-                return;
-            }
-
-            if (!this.fsItems.containsKey(name))
-                return;
-
-            this.fsItems.remove(name);
-        }
-
-
-        if (!this.fsWatcher) {
-            this.fsWatcher = chokidar.watch(newPath, {
-                depth: 1,
-                persistent: true
-            });
-            this.disposables.push(() => this.fsWatcher?.close());
-        }
-        else {
-            await this.fsWatcher.close();
-            this.fsWatcher.add(newPath);
-        }
-
-        this.fsWatcher
-            .on('add', async (path, stats) => {
-                //console.log(`File ${path} has been added`, stats);
-                itemAdded(path, stats);
-            })
-            .on('change', (path, stats) => {
-                //console.log(`File ${path} has been changed`, stats);
-                const item = this.fsItems.get(system.path.basename(path));
-                if (stats)
-                    item.updateInfo(stats);
-            })
-            .on('unlink', path => {
-                //console.log(`File ${path} has been removed`);
-                itemRemoved(path);
-            })
-            .on('addDir', async (path, stats) => {
-                //console.log(`Directory ${path} has been added`, stats);
-                itemAdded(path, stats);
-            })
-            .on('unlinkDir', path => {
-                //console.log(`Directory ${path} has been removed`);
-                itemRemoved(path);
-            })
-            .on('error', error => console.log(`Watcher error: ${error}`));
-
-        performance.mark("tab.getfiles.end");
-
-
-        const showPerfInfo = false;
-
-        if (showPerfInfo) {
-            const marks = Array.from(performance.getEntriesByType("mark"));
-            for (let item of marks) {
-                if (item.name.endsWith('.start')) continue;
-
-                const endMark = item;
-                const measurementName = endMark.name.split('.').slice(0, -1).join('.');
-                const startMarkName = measurementName + '.start';
-                const startMark = marks.find(m => m.name == startMarkName);
-
-                if (!startMark) throw new Error("Could not find start mark for: " + endMark.name);
-                performance.measure(measurementName, startMark.name, endMark.name);
-
-                const measurement = performance.getEntriesByName(measurementName).slice(-1)[0];
-                console.warn({
-                    name: measurement.name,
-                    duration: measurement.duration
-                });
-            }
-        }
     }
 }

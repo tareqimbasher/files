@@ -43,6 +43,8 @@ body {
 }
 
 .titlebar {
+    @include theme(background, headerBackground, $postExtra: !important);
+
     .window-title {
         position: absolute;
         left: 50%;

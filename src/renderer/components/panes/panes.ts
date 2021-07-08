@@ -20,16 +20,20 @@ export class Panes {
         if (this.list.length == 1)
             return;
 
-        let ix = this.list.indexOf(pane);
+        try {
+            let ix = this.list.indexOf(pane);
 
-        let newActive: Pane;
-        if (this.list.length > 1) {
-            newActive = ix == 0 ? this.list[1] : this.list[ix - 1];
-            this.setActive(newActive);
+            let newActive: Pane;
+            if (this.list.length > 1) {
+                newActive = ix == 0 ? this.list[1] : this.list[ix - 1];
+                this.setActive(newActive);
+            }
+
+            this.list = this.list.filter((tab, index) => index != ix);
+
+        } finally {
+            pane.dispose();
         }
-
-        this.list.splice(ix, 1);
-        pane.dispose();
     }
 
     public setActive(pane: Pane) {
