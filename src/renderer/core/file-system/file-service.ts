@@ -169,9 +169,9 @@ export class FileService {
                         .split(system.os.EOL + system.os.EOL);
 
                     for (var i = 0; i < itemInfos.length; i++) {
-                        let itemInfoLines = itemInfos[i].split(system.os.EOL);
-                        let itemName = itemInfoLines[0].split(':')[1].trim();
-                        let attributes = itemInfoLines[1].split(':')[1].trim().split(', ');
+                        const itemInfoLines = itemInfos[i].split(system.os.EOL);
+                        const itemName = itemInfoLines[0].split(':')[1].trim();
+                        const attributes = itemInfoLines[1].split(':')[1].trim().split(', ');
 
                         data.addOrSet(itemName, {
                             hidden: !!attributes.find(x => x.indexOf("Hidden") >= 0),
