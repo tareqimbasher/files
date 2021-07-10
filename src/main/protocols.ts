@@ -12,7 +12,7 @@ export function registerProtocols(app: App) {
         if (path.isAbsolute(filePath) ? await pathExists(filePath) : await pathExists(`/${filePath}`)) {
             callback(filePath);
         } else {
-            callback(path.join(app.getAppPath(), '.webpack/renderer', filePath));
+            callback(path.join(app.getAppPath(), filePath));
         }
     });
 }

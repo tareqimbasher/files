@@ -1,5 +1,6 @@
 const rules = require("./webpack.rules");
 const plugins = require("./webpack.plugins");
+const path = require('path');
 const cssLoader = 'css-loader';
 
 const sassLoader = {
@@ -52,7 +53,9 @@ rules.push(
 );
 
 module.exports = {
-    output: { publicPath: '../' }, // So it loads from dir one level up from 'main_window'
+    output: {
+        path: path.join(__dirname, '../', '.webpack')
+    },
     module: {
         rules,
     },

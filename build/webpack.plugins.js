@@ -5,14 +5,6 @@ const webpack = require("webpack");
 
 module.exports = [
     new ForkTsCheckerWebpackPlugin(),
-    new CopyWebpackPlugin({
-        patterns: [
-            {
-                from: path.resolve(__dirname, '../', "assets"),
-                to: path.resolve(__dirname, '../', '.webpack/renderer', "assets")
-            }
-        ]
-    })
 ];
 
 if (process.platform !== "darwin") {
