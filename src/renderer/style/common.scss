@@ -1,3 +1,5 @@
+@import './colors.scss';
+
 $spaceamounts: (0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 75, 100);
 $sides: (top, bottom, left, right);
 
@@ -26,6 +28,10 @@ input::selection {
 
 .selectable {
     cursor: pointer;
+
+    &.icon:hover {
+        color: $accent-color;
+    }
 }
 
 .ui.grid.unstyled, .ui.grid.unstyled .row, .ui.grid.unstyled .column {

@@ -15,10 +15,10 @@ sidebar {
         border-radius: 0;
     }
 
-    .ui.list.pinned-directories {
+    .ui.list {
         > .item {
-            height: 22px;
             padding-left: 20px;
+            padding-right: 10px;
 
             &.header {
                 padding-left: 10px;
@@ -37,5 +37,9 @@ sidebar {
                 }
             }
         }
+    }
+
+    .ui.progress {
+        margin-bottom: 0 !important;
     }
 }

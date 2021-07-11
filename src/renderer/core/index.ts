@@ -4,6 +4,8 @@ export * from './profiles/profile';
 export * from './data/dictionary';
 
 export * from "./system/system";
+export * from "./system/drive-service";
+export * from "./system/drive";
 
 export * from './file-system/file-system-item';
 export * from './file-system/file-system-item-type';
@@ -22,3 +24,4 @@ export * from './events/view-command-search-event';
 export * from './events/view-command-edit-address-bar-event';
 export * from './events/settings-changed-event';
 export * from './events/file-system-item-properties-changed-event';
+export * from './events/drives-changed';

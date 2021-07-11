@@ -1,5 +1,4 @@
 import { IObserverLocator } from "@aurelia/runtime-html";
-import { singleton, watch } from "aurelia";
 import { Color, Titlebar as CustomTitlebar } from "custom-electron-titlebar";
 import { WindowManager } from "../window-manager";
 

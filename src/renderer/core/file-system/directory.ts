@@ -48,7 +48,7 @@ export class Directory extends FileSystemItem {
             this.filesCount = files;
             this.filesTotalSize = fileSizes;
         }).catch(err => {
-            //console.error(`Could not get file count of dir: ${path}`);
+            console.error(`Could not get file count of dir: ${this.path}`);
         });
     }
 }

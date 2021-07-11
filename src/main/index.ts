@@ -1,6 +1,8 @@
 import { app, BrowserWindow } from 'electron';
 import { EnvironmentManager } from './environment-manager';
+import { IpcEventBus } from './ipc/ipc-event-bus';
 import { registerProtocols } from './protocols';
+import { DriveService } from './services/drive-service';
 import { TrayAndDockManager } from './tray-and-dock-manager';
 import { WindowManager } from './window-manager';
 
@@ -20,10 +22,11 @@ if (singleInstanceApp && !app.requestSingleInstanceLock()) {
     app.quit();
 }
 
-
 const windowManager = new WindowManager(app, MAIN_WINDOW_WEBPACK_ENTRY);
 const trayAndDockManager = new TrayAndDockManager(app, windowManager);
 const environmentManager = new EnvironmentManager(windowManager);
+const eventBus = new IpcEventBus(windowManager);
+const driveService = new DriveService(eventBus);
 
 app.on('ready', (event, launchInfo) => {
     // Without a timeout, transparency does not seem to work
@@ -34,6 +37,7 @@ app.on('ready', (event, launchInfo) => {
     registerProtocols(app);
     trayAndDockManager.setup();
     environmentManager.setup();
+    driveService.start();
 });
 
 // For OSX
@@ -58,4 +62,8 @@ app.on('window-all-closed', () => {
         // For cross-platform solution to hide to tray:
         // https://stackoverflow.com/questions/37828758/electron-js-how-to-minimize-close-window-to-system-tray-and-restore-window-back
     }
+});
+
+app.on('quit', (event, exitCode) => {
+    driveService.stop();
 });

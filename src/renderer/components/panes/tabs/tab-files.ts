@@ -63,7 +63,11 @@ export class Files extends FsItems implements IDisposable {
                 //console.log(`Directory ${path} has been removed`);
                 this.itemRemoved(newPath, path);
             })
-            .on('error', error => console.log(`Watcher error: ${error}`));
+            .on('error', error => {
+                if (!error.message.startsWith("EPERM") && !error.message.startsWith("EBUSY")) {
+                    console.log(`Watcher error`, error);
+                }
+            });
 
         performance.mark("tab.getfiles.end");
 

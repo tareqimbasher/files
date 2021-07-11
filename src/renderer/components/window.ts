@@ -1,7 +1,8 @@
 import { IEventAggregator } from "aurelia";
-import { WindowManager } from "./window-manager";
-import { Settings, KeyCode, KeyCodeUtil, Profile, ViewCommandSearchEvent, ViewCommandEditAddressBarEvent } from "../core";
+import { KeyCode, KeyCodeUtil, Profile, Settings, ViewCommandEditAddressBarEvent, ViewCommandSearchEvent } from "../core";
+import { IpcEventBus } from "../core/ipc/ipc-event-bus";
 import { Titlebar } from "./titlebar/titlebar";
+import { WindowManager } from "./window-manager";
 
 export class Window {
     constructor(
@@ -9,8 +10,8 @@ export class Window {
         private profile: Profile,
         private settings: Settings,
         private windowManager: WindowManager,
-        @IEventAggregator private readonly eventBus: IEventAggregator) {
-
+        @IEventAggregator private readonly eventBus: IEventAggregator,
+        ipcEventBus: IpcEventBus) {
         profile.load();
     }
 

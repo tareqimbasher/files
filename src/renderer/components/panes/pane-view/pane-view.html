@@ -11,9 +11,9 @@
         <div class="ui ${settings.inverted} segment tabs">
             <div class="ui top attached tabular mini ${settings.inverted} menu" ref="tabsElement">
                 <tab-view repeat.for="tab of pane.tabs.list"
-                     class="item ${pane == pane.panes.active && tab == pane.tabs.active ? 'active-tab' : ''}"
-                     data-tab="${tab.id}"
-                     tab.bind="tab">
+                          class="item ${pane == pane.panes.active && tab == pane.tabs.active ? 'active-tab' : ''}"
+                          data-tab="${tab.id}"
+                          tab.bind="tab">
                 </tab-view>
 
                 <div class="right menu">
@@ -27,10 +27,10 @@
         <!--FS VIEWS-->
         <div class="ui ${settings.inverted} segment fs-views">
             <fs-view repeat.for="tab of pane.tabs.list"
-                         class="ui tab"
-                         data-tab="${tab.id}"
-                         tab.bind="tab"
-                         fs-items.bind="tab.fsItems"></fs-view>
+                     class="ui tab"
+                     data-tab="${tab.id}"
+                     tab.bind="tab"
+                     fs-items.bind="tab.fsItems"></fs-view>
         </div>
     </div>
 </template>

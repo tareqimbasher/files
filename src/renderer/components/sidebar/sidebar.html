@@ -1,33 +1,70 @@
 <template>
     <div class="ui ${settings.inverted} segment">
-        <!--<div class="ui ${settings.inverted} list">
-            <i class="computer icon"></i>
-            <div class="content">PC</div>
-        </div>-->
+
+        <!--PINNED DIRECTORIES-->
         <div class="ui ${settings.inverted} list pinned-directories">
             <div class="item header">
                 <i class="computer icon"></i>
                 <div class="content">
-                    <div class="header">Computer</div>
+                    <div class="header">
+                        Computer
+                        <i class="selectable caret ${showDirectories ? 'down' : 'left'} icon"
+                           style="float: right"
+                           click.trigger="showDirectories = !showDirectories"></i>
+                    </div>
                 </div>
             </div>
             <div class="item selectable sidebar-item ${windowManager.panes.active.tabs.active.path == dir.path ? 'active' : ''}"
-                 repeat.for="dir of pinned"
+                 repeat.for="dir of directories"
+                 show.bind="showDirectories"
                  click.trigger="windowManager.panes.active.tabs.active.setPath(dir.path)"
                  data-path.bind="dir.path">
 
-                <i class="blue folder icon"></i>
+                <i class="blue ${dir.name === 'Home' ? 'home' : 'folder'} icon"></i>
                 <div class="middle aligned content">
-                    <div class="">${dir.name}</div>
+                    ${dir.name}
+                </div>
+            </div>
+        </div>
+
+        <div class="ui divider"></div>
+
+        <!--PINNED DRIVES-->
+        <div class="ui ${settings.inverted} list">
+            <div class="item header">
+                <i class="disk icon"></i>
+                <div class="content">
+                    <div class="header">
+                        Drives
+                        <i class="selectable caret ${showDrives ? 'down' : 'left'} icon"
+                           style="float: right"
+                           click.trigger="showDrives = !showDrives"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="item selectable sidebar-item ${windowManager.panes.active.tabs.active.path == drive.path ? 'active' : ''}"
+                 repeat.for="drive of drives"
+                 show.bind="showDrives"
+                 click.trigger="windowManager.panes.active.tabs.active.setPath(drive.path)"
+                 data-path.bind="drive.path"
+                 style="padding-bottom: 5px;"
+                 title="Total: ${drive.size | fileSize}\nUsed: ${drive.usedSize | fileSize}\nFree: ${drive.freeSize | fileSize}">
+
+                <div class="middle aligned content" style="margin-bottom: 3px;">
+                    ${drive.name}
+                    <span class="ui small text" style="float: right; padding-top: 3px">
+                        ${drive.usedPercent}%
+                    </span>
                 </div>
 
-            </div>
-            <!--<div class="item">
-                <i class="list icon"></i>
-                <div class="content">
-                    <div class="header">Libraries</div>
+                <div class="ui multiple tiny ${settings.inverted} progress"
+                     data-total="100"
+                     data-value="${drive.usedPercent},${drive.freePercent}">
+                    <div class="${drive.usedPercent > 90 ? 'red' : drive.usedPercent > 75 ? 'orange' : 'blue'} bar"
+                         title="Used: ${drive.usedPercent}%"></div>
+                    <div class="bar" title="Free: ${drive.freePercent}%"></div>
                 </div>
-            </div>-->
+            </div>
         </div>
     </div>
 </template>
