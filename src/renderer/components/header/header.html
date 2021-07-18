@@ -1,6 +1,17 @@
 <template>
 
-    <div class="ui equal width unstyled middle aligned grid">
+    <div class="ui equal width unstyled middle aligned grid" style="height: 30px">
+        <div class="column pl-10"></div>
+        <div class="center aligned column">
+            <code>${windowManager.panes.active.tabs.active.path}</code>
+        </div>
+        <div class="right aligned column pr-10">
+            <i class="selectable minus icon mr-10" click.trigger="windowManager.minimize()"></i>
+            <i class="selectable outline window maximize icon mr-10" click.trigger="windowManager.maximize()"></i>
+            <i class="selectable close icon" click.trigger="windowManager.close()"></i>
+        </div>
+    </div>
+    <div class="ui equal width unstyled middle aligned grid" style="line-height: 45px">
         <div class="column pl-10">
             <div class="controls">
                 <div class="ui icon mini divided buttons">

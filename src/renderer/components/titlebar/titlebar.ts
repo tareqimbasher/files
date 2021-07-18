@@ -7,7 +7,7 @@ export class Titlebar {
     private customTitlebar!: CustomTitlebar;
 
     constructor(private readonly windowManager: WindowManager, @IObserverLocator private readonly observerLocator: IObserverLocator) {
-        this.init();
+        //this.init();
     }
 
     private init() {

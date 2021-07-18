@@ -34,6 +34,10 @@ input::selection {
     }
 }
 
+.close.icon:hover {
+    color: salmon;
+}
+
 .ui.grid.unstyled, .ui.grid.unstyled .row, .ui.grid.unstyled .column {
     padding: 0;
     margin: 0;

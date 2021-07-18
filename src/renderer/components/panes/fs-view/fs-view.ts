@@ -11,7 +11,7 @@ import "dragula/dist/dragula.css";
 import { ItemProperties } from "../../popups/properties/item-properties";
 import { FsViewSorting } from "./fs-view-sorting";
 import { Clipboard, ClipboardItemType } from "../../common";
-import { AlertDialog, AlertDialogButtonType, AlertDialogHelper, AlertDialogOptions, AlertDialogType } from "../../common/dialogs/alert-dialog";
+import { AlertDialogButtonType, AlertDialogHelper, AlertDialogType } from "../../common/dialogs/alert-dialog";
 
 export class FsView {
 
@@ -43,16 +43,6 @@ export class FsView {
         this.bindMouseEvents();
         this.bindKeyboardEvents();
         this.initDragAndDrop();
-
-        //setTimeout(() => {
-        //    this.dialogService.open({
-        //        component: () => AlertDialog,
-        //        model: new AlertDialogOptions({
-        //            title: 'Title Text',
-        //            text: `This is a test.`
-        //        })
-        //    });
-        //}, 500);
     }
 
     public detaching() {

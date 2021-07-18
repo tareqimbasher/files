@@ -1,17 +1,17 @@
 @import "../../style/themes/index";
 
 header {
-    $header-height: 45px;
+    $header-height: 75px;
 
     height: $header-height;
-    line-height: $header-height;
+    /*line-height: $header-height;*/
     color: white;
     -webkit-app-region: drag;
     @include theme(background, headerBackground);
     /*border-bottom: 1px solid $dark-border-color; should make this into themable*/
 
 
-    .button, .input {
+    .button, .input, .icon {
         -webkit-app-region: none;
     }
 

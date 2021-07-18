@@ -146,6 +146,14 @@
         </div>
         <div class="ui divider"></div>
         <div class="item"
+             show.bind="model.fsItems.selected.length === 1 && model.fsItems.selected[0].isDir"
+             click.trigger="model.showSelectedItemProperties()">
+            <i class="pin icon"></i>
+            <div class="content">
+                Pin to sidebar
+            </div>
+        </div>
+        <div class="item"
              click.trigger="model.showSelectedItemProperties()">
             <i class="info circle icon"></i>
             <div class="content">

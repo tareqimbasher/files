@@ -16,7 +16,7 @@ export class WindowManager {
             height: Math.floor(displaySize.height * 2 / 3),
             width: Math.floor(displaySize.width * 2 / 3),
             frame: false,
-            transparent: true,
+            transparent: false,
             webPreferences: {
                 enableRemoteModule: true,
                 nodeIntegration: true,

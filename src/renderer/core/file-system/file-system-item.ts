@@ -20,12 +20,6 @@ export abstract class FileSystemItem {
         this.path = path;
         this.type = type;
         this.isDir = type == FileType.Directory;
-
-        //setTimeout(() => {
-        //    if (this.path.endsWith("ansel")) {
-        //        this.path = this.path.replace("ansel", "hello");
-        //    }
-        //}, 5000);
     }
 
     public get name() {
