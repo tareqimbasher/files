@@ -98,16 +98,15 @@
     "url-loader": "^4.1.1"
   },
   "dependencies": {
-    "@simonwep/selection-js": "^2.0.2",
+    "@simonwep/selection-js": "2.1.1",
     "aurelia": "latest",
     "chokidar": "^3.5.1",
     "custom-electron-titlebar": "^3.2.6",
     "dragula": "^3.7.3",
     "electron-squirrel-startup": "^1.0.0",
-    "fomantic-ui": "^2.8.7",
     "fs-extra": "^9.1.0",
     "jquery": "^3.6.0",
     "moment": "^2.29.1",
-    "usb": "^1.7.1"
+    "usb": "1.7.1"
   }
 }
