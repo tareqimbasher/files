@@ -22,7 +22,19 @@ pane-view {
 
     .tabs.segment {
         padding: 0;
-        /*height: 2.20em;*/
+        height: 2rem;
+        
+        > .tabular.menu {
+            tab-view {
+                height: 2rem;
+            }
+
+            a.item {
+                height: 2rem;
+                border-top: 0 none;
+                line-height: 2rem;
+            }
+        }
     }
 
     .fs-views.segment {
@@ -44,7 +56,7 @@ pane-view {
 
 .dark {
     pane-view {
-        .segments > .segment {
+        .segments > .segment:not(:first-child) {
             border-top-width: 1px !important;
             border-top-style: solid !important;
         }
