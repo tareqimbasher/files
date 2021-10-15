@@ -14,17 +14,13 @@ export class AddressBar {
     }
 
     public attached() {
-        this.addressBarPath = this.pane.tabs.active.path;
+        this.setAddressBarPathFromActivePath();
 
         let sub = this.eventBus.subscribe(ViewCommandEditAddressBarEvent, () => {
             if (this.pane.isActive)
                 this.enableEditAddress();
         });
         this.detaches.push(() => sub.dispose());
-
-        let f = (ev: KeyboardEvent) => this.addressBarPathEdited(ev);
-        this.addressInput.addEventListener("keydown", f);
-        this.detaches.push(() => this.addressInput.removeEventListener("keydown", f));
     }
 
     public detached() {
@@ -32,16 +28,12 @@ export class AddressBar {
     }
 
     public enableEditAddress() {
+        this.setAddressBarPathFromActivePath();
         this.isEditAddress = true;
         setTimeout(() => {
             this.addressInput.focus();
             this.addressInput.select();
-        }, 10);
-    }
-
-    @watch((vm: AddressBar) => vm.pane.tabs.active.path)
-    public activeTabPathChanged() {
-        this.addressBarPath = this.pane.tabs.active.path;
+        }, 100);
     }
 
     public async addressBarPathEdited(ev: KeyboardEvent) {
@@ -59,7 +51,7 @@ export class AddressBar {
                 address = address.replace("/", system.path.parse(process.cwd()).root);
 
             if (!system.fss.existsSync(address)) {
-                alert("Invalid path: " + address);
+                alert("Path does not exit: " + address);
             }
             else {
                 let stat = await system.fs.stat(address);
@@ -72,7 +64,7 @@ export class AddressBar {
             }
         }
 
-        this.addressBarPath = this.pane.tabs.active.path;
+        this.setAddressBarPathFromActivePath();
         this.isEditAddress = false;
     }
 
@@ -83,5 +75,10 @@ export class AddressBar {
 
         let newPath = system.path.join(...activeTab.pathParts.slice(0, selectedPartIndex + 1));
         activeTab.setPath('/' + newPath);
+    }
+
+    @watch((vm: AddressBar) => vm.pane.tabs.active.path)
+    public setAddressBarPathFromActivePath() {
+        this.addressBarPath = this.pane.tabs.active.path;
     }
 }

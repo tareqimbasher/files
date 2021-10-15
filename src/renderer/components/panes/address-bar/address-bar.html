@@ -8,33 +8,32 @@
     </template>
 
     <div class="ui ${settings.inverted} segment address-bar">
-        <div class="inner-container">
-            <div class="breadcrumb-container">
-                <!--BREADCRUMBS-->
-                <div class="ui ${settings.inverted} small breadcrumb"
-                     click.trigger="enableEditAddress() & self"
-                     show.bind="!isEditAddress">
+        <div class='address-bar-inner-container'>
+            <!--BREADCRUMBS-->
+            <div class="ui ${settings.inverted} small breadcrumb"
+                 click.trigger="enableEditAddress() & self"
+                 show.bind="!isEditAddress">
 
-                    <i class="folder icon divider"></i>
+                <i class="orange folder icon divider"></i>
 
-                    <address-crumb repeat.for="part of pane.tabs.active.pathParts"
-                                   click.trigger="addressPartSelected($index)"
-                                   part.bind="part"
-                                   last.bind="$last"
-                                   if.bind="!!part"
-                                   data-path="${pane.tabs.active.path}"
-                                   data-path-index="${$index}"></address-crumb>
-                </div>
+                <address-crumb repeat.for="part of pane.tabs.active.pathParts"
+                               click.trigger="$last ? enableEditAddress() : addressPartSelected($index)"
+                               part.bind="part"
+                               last.bind="$last"
+                               if.bind="!!part"
+                               data-path="${pane.tabs.active.path}"
+                               data-path-index="${$index}"></address-crumb>
+            </div>
 
-                <!--PATH INPUT-->
-                <div class="ui fluid left icon ${settings.inverted} small input"
-                     show.bind="isEditAddress">
-                    <input ref="addressInput"
-                           value.bind="addressBarPath"
-                           type="text"
-                           blur.trigger="isEditAddress = false">
-                    <i class="folder icon"></i>
-                </div>
+            <!--PATH INPUT-->
+            <div class="ui fluid left icon ${settings.inverted} small input"
+                 show.bind="isEditAddress">
+                <input ref="addressInput"
+                       type="text"
+                       value.bind="addressBarPath"
+                       keydown.delegate='addressBarPathEdited($event)'
+                       blur.trigger="isEditAddress = false">
+                <i class="folder icon"></i>
             </div>
         </div>
     </div>

@@ -1,12 +1,8 @@
 <template>
-    <require from="../address-bar/address-bar" />
     <require from="../tabs/tab-view/tab-view.html" />
     <require from="../fs-view/fs-view" />
 
     <div class="ui segments pane-container">
-        <!--ADDRESS BAR-->
-        <address-bar pane.bind="pane"></address-bar>
-
         <!--TABS-->
         <div class="ui ${settings.inverted} segment tabs">
             <div class="ui top attached tabular mini ${settings.inverted} menu" ref="tabsElement">

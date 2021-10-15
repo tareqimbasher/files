@@ -1,63 +1,47 @@
 @import "../../../style/colors.scss";
 
 .address-bar.segment {
-    padding: 7px;
-
-    .inner-container {
-        display: flex;
-        align-items: center;
-    }
-
-    .buttons-container {
-        flex: 0 0 150px;
-        vertical-align: middle;
-    }
-
-    .breadcrumb-container {
-        flex: 1;
-
-        .ui.input {
-            .icon {
-                color: dodgerblue;
-            }
-        }
-    }
+    padding: 0;
 
     .breadcrumb {
-        border: 1px solid rgba(34, 36, 38, 0.15);
-        width: 100%;
-        padding: 0px 8px;
         user-select: none;
 
         address-crumb {
             display: inline-block;
-            padding: 5px 3px;
+            
+            .section {
+                padding: 2px 5px;
+            }
         }
 
-        address-crumb:not(.active):hover {
+        address-crumb:not(.active) .section:hover {
             background-color: rgba(74, 204, 254, 0.30);
         }
 
         .divider {
-            margin: 0;
+            margin-left: 0;
+            margin-right: 2px;
+            width: auto;
         }
     }
 
     .ui.input {
         input {
+            font-family: monospace;
             padding-top: 6.5px;
             padding-bottom: 6.5px;
             border-radius: 0 !important;
             background: transparent;
+        }
+
+        .icon {
+            color: dodgerblue;
         }
     }
 }
 
 .dark {
     .address-bar.segment {
-        .breadcrumb {
-            border: 1px solid $dark-border-color;
-        }
 
         .breadcrumb .icon {
             color: white;
@@ -81,7 +65,7 @@
             color: white;
         }
 
-        address-crumb:not(.active):hover {
+        address-crumb:not(.active) .section:hover {
             background: $dark-hover-color;
         }
     }

@@ -2,18 +2,26 @@
 
 header {
     $header-height: 75px;
-
-    height: $header-height;
-    /*line-height: $header-height;*/
-    color: white;
     -webkit-app-region: drag;
+    height: $header-height;
+    color: white;
     @include theme(background, headerBackground);
-    /*border-bottom: 1px solid $dark-border-color; should make this into themable*/
+    //border-bottom: 1px solid $dark-splitter-color; //should make this into themable
 
 
-    .button, .input, .icon {
+    button, .button, .input, .icon {
         -webkit-app-region: none;
     }
+
+    address-bar .address-bar-inner-container {
+        -webkit-app-region: none;
+
+        .breadcrumb {
+            padding-right: 25px;
+            margin-right: -25px;
+        }
+    }
+    
 
     .controls {
         white-space: nowrap;
