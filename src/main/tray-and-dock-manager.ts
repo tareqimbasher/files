@@ -1,6 +1,7 @@
 import { App, Menu, nativeImage, Tray } from "electron";
 import { WindowManager } from "./window-manager";
 import * as path from "path";
+import {system} from "../renderer/core";
 
 export class TrayAndDockManager {
     public tray?: Tray;
@@ -58,15 +59,17 @@ export class TrayAndDockManager {
     }
 
     private createDockJumpList() {
-        this.app.setUserTasks([
-            {
-                program: process.execPath,
-                arguments: '--new-window',
-                iconPath: this.logoPath,
-                iconIndex: 0,
-                title: 'New Window',
-                description: 'Create a new window'
-            }
-        ]);
+        if (system.platform === "win32") {
+            this.app.setUserTasks([
+                {
+                    program: process.execPath,
+                    arguments: '--new-window',
+                    iconPath: this.logoPath,
+                    iconIndex: 0,
+                    title: 'New Window',
+                    description: 'Create a new window'
+                }
+            ]);
+        }
     }
 }
