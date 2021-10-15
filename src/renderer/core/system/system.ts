@@ -13,6 +13,5 @@ export namespace system {
     //export var fsx = _fsx;
     export var path = _path;
     export var shell = _shell;
-    export var app = _remote.app;
     export var remote = _remote;
 }

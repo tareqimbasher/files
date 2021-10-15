@@ -14,7 +14,7 @@ export class IconLoader {
             if (IconLoader.imgFormats.indexOf(item.extension.toLocaleLowerCase()) >= 0)
                 iconPath = this.thumbnail(item);
             else if (item.extension.toLowerCase() == ".exe") {
-                let icon = await system.app.getFileIcon(item.path, { size: "large" });
+                let icon = await system.remote.app.getFileIcon(item.path, { size: "large" });
                 iconPath = icon.toDataURL();
             }
         }
