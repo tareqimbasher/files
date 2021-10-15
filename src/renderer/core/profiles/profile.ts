@@ -1,8 +1,7 @@
 import { IEventAggregator, singleton } from "aurelia";
-import { SettingsChangedEvent } from "../events/settings-changed-event";
-import { FileViewTypes, Settings } from "../settings";
-import { system } from "../system/system";
+import { system, Settings, SettingsChangedEvent } from "../";
 import { PersistedProfile } from "./persisted-profile";
+import md5 from 'md5';
 
 @singleton
 export class Profile {
@@ -39,14 +38,14 @@ export class Profile {
     }
 
     private ensureAndGetSettingsFilePath(): string {
-        const appDataDir = system.app.getPath("userData");
-        if (!system.fss.existsSync(appDataDir)) {
-            system.fss.mkdirSync(appDataDir, {
+        const profilesDir = system.path.join(system.remote.app.getPath("userData"), 'profiles');
+        if (!system.fss.existsSync(profilesDir)) {
+            system.fss.mkdirSync(profilesDir, {
                 recursive: true
             });
         }
 
-        const settingsFile = system.path.join(appDataDir, `profile-${this.name}.json`);
+        const settingsFile = system.path.join(profilesDir, `profile-${md5(this.name)}.json`);
         if (!system.fss.existsSync(settingsFile)) {
             system.fss.writeFileSync(
                 settingsFile,
