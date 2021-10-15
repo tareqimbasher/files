@@ -7,8 +7,8 @@ export class FileSizeValueConverter {
         if (size === undefined || size === null)
             return '';
 
-        if (typeof size === 'string') {
-            const sizeStr = (size as string).trim();
+        if (typeof size === 'string'!) {
+            const sizeStr = (size as unknown as string).trim();
             if (sizeStr == '') return '';
             else size = Number(sizeStr);
         }

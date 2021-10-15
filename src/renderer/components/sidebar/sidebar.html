@@ -29,7 +29,7 @@
 
         <div class="ui divider"></div>
 
-        <!--PINNED DRIVES-->
+        <!--DRIVES-->
         <div class="ui ${settings.inverted} list">
             <div class="item header">
                 <i class="disk icon"></i>
@@ -48,7 +48,7 @@
                  click.trigger="windowManager.panes.active.tabs.active.setPath(drive.path)"
                  data-path.bind="drive.path"
                  style="padding-bottom: 5px;"
-                 title="Total: ${drive.size | fileSize}\nUsed: ${drive.usedSize | fileSize}\nFree: ${drive.freeSize | fileSize}">
+                 title="Type: ${drive.fileSystem}\nTotal: ${drive.size | fileSize}\nUsed: ${drive.usedSize | fileSize}\nFree: ${drive.freeSize | fileSize}">
 
                 <div class="middle aligned content" style="margin-bottom: 3px;">
                     ${drive.name}

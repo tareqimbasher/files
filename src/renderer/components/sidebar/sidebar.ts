@@ -1,11 +1,11 @@
 import { IEventAggregator } from "aurelia";
-import { DrivesChangedEvent, DriveService, Settings, system } from "../../core";
+import { Drive, DrivesChangedEvent, DriveService, Settings, system } from "../../core";
 import { WindowManager } from "../window-manager";
 
 export class Sidebar {
 
     public directories: PinnedDirectory[] = [];
-    public drives: PinnedDrive[] = [];
+    public drives: Drive[] = [];
     public showDirectories = true;
     public showDrives = true;
     public detaches: (() => void)[] = [];
@@ -37,21 +37,8 @@ export class Sidebar {
     private loadDrives() {
         $('sidebar .ui.progress').progress('destroy');
 
-        const pinned: PinnedDrive[] = [];
-
         this.driveService.list().then(drives => {
-
-            for (let drive of drives) {
-                pinned.push(new PinnedDrive(
-                    drive.name,
-                    drive.path,
-                    Math.round(drive.size),
-                    Math.round(drive.usedSize),
-                    Math.round(drive.freeSize))
-                );
-            }
-
-            this.drives = pinned;
+            this.drives = drives;
             $('sidebar .ui.progress').progress();
         });
     }
@@ -60,22 +47,4 @@ export class Sidebar {
 class PinnedDirectory {
     constructor(public name: string, public path: string) {
     }
-}
-
-class PinnedDrive {
-    constructor(
-        public name: string, 
-        public path: string,
-        public size: number,
-        public usedSize: number,
-        public freeSize: number) {
-    }
-
-    public get usedPercent(): number {
-        return Math.round((this.usedSize / this.size) * 100);
-    };
-
-    public get freePercent(): number {
-        return Math.round((this.freeSize / this.size) * 100);
-    };
 }
