@@ -56,7 +56,8 @@ export class Tab implements IDisposable {
             else if (path.endsWith(":"))
                 path = path + "/";
 
-            path = path.replaceAll("/", "\\");
+            if (system.platform === "win32")
+              path = path.replaceAll("/", "\\");
 
             if (this.path == path)
                 return;
