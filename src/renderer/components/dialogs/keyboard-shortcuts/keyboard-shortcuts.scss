@@ -1,0 +1,24 @@
+#keyboard-shortcuts {
+  width: 600px;
+  min-height: 300px;
+
+  .ui.segment {
+    height: 100%;
+  }
+
+  .ui.header {
+    margin-top: -5px !important;
+  }
+
+  .ui.circular.close.icon.mini.button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    padding: 4px;
+    font-size: 0.6em;
+  }
+}
+
+.dark #keyboard-shortcuts {
+  border: 1px solid dodgerblue;
+}

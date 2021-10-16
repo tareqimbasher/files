@@ -8,7 +8,7 @@
     </template>
 
     <div class="ui ${settings.inverted} segment address-bar">
-        <div class='address-bar-inner-container'>
+        <div class="address-bar-inner-container">
             <!--BREADCRUMBS-->
             <div class="ui ${settings.inverted} small breadcrumb"
                  click.trigger="enableEditAddress() & self"
@@ -31,7 +31,7 @@
                 <input ref="addressInput"
                        type="text"
                        value.bind="addressBarPath"
-                       keydown.delegate='addressBarPathEdited($event)'
+                       keydown.delegate="addressBarPathEdited($event)"
                        blur.trigger="isEditAddress = false">
                 <i class="folder icon"></i>
             </div>

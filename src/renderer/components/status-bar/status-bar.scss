@@ -3,7 +3,7 @@
 
 status-bar {
     @include theme(background, backgroundColor);
-    @include theme(border, borderColor, 1px solid);
+    @include theme(border-top, borderColor, 1px solid);
 
     .container {
         padding-left: 10px;

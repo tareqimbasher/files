@@ -3,6 +3,8 @@ import { KeyCode, KeyCodeUtil, Profile, Settings, ViewCommandEditAddressBarEvent
 import { IpcEventBus } from "../core/ipc/ipc-event-bus";
 import { Titlebar } from "./titlebar/titlebar";
 import { WindowManager } from "./window-manager";
+import { IDialogService } from "@aurelia/runtime-html";
+import { KeyboardShortcuts } from "./dialogs/keyboard-shortcuts/keyboard-shortcuts";
 
 export class Window {
     constructor(
@@ -10,8 +12,10 @@ export class Window {
         private profile: Profile,
         private settings: Settings,
         private windowManager: WindowManager,
+        ipcEventBus: IpcEventBus,
         @IEventAggregator private readonly eventBus: IEventAggregator,
-        ipcEventBus: IpcEventBus) {
+        @IDialogService private readonly dialogService: IDialogService,
+    ) {
         profile.load();
     }
 
@@ -95,8 +99,15 @@ export class Window {
                 panes.active.tabs.active.close();
                 ev.preventDefault();
             }
+            else if (ev.ctrlKey && ev.code == KeyCode.KeyP) {
+                panes.toggleDualPanes();
+                ev.preventDefault();
+            }
             else if (ev.ctrlKey && ev.code == KeyCode.KeyH) {
                 this.settings.setShowHiddenFiles(!this.settings.showHiddenFiles);
+            }
+            else if (ev.ctrlKey && ev.code == KeyCode.KeyK) {
+                KeyboardShortcuts.openAsDialog(this.dialogService);
             }
             else if (ev.ctrlKey && KeyCodeUtil.isDigit(ev.code)) {
                 let digit = KeyCodeUtil.parseDigit(ev.code);

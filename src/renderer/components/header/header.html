@@ -9,7 +9,7 @@
         </div>
         <div class="right aligned column pr-10">
             <i class="selectable minus icon mr-10" click.trigger="windowManager.minimize()"></i>
-            <i class="selectable outline window maximize icon mr-10" click.trigger="windowManager.maximize()"></i>
+            <i class="selectable outline square outline icon mr-10" click.trigger="windowManager.maximize()"></i>
             <i class="selectable close icon" click.trigger="windowManager.close()"></i>
         </div>
     </div>
@@ -18,15 +18,18 @@
             <div class="controls">
                 <div class="ui icon mini divided buttons">
                     <button class="ui icon mini button"
-                            click.delegate="activeTab.goBack()">
+                            click.delegate="activeTab.goBack()"
+                            title='Back'>
                         <i class="left chevron icon"></i>
                     </button>
                     <button class="ui icon mini button"
-                            click.delegate="activeTab.goForward()">
+                            click.delegate="activeTab.goForward()"
+                            title='Forward'>
                         <i class="right chevron icon"></i>
                     </button>
                     <button class="ui icon mini button"
-                            click.delegate="activeTab.goUp()">
+                            click.delegate="activeTab.goUp()"
+                            title='Up'>
                         <i class="up chevron icon"></i>
                     </button>
                 </div>
@@ -35,7 +38,8 @@
         <div class="center aligned column">
             <div class="controls">
                 <button class="ui mini icon button"
-                        click.trigger="toggleDualPanes()">
+                        click.trigger="windowManager.panes.toggleDualPanes()"
+                        title='Toggle Dual Panes'>
                     <svg viewBox="0 0 24 24">
                         <path class="${windowManager.panes.list.length > 1 ? 'active' : ''}" d="m22.25 23.25h-7.5c-.552 0-1-.448-1-1v-20.5c0-.552.448-1 1-1h7.5c.552 0 1 .448 1 1v20.5c0 .552-.448 1-1 1z" />
                         <path class="${windowManager.panes.list.length > 1 ? 'active' : ''}" d="m23 24h-9c-.552 0-1-.448-1-1v-22c0-.552.448-1 1-1h9c.552 0 1 .448 1 1v22c0 .552-.448 1-1 1zm-7.5-22.5c-.552 0-1 .448-1 1v19c0 .552.448 1 1 1h6c.552 0 1-.448 1-1v-19c0-.552-.448-1-1-1z" />
@@ -46,7 +50,8 @@
 
                 <div class="ui icon mini divided buttons">
                     <button class="ui button ${settings.fileViewType === 'Icons' ? 'active' : ''}"
-                            click.trigger="settings.setFileViewType('Icons')">
+                            click.trigger="settings.setFileViewType('Icons')"
+                            title='Icon View'>
                         <svg viewBox="0 0 24 24" class="${settings.fileViewType === 'Icons' ? 'active' : ''}">
                             <path d="m0 13.75v9.25c0 .552.448 1 1 1h9.25c.552 0 1-.448 1-1v-9.25c0-.552-.448-1-1-1h-9.25c-.552 0-1 .448-1 1z" />
                             <path d="m10.25 0h-9.25c-.552 0-1 .448-1 1v9.25c0 .552.448 1 1 1h9.25c.552 0 1-.448 1-1v-9.25c0-.552-.448-1-1-1z" />
@@ -55,7 +60,8 @@
                         </svg>
                     </button>
                     <button class="ui button ${settings.fileViewType === 'Details' ? 'active' : ''}"
-                            click.trigger="settings.setFileViewType('Details')">
+                            click.trigger="settings.setFileViewType('Details')"
+                            title='List View'>
                         <!--<svg viewBox="0 0 24 24" class="${settings.fileViewType === 'Details' ? 'active' : ''}">
                             <path d="m0 23c0 .552.448 1 1 1h22c.552 0 1-.448 1-1v-5c0-.552-.448-1-1-1h-22c-.552 0-1 .448-1 1z" />
                             <path d="m23 0h-22c-.552 0-1 .448-1 1v5c0 .552.448 1 1 1h22c.552 0 1-.448 1-1v-5c0-.552-.448-1-1-1z" />
@@ -69,21 +75,29 @@
                     </button>
                 </div>
 
-                <button class="ui mini icon button"
-                        click.trigger="settings.toggleTheme()">
-                    <svg viewBox="0 0 512 512"
-                         class="${settings.theme == 'dark' ? '' : 'active'">
-                        <path d="M255.996,106c-82.705,0-150,67.295-150,150s67.295,150,150,150s150-67.295,150-150S338.701,106,255.996,106z" />
-                        <path d="M411.696,346c-15.6,27.299-38.699,50.099-66,66l90.3,24.3L411.696,346z" />
-                        <path d="M255.996,0l-46.199,82.299C224.497,78.1,240.095,76,255.996,76s31.5,2.1,46.2,6.299L255.996,0z" />
-                        <path d="M75.996,76l24.3,90c15.601-27.301,38.101-49.801,65.4-65.7L75.996,76z" />
-                        <path d="M82.297,209.5l-82,46.5l82,46.5c-4.2-14.7-6.301-30.3-6.301-46.5C75.996,239.799,78.096,224.2,82.297,209.5z" />
-                        <path d="M100.296,346l-24.3,90.3l90.3-24.3C138.996,396.099,115.897,373.299,100.296,346z" />
-                        <path d="M255.996,436c-16.199,0-31.8-2.1-46.8-6.301l46.8,82.301l46.8-82.301C287.796,433.899,272.195,436,255.996,436z" />
-                        <path d="M346.159,100.452c27.14,15.795,49.756,38.43,65.514,65.596l24.426-90.004L346.159,100.452z" />
-                        <path d="M511.703,256.146l-81.951-46.39c3.941,14.786,6.244,30.233,6.244,46.244c0,16.135-2.333,31.703-6.334,46.593L511.703,256.146z" />
-                    </svg>
-                </button>
+                <div class="ui icon mini divided buttons">
+                    <button class="ui button"
+                            click.trigger="settings.toggleTheme()"
+                            title='Toggle Theme'>
+                        <svg viewBox="0 0 512 512"
+                             class="${settings.theme == 'dark' ? '' : 'active'">
+                            <path d="M255.996,106c-82.705,0-150,67.295-150,150s67.295,150,150,150s150-67.295,150-150S338.701,106,255.996,106z" />
+                            <path d="M411.696,346c-15.6,27.299-38.699,50.099-66,66l90.3,24.3L411.696,346z" />
+                            <path d="M255.996,0l-46.199,82.299C224.497,78.1,240.095,76,255.996,76s31.5,2.1,46.2,6.299L255.996,0z" />
+                            <path d="M75.996,76l24.3,90c15.601-27.301,38.101-49.801,65.4-65.7L75.996,76z" />
+                            <path d="M82.297,209.5l-82,46.5l82,46.5c-4.2-14.7-6.301-30.3-6.301-46.5C75.996,239.799,78.096,224.2,82.297,209.5z" />
+                            <path d="M100.296,346l-24.3,90.3l90.3-24.3C138.996,396.099,115.897,373.299,100.296,346z" />
+                            <path d="M255.996,436c-16.199,0-31.8-2.1-46.8-6.301l46.8,82.301l46.8-82.301C287.796,433.899,272.195,436,255.996,436z" />
+                            <path d="M346.159,100.452c27.14,15.795,49.756,38.43,65.514,65.596l24.426-90.004L346.159,100.452z" />
+                            <path d="M511.703,256.146l-81.951-46.39c3.941,14.786,6.244,30.233,6.244,46.244c0,16.135-2.333,31.703-6.334,46.593L511.703,256.146z" />
+                        </svg>
+                    </button>
+                    <button class="ui button"
+                            click.delegate="showKeyboardShortcuts()"
+                            title='Show Keyboard Shortcuts'>
+                        <i class="up keyboard icon"></i>
+                    </button>
+                </div>
             </div>
         </div>
         <div class="right aligned column pr-10">

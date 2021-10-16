@@ -1,7 +1,8 @@
-import { observable, watch } from "@aurelia/runtime-html";
+import { IDialogService, observable, watch } from "@aurelia/runtime-html";
 import { IEventAggregator } from "aurelia";
 import { Settings, ViewCommandSearchEvent } from "../../core";
 import { WindowManager } from "../window-manager";
+import { KeyboardShortcuts } from "../dialogs/keyboard-shortcuts/keyboard-shortcuts";
 
 export class Header {
     @observable public searchTerm?: string;
@@ -11,6 +12,7 @@ export class Header {
     constructor(
         private readonly settings: Settings,
         private readonly windowManager: WindowManager,
+        @IDialogService private readonly dialogService: IDialogService,
         @IEventAggregator private readonly eventBus: IEventAggregator) {
     }
 
@@ -29,14 +31,9 @@ export class Header {
     public get activeTab() {
         return this.windowManager.panes.active.tabs.active;
     }
-
-    public toggleDualPanes() {
-        if (this.windowManager.panes.list.length == 1) {
-            this.windowManager.panes.add();
-        }
-        else {
-            this.windowManager.panes.list[1].close();
-        }
+    
+    public async showKeyboardShortcuts() {
+        await KeyboardShortcuts.openAsDialog(this.dialogService);
     }
 
     @watch<Header>(vm => vm.activeTab.path)

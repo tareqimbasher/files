@@ -1,13 +1,6 @@
 @import '../../../style/colors.scss';
 
-.item-properties {
-    /*position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
-    margin: auto;*/
+#item-properties {
     width: 350px;
     height: 380px;
 
@@ -61,6 +54,6 @@
     }
 }
 
-.dark .item-properties {
+.dark #item-properties {
     border: 1px solid dodgerblue;
 }

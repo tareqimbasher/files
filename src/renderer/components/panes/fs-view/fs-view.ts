@@ -8,10 +8,9 @@ import {
 } from "../../../core";
 import dragula from "dragula";
 import "dragula/dist/dragula.css";
-import { ItemProperties } from "../../popups/properties/item-properties";
+import { ItemProperties } from "../../dialogs/properties/item-properties";
 import { FsViewSorting } from "./fs-view-sorting";
-import { Clipboard, ClipboardItemType } from "../../common";
-import { AlertDialogButtonType, AlertDialogHelper, AlertDialogType } from "../../common/dialogs/alert-dialog";
+import { Clipboard, ClipboardItemType, AlertDialogButtonType, AlertDialogHelper, AlertDialogType } from "../../common";
 
 export class FsView {
 

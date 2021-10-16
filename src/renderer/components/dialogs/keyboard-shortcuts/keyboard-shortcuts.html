@@ -1,0 +1,58 @@
+<template as-custom-element="shortcut-group">
+    <bindable property="header"></bindable>
+    <bindable property="icon"></bindable>
+    <bindable property="shortcuts"></bindable>
+
+    <h5>
+        <i class='orange ${icon} icon'></i>
+        ${header}
+    </h5>
+    <ul class="ui list">
+        <div class="item" repeat.for="shortcut of shortcuts">
+            ${shortcut.description}
+            <div class="ui mini right floated black ${settings.inverted} label">
+                <code>${shortcut.combo}</code>
+            </div>
+        </div>
+    </ul>
+</template>
+
+<div id="keyboard-shortcuts">
+    <div class="ui ${settings.inverted} segment">
+
+        <button class="ui red circular icon mini close button"
+                click.delegate="controller.cancel()">
+            <i class="ui close icon"></i>
+        </button>
+        
+        <div class="ui small header">Keyboard Shortcuts</div>
+        <div class="ui hidden divider"></div>
+
+        <div class='ui equal width divided ${settings.inverted} grid'>
+            <div class='row'>
+                <div class='column'>
+                    <shortcut-group header.bind="'Navigation'"
+                                    icon.bind="'location arrow'"
+                                    shortcuts.bind="navigationShortcuts"></shortcut-group>
+                    <div class="ui divider"></div>
+                    <shortcut-group header.bind="'Files'"
+                                    icon.bind="'file alternate'"
+                                    shortcuts.bind="fileShortcuts"></shortcut-group>
+                    <div class="ui divider"></div>
+                    <shortcut-group header.bind="'Others'"
+                                    icon.bind="'globe'"
+                                    shortcuts.bind="otherShortcuts"></shortcut-group>
+                </div>
+                <div class='column'>
+                    <shortcut-group header.bind="'Tabs'"
+                                    icon.bind="'pager'"
+                                    shortcuts.bind="tabShortcuts"></shortcut-group>
+                    <div class="ui divider"></div>
+                    <shortcut-group header.bind="'Panes'"
+                                    icon.bind="'columns'"
+                                    shortcuts.bind="paneShortcuts"></shortcut-group>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

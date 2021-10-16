@@ -36,6 +36,15 @@ export class Panes {
         }
     }
 
+    public toggleDualPanes() {
+        if (this.list.length == 1) {
+            this.add();
+        }
+        else {
+            this.list[1].close();
+        }
+    }
+
     public setActive(pane: Pane) {
         if (this.active == pane)
             return;
