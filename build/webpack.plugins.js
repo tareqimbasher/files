@@ -6,7 +6,7 @@ module.exports = [
     new ForkTsCheckerWebpackPlugin(),
 ];
 
-if (process.platform !== "darwin") {
+if (process.platform !== 'darwin') {
     module.exports.push(
         new webpack.IgnorePlugin({
             resourceRegExp: /^fsevents$/,

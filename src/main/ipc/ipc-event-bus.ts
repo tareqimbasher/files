@@ -1,5 +1,5 @@
-import { ipcMain, IpcMainEvent } from "electron";
-import { WindowManager } from "../window-manager";
+import { ipcMain, IpcMainEvent } from 'electron';
+import { WindowManager } from '../window-manager';
 
 export class IpcEventBus {
 
@@ -19,7 +19,7 @@ export class IpcEventBus {
             return new Token(() => ipcMain.off(type.name, handler));
         }
         else {
-            throw new Error(`Type has no name`);
+            throw new Error('Type has no name');
         }
     }
 }
@@ -33,6 +33,6 @@ export class Token {
     }
 }
 
-type Constructable<T = {}> = {
+type Constructable<T = any> = {
     new(...args: any[]): T;
 };

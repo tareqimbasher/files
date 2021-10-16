@@ -1,4 +1,4 @@
-import * as valueConverters from "./components/common/value-converters";
+import * as valueConverters from './components/common/value-converters';
 
 export const converters = [
     valueConverters.FileSizeValueConverter,

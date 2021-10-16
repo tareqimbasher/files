@@ -1,4 +1,4 @@
-﻿import { TabHistoryState } from "./tab-history-state";
+﻿import { TabHistoryState } from './tab-history-state';
 
 /**
  * Keeps track of the navigation history for a Tab.

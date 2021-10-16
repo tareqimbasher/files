@@ -1,5 +1,5 @@
-import { IEventAggregator, singleton } from "aurelia";
-import { SettingsChangedEvent } from "./events/settings-changed-event";
+import { IEventAggregator, singleton } from 'aurelia';
+import { SettingsChangedEvent } from './events/settings-changed-event';
 
 @singleton
 export class Settings {
@@ -16,12 +16,12 @@ export class Settings {
         document.body.classList.remove(this.theme);
         document.body.classList.add(theme);
         this.theme = theme;
-        this.inverted = theme == "dark" ? "inverted" : "";
+        this.inverted = theme == 'dark' ? 'inverted' : '';
         this.publishSettingsChangedEvent();
     }
 
     public toggleTheme() {
-        this.setTheme(this.theme === "dark" ? "light" : "dark");
+        this.setTheme(this.theme === 'dark' ? 'light' : 'dark');
     }
 
 
@@ -60,6 +60,6 @@ export class Settings {
 }
 
 export enum FileViewTypes {
-    Icons = "Icons",
-    Details = "Details"
+    Icons = 'Icons',
+    Details = 'Details'
 }

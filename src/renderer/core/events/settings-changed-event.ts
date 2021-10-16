@@ -1,4 +1,4 @@
-import { Settings } from "../settings";
+import { Settings } from '../settings';
 
 export class SettingsChangedEvent {
     constructor(public settings: Settings) {

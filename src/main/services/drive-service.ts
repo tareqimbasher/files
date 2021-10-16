@@ -1,6 +1,6 @@
-import * as usb from "usb";
-import { DrivesChangedEvent } from "../../renderer/core/events/drives-changed";
-import { IpcEventBus } from "../ipc/ipc-event-bus";
+import * as usb from 'usb';
+import { DrivesChangedEvent } from '../../renderer/core/events/drives-changed';
+import { IpcEventBus } from '../ipc/ipc-event-bus';
 
 export class DriveService {
     private disposables: (() => void)[] = [];
@@ -19,7 +19,7 @@ export class DriveService {
     }
 
     public stop() {
-        for (let disposable of this.disposables) {
+        for (const disposable of this.disposables) {
             disposable();
         }
     }

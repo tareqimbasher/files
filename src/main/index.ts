@@ -10,7 +10,7 @@ declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 
 // Only run single instance app mode in production builds
-const singleInstanceApp = app.commandLine.hasSwitch("dev") !== true;
+const singleInstanceApp = app.commandLine.hasSwitch('dev') !== true;
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {

@@ -1,6 +1,6 @@
-import { IEventAggregator } from "aurelia";
-import { Drive, DrivesChangedEvent, DriveService, Settings, system } from "../../core";
-import { WindowManager } from "../window-manager";
+import { IEventAggregator } from 'aurelia';
+import { Drive, DrivesChangedEvent, DriveService, Settings, system } from '../../core';
+import { WindowManager } from '../window-manager';
 
 export class Sidebar {
 
@@ -18,15 +18,15 @@ export class Sidebar {
     }
 
     public attached() {
-        let homedir = system.os.homedir();
+        const homedir = system.os.homedir();
         this.directories.push(
-            new PinnedDirectory("Home", homedir),
-            new PinnedDirectory("Desktop", system.path.join(homedir, "Desktop")),
-            new PinnedDirectory("Downloads", system.path.join(homedir, "Downloads")),
-            new PinnedDirectory("Documents", system.path.join(homedir, "Documents")),
-            new PinnedDirectory("Pictures", system.path.join(homedir, "Pictures")),
-            new PinnedDirectory("Music", system.path.join(homedir, "Music")),
-            new PinnedDirectory("Videos", system.path.join(homedir, "Videos")),
+            new PinnedDirectory('Home', homedir),
+            new PinnedDirectory('Desktop', system.path.join(homedir, 'Desktop')),
+            new PinnedDirectory('Downloads', system.path.join(homedir, 'Downloads')),
+            new PinnedDirectory('Documents', system.path.join(homedir, 'Documents')),
+            new PinnedDirectory('Pictures', system.path.join(homedir, 'Pictures')),
+            new PinnedDirectory('Music', system.path.join(homedir, 'Music')),
+            new PinnedDirectory('Videos', system.path.join(homedir, 'Videos')),
         );
 
         const token = this.eventBus.subscribe(DrivesChangedEvent, message => this.loadDrives());

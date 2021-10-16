@@ -1,4 +1,5 @@
 {
+  "root": true,
   "env": {
     "browser": true,
     "es6": true,
@@ -11,6 +12,7 @@
     "plugin:import/errors",
     "plugin:import/warnings"
   ],
+  "ignorePatterns": ["**/styles/semantic-ui/*.js", "**/styles/semantic-ui/*.css"],
   "parser": "@typescript-eslint/parser",
   "settings": {
     "import/resolver": {
@@ -25,10 +27,11 @@
   "rules": {
     "quotes": [
       2,
-      "double",
+      "single",
       {
         "avoidEscape": true
       }
-    ]
+    ],
+    "@typescript-eslint/explicit-module-boundary-types": "off"
   }
 }

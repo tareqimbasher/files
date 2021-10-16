@@ -1,5 +1,5 @@
-import { singleton } from "aurelia";
-import { FileSystemItem } from "../../../core";
+import { singleton } from 'aurelia';
+import { FileSystemItem } from '../../../core';
 
 @singleton()
 export class Clipboard {
@@ -29,6 +29,6 @@ class ClipboardItem {
 }
 
 export enum ClipboardItemType {
-    Copy = "Copy",
-    Cut = "Cut"
+    Copy = 'Copy',
+    Cut = 'Cut'
 }

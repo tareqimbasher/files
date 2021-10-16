@@ -1,10 +1,10 @@
-import { bindable } from "aurelia";
-import { Directory, FileSystemItem } from "../../../../core";
-import { FileSizeValueConverter } from "../../../common";
-import { FsItemView } from "./fs-item-view";
+import { bindable } from 'aurelia';
+import { Directory, FileSystemItem } from '../../../../core';
+import { FileSizeValueConverter } from '../../../common';
+import { FsItemView } from './fs-item-view';
 
 export class FSItemIconView extends FsItemView {
-    @bindable() item!: FileSystemItem;
+    @bindable() override item!: FileSystemItem;
 
     public get title() {
         if (!this.item) return '';

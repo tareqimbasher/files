@@ -1,5 +1,5 @@
-import { Dictionary, FileSystemItem } from "../";
-import { Settings } from "../settings";
+import { Dictionary, FileSystemItem } from '../';
+import { Settings } from '../settings';
 
 export class FsItems extends Dictionary<string, FileSystemItem> {
 
@@ -32,7 +32,7 @@ export class FsItems extends Dictionary<string, FileSystemItem> {
     }
 
     public select(...items: FileSystemItem[]) {
-        for (let item of items) {
+        for (const item of items) {
             if (item.isSelected)
                 continue;
 
@@ -45,7 +45,7 @@ export class FsItems extends Dictionary<string, FileSystemItem> {
     }
 
     public unselect(...items: FileSystemItem[]) {
-        for (let item of items) {
+        for (const item of items) {
             if (!item.isSelected)
                 continue;
 
@@ -53,12 +53,12 @@ export class FsItems extends Dictionary<string, FileSystemItem> {
         }
     }
 
-    public unselectAll(...items: FileSystemItem[]) {
+    public unselectAll() {
         this.unselect(...this.selected);
     }
 
     public inverseSelection(...items: FileSystemItem[]) {
-        for (let item of items) {
+        for (const item of items) {
             item.isSelected ? this.unselect(item) : this.select(item);
         }
     }

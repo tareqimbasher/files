@@ -31,7 +31,7 @@ export class WindowManager {
         window.on('ready-to-show', () => window?.show());
 
         window.on('closed', () => {
-            if (!!window)
+            if (window)
                 this.windows.delete(window);
             window = null;
         });

@@ -2,7 +2,7 @@ export class UiUtil {
     public static navigateGrid(
         grid: Element,
         activeItemSelector: string,
-        direction: "up" | "down" | "right" | "left",
+        direction: 'up' | 'down' | 'right' | 'left',
         select: (nextItemIndex: number) => void): void {
 
         // Get all grid children (items to select from)
@@ -23,7 +23,7 @@ export class UiUtil {
         }
 
         // The first selected item is the item we will assume is the *the* selected item
-        const active = (direction == "up" || direction == "left" ? selected[0] : selected[selected.length - 1]) as HTMLElement;
+        const active = (direction == 'up' || direction == 'left' ? selected[0] : selected[selected.length - 1]) as HTMLElement;
         const activeIndex = gridChildren.indexOf(active);
 
         // Calculate how many items in a row
@@ -38,19 +38,19 @@ export class UiUtil {
 
         // Select the next item
         switch (direction) {
-            case "up":
+            case 'up':
                 if (!isTopRow)
                     select(activeIndex - numPerRow);
                 break;
-            case "down":
+            case 'down':
                 if (!isBottomRow)
                     select(activeIndex + numPerRow);
                 break;
-            case "left":
+            case 'left':
                 if (!isLeftColumn)
                     select(activeIndex - 1);
                 break;
-            case "right":
+            case 'right':
                 if (!isRightColumn)
                     select(activeIndex + 1);
                 break;

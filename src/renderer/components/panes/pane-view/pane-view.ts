@@ -1,6 +1,6 @@
-import { bindable } from "aurelia";
-import { Settings } from "../../../core";
-import { Pane } from "../pane";
+import { bindable } from 'aurelia';
+import { Settings } from '../../../core';
+import { Pane } from '../pane';
 
 
 export class PaneView {

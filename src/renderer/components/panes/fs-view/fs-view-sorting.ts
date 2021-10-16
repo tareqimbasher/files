@@ -36,7 +36,7 @@ export class FsViewSorting {
 
         this.sortBy(propertyName);
 
-        if (!!direction)
+        if (direction)
             this.sortDir(direction);
         else if (!byChanged) {
             this.sortDir(this.dir === 'asc' ? 'desc' : 'asc');

@@ -1,6 +1,6 @@
-import { bindable, IEventAggregator, watch } from "aurelia";
-import { KeyCode, Settings, system, ViewCommandEditAddressBarEvent, ViewCommandSearchEvent } from "../../../core";
-import { Pane } from "../pane";
+import { bindable, IEventAggregator, watch } from 'aurelia';
+import { KeyCode, Settings, system, ViewCommandEditAddressBarEvent } from '../../../core';
+import { Pane } from '../pane';
 
 export class AddressBar {
 
@@ -16,7 +16,7 @@ export class AddressBar {
     public attached() {
         this.setAddressBarPathFromActivePath();
 
-        let sub = this.eventBus.subscribe(ViewCommandEditAddressBarEvent, () => {
+        const sub = this.eventBus.subscribe(ViewCommandEditAddressBarEvent, () => {
             if (this.pane.isActive)
                 this.enableEditAddress();
         });
@@ -45,16 +45,16 @@ export class AddressBar {
 
             let address = this.addressBarPath.trim();
 
-            if (address.startsWith("~"))
-                address = address.replace("~", system.os.homedir());
-            else if (address.startsWith("/"))
-                address = address.replace("/", system.path.parse(process.cwd()).root);
+            if (address.startsWith('~'))
+                address = address.replace('~', system.os.homedir());
+            else if (address.startsWith('/'))
+                address = address.replace('/', system.path.parse(process.cwd()).root);
 
             if (!system.fss.existsSync(address)) {
-                alert("Path does not exit: " + address);
+                alert('Path does not exit: ' + address);
             }
             else {
-                let stat = await system.fs.stat(address);
+                const stat = await system.fs.stat(address);
                 if (stat.isDirectory()) {
                     this.pane.tabs.active.setPath(address);
                 }
@@ -69,11 +69,11 @@ export class AddressBar {
     }
 
     public async addressPartSelected(selectedPartIndex: number) {
-        let activeTab = this.pane.tabs.active;
+        const activeTab = this.pane.tabs.active;
         if (activeTab.pathParts.length - 1 == selectedPartIndex)
             return;
 
-        let newPath = system.path.join(...activeTab.pathParts.slice(0, selectedPartIndex + 1));
+        const newPath = system.path.join(...activeTab.pathParts.slice(0, selectedPartIndex + 1));
         activeTab.setPath('/' + newPath);
     }
 

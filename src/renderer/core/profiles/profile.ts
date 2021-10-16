@@ -1,6 +1,6 @@
-import { IEventAggregator, singleton } from "aurelia";
-import { system, Settings, SettingsChangedEvent } from "../";
-import { PersistedProfile } from "./persisted-profile";
+import { IEventAggregator, singleton } from 'aurelia';
+import { system, Settings, SettingsChangedEvent } from '../';
+import { PersistedProfile } from './persisted-profile';
 import md5 from 'md5';
 
 @singleton
@@ -9,8 +9,8 @@ export class Profile {
     public version: string;
 
     constructor(private settings: Settings, @IEventAggregator private readonly eventBus: IEventAggregator) {
-        this.name = "Default";
-        this.version = "1";
+        this.name = 'Default';
+        this.version = '1';
         this.eventBus.subscribe(SettingsChangedEvent, () => this.save());
     }
 
@@ -38,7 +38,7 @@ export class Profile {
     }
 
     private ensureAndGetSettingsFilePath(): string {
-        const profilesDir = system.path.join(system.remote.app.getPath("userData"), 'profiles');
+        const profilesDir = system.path.join(system.remote.app.getPath('userData'), 'profiles');
         if (!system.fss.existsSync(profilesDir)) {
             system.fss.mkdirSync(profilesDir, {
                 recursive: true

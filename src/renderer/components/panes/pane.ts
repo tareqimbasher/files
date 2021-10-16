@@ -1,11 +1,11 @@
-﻿import { IContainer, IDisposable } from "aurelia";
-import { Util } from "../../core";
-import { Panes } from "./panes";
-import { Tabs } from "./tabs/tabs";
+﻿import { IContainer, IDisposable } from 'aurelia';
+import { Util } from '../../core';
+import { Panes } from './panes';
+import { Tabs } from './tabs/tabs';
 
 export class Pane implements IDisposable {
     public id: string;
-    public isActive: boolean = false;
+    public isActive = false;
     public tabs: Tabs;
 
     constructor(public panes: Panes, private container: IContainer) {

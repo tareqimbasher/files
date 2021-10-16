@@ -7,16 +7,16 @@ export abstract class DialogBase {
         @IDialogController protected readonly controller: IDialogController) {
         
         dialogDom.contentHost.classList.add('dialog');
-        dialogDom.contentHost.style.position = "relative";
-        dialogDom.contentHost.style.margin = "auto";
-        dialogDom.contentHost.style.zIndex = "2";
+        dialogDom.contentHost.style.position = 'relative';
+        dialogDom.contentHost.style.margin = 'auto';
+        dialogDom.contentHost.style.zIndex = '2';
         // dialogDom.contentHost.style.display = "flex";
         // dialogDom.contentHost.style.justifyContent = "center";
         // dialogDom.contentHost.style.alignItems = "center";
         // dialogDom.contentHost.style.top = "50%";
         // dialogDom.contentHost.style.transform = "translateY(-50%)";
-        dialogDom.overlay.style.zIndex = "1";
-        dialogDom.overlay.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+        dialogDom.overlay.style.zIndex = '1';
+        dialogDom.overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
     }
 
     public attaching() {

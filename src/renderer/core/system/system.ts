@@ -1,17 +1,18 @@
-import * as _os from "os";
-import * as _fs from "fs";
+import * as _os from 'os';
+import * as _fs from 'fs';
 //import * as _fsx from "fs-extra";
-import * as _path from "path";
-import { shell as _shell, remote as _remote } from "electron";
+import * as _path from 'path';
+import { shell as _shell, remote as _remote } from 'electron';
 
-export namespace system {
-    export var fileScheme = "atom";
-    export var platform = _os.platform();
-    export var os = _os;
-    export var fs = _fs.promises;
-    export var fss = _fs;
+export class system {
+    public static fileScheme = 'atom';
+    public static platform = _os.platform();
+    public static os = _os;
+    public static fs = _fs.promises;
+    public static fss = _fs;
+    public static path = _path;
+    public static shell = _shell;
+    public static remote = _remote;
+
     //export var fsx = _fsx;
-    export var path = _path;
-    export var shell = _shell;
-    export var remote = _remote;
 }

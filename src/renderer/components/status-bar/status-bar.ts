@@ -1,7 +1,7 @@
-import { watch } from "aurelia";
-import { Settings } from "../../core";
-import { WindowManager } from "../";
-import { Clipboard } from "../common";
+import { watch } from 'aurelia';
+import { Settings } from '../../core';
+import { WindowManager } from '../';
+import { Clipboard } from '../common';
 
 export class StatusBar {
 

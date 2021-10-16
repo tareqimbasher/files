@@ -1,6 +1,6 @@
-import { singleton } from "aurelia";
-import { system } from "../core";
-import { Panes } from "./panes/panes";
+import { singleton } from 'aurelia';
+import { system } from '../core';
+import { Panes } from './panes/panes';
 
 @singleton()
 export class WindowManager {

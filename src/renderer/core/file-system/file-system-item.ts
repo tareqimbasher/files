@@ -1,6 +1,6 @@
 import { Stats } from 'fs';
 import * as pathUtil from 'path';
-import { FileType } from "./file-system-item-type";
+import { FileType } from './file-system-item-type';
 
 export abstract class FileSystemItem {
 
@@ -8,13 +8,13 @@ export abstract class FileSystemItem {
     public type: FileType;
     public isDir: boolean;
 
-    public size: number = 0;
+    public size = 0;
     public dateModified!: Date;
     public dateCreated!: Date;
     public dateAccessed!: Date;
-    public isSelected: boolean = false;
-    public isHidden: boolean = false;
-    public isSystem: boolean = false;
+    public isSelected = false;
+    public isHidden = false;
+    public isSystem = false;
 
     constructor(path: string, type: FileType) {
         this.path = path;
@@ -36,13 +36,13 @@ export abstract class FileSystemItem {
 
     public get typeDescription() {
         if (this.type == FileType.Directory)
-            return "Folder";
+            return 'Folder';
         else if (this.type == FileType.File) {
             // Handle files like .gitconfig
             if (!this.extension && this.name.startsWith('.'))
-                return this.name.replace('.', '').toUpperCase() + " File";
+                return this.name.replace('.', '').toUpperCase() + ' File';
             else if (!this.extension)
-                return "File";
+                return 'File';
 
             const ext = this.extension.replace('.', '');
 
@@ -62,10 +62,10 @@ export abstract class FileSystemItem {
             }
         }
         else if (this.type == FileType.SymbolicLink) {
-            return "Shortcut";
+            return 'Shortcut';
         }
         else {
-            return "Unknown";
+            return 'Unknown';
         }
     }
 

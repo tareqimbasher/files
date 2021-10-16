@@ -1,5 +1,4 @@
 import jquery from 'jquery';
-// @ts-ignore
-window.jQuery = jquery;
-// @ts-ignore
-window.$ = jquery;
+
+(window as any).jQuery = jquery;
+(window as any).$ = jquery;

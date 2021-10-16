@@ -1,7 +1,7 @@
-import { App, Menu, nativeImage, Tray } from "electron";
-import { WindowManager } from "./window-manager";
-import * as path from "path";
-import {system} from "../renderer/core";
+import { App, Menu, nativeImage, Tray } from 'electron';
+import { WindowManager } from './window-manager';
+import * as path from 'path';
+import {system} from '../renderer/core';
 
 export class TrayAndDockManager {
     public tray?: Tray;
@@ -46,7 +46,7 @@ export class TrayAndDockManager {
             {
                 label: 'Quit',
                 click: () => {
-                    for (var window of Array.from(this.windowManager.windows)) {
+                    for (const window of Array.from(this.windowManager.windows)) {
                         window.close();
                     }
 
@@ -59,7 +59,7 @@ export class TrayAndDockManager {
     }
 
     private createDockJumpList() {
-        if (system.platform === "win32") {
+        if (system.platform === 'win32') {
             this.app.setUserTasks([
                 {
                     program: process.execPath,

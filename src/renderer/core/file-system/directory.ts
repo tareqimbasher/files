@@ -1,19 +1,18 @@
-import { Stats } from "fs";
-import { system } from "../system/system";
-import { Util } from "../utils/util";
-import { FileSystemItem } from "./file-system-item";
-import { FileType } from "./file-system-item-type";
+import { system } from '../system/system';
+import { Util } from '../utils/util';
+import { FileSystemItem } from './file-system-item';
+import { FileType } from './file-system-item-type';
 
 export class Directory extends FileSystemItem {
 
     public directoriesCount = 0;
     public filesCount = 0;
     public filesTotalSize = 0;
-    public containingItemsChanged: Function;
+    public containingItemsChanged: () => void;
 
     constructor(path: string) {
         super(path, FileType.Directory);
-        this.containingItemsChanged = Util.debounce(this, this.updateContainingItemInfo, 1000, true);
+        this.containingItemsChanged = () => {return;};//Util.debounce(this, this.updateContainingItemInfo, 1000, true);
     }
 
     public get itemCount() {
@@ -29,9 +28,9 @@ export class Directory extends FileSystemItem {
             let files = 0;
             let fileSizes = 0;
 
-            for (let itemName of items) {
+            for (const itemName of items) {
                 try {
-                    let stats = await system.fs.stat(system.path.join(this.path, itemName));
+                    const stats = await system.fs.stat(system.path.join(this.path, itemName));
                     if (stats.isDirectory())
                         dirs++
                     else {
@@ -48,7 +47,7 @@ export class Directory extends FileSystemItem {
             this.filesCount = files;
             this.filesTotalSize = fileSizes;
         }).catch(err => {
-            console.error(`Could not get file count of dir: ${this.path}`);
+            console.error(`Could not get file count of dir: ${this.path}`, err);
         });
     }
 }

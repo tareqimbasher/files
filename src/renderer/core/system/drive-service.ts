@@ -1,13 +1,13 @@
-import { exec } from "child_process";
-import { Drive } from "./drive";
-import { system } from "./system";
+import { exec } from 'child_process';
+import { Drive } from './drive';
+import { system } from './system';
 
 export class DriveService {
     private static readonly WINDOWS_COMMAND: string = 'wmic logicaldisk get Name,Caption,FileSystem,Size,FreeSpace,VolumeName /format:list';
     private static readonly UNIX_COMMAND: string = 'df -PT | awk \'NR > 1\' | grep \'^/\'';
 
     public async list(): Promise<Drive[]> {
-        return system.platform === "win32" 
+        return system.platform === 'win32' 
             ? await this.windows() 
             : await this.unix();
     }
@@ -55,7 +55,7 @@ export class DriveService {
             const drives: Drive[] = [];
 
             exec(DriveService.WINDOWS_COMMAND,
-                { shell: "powershell.exe" },
+                { shell: 'powershell.exe' },
                 (error, stdout, stderr) => {
 
                     if (error) {
@@ -92,20 +92,20 @@ export class DriveService {
 
                     for (let i = 0; i < driveInfos.length; i++) {
                         const driveInfo = driveInfos[i];
-                        const path: string = driveInfo["Name"] || driveInfo["Caption"];
-                        const volume: string = driveInfo["VolumeName"];
+                        const path: string = driveInfo['Name'] || driveInfo['Caption'];
+                        const volume: string = driveInfo['VolumeName'];
 
                         let name = volume || 'Local Disk';
                         name = `${name} (${path})`.trim();
 
-                        const size = Number(driveInfo["Size"]);
-                        const free = Number(driveInfo["FreeSpace"]);
+                        const size = Number(driveInfo['Size']);
+                        const free = Number(driveInfo['FreeSpace']);
                         const used = size - free;
 
                         drives.push(new Drive(
                             name,
                             path,
-                            driveInfo["FileSystem"],
+                            driveInfo['FileSystem'],
                             size,
                             used,
                             free

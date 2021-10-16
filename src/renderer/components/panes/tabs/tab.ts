@@ -1,13 +1,13 @@
-﻿import { IContainer, IDisposable } from "aurelia";
-import { Directory, FileService, Settings, system, Util } from "../../../core";
-import { Tabs } from "./tabs";
-import { TabHistory } from "./tab-history";
-import { TabHistoryState } from "./tab-history-state";
-import { Files } from "./tab-files";
+﻿import { IContainer, IDisposable } from 'aurelia';
+import { Directory, FileService, Settings, system, Util } from '../../../core';
+import { Tabs } from './tabs';
+import { TabHistory } from './tab-history';
+import { TabHistoryState } from './tab-history-state';
+import { Files } from './tab-files';
 
 export class Tab implements IDisposable {
     public id: string;
-    public isActive: boolean = false;
+    public isActive = false;
     public path!: string;
     public pathName!: string;
     public pathParts: string[] = [];
@@ -33,7 +33,7 @@ export class Tab implements IDisposable {
 
     public setPath(pathOrHistoryState: string | TabHistoryState) {
         if (!pathOrHistoryState)
-            throw new Error("path is null or undefined.");
+            throw new Error('path is null or undefined.');
 
         this.history.current.remember(this.fsItems);
 
@@ -45,19 +45,19 @@ export class Tab implements IDisposable {
             let path = pathOrHistoryState as string;
 
             // Handle special path locations
-            if (path.startsWith("~"))
-                path = path.replace("~", system.os.homedir());
-            else if (path.startsWith("/"))
-                path = path.replace("/", system.path.parse(process.cwd()).root);
+            if (path.startsWith('~'))
+                path = path.replace('~', system.os.homedir());
+            else if (path.startsWith('/'))
+                path = path.replace('/', system.path.parse(process.cwd()).root);
 
             // Normalize Windows path endings for drive roots
-            if (path.endsWith(":."))
+            if (path.endsWith(':.'))
                 path = path.slice(0, -1) + '/';
-            else if (path.endsWith(":"))
-                path = path + "/";
+            else if (path.endsWith(':'))
+                path = path + '/';
 
-            if (system.platform === "win32")
-              path = path.replaceAll("/", "\\");
+            if (system.platform === 'win32')
+              path = path.replaceAll('/', '\\');
 
             if (this.path == path)
                 return;
@@ -96,7 +96,7 @@ export class Tab implements IDisposable {
     }
 
     public goUp() {
-        let newPath = system.path.dirname(this.path);
+        const newPath = system.path.dirname(this.path);
         if (newPath != this.path && system.fss.existsSync(newPath))
             this.setPath(newPath);
     }

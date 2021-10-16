@@ -1,8 +1,8 @@
-import { IDialogService, observable, watch } from "@aurelia/runtime-html";
-import { IEventAggregator } from "aurelia";
-import { Settings, ViewCommandSearchEvent } from "../../core";
-import { WindowManager } from "../window-manager";
-import { KeyboardShortcuts } from "../dialogs/keyboard-shortcuts/keyboard-shortcuts";
+import { IDialogService, observable, watch } from '@aurelia/runtime-html';
+import { IEventAggregator } from 'aurelia';
+import { Settings, ViewCommandSearchEvent } from '../../core';
+import { WindowManager } from '../window-manager';
+import { KeyboardShortcuts } from '../dialogs/keyboard-shortcuts/keyboard-shortcuts';
 
 export class Header {
     @observable public searchTerm?: string;
@@ -17,7 +17,7 @@ export class Header {
     }
 
     public attached() {
-        let sub = this.eventBus.subscribe(ViewCommandSearchEvent, () => {
+        const sub = this.eventBus.subscribe(ViewCommandSearchEvent, () => {
             this.searchInput.focus();
             this.searchInput.select();
         });

@@ -1,7 +1,7 @@
 export class Util {
 	public static newGuid(): string {
 		return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-			var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+			const r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
 			return v.toString(16);
 		});
 	}
@@ -13,8 +13,8 @@ export class Util {
      */
     public static dateDiffInDays(a: Date, b: Date): number {
         // Discard the time and time-zone information.
-        var utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
-        var utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+        const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+        const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
 
         // 8.64e+7 milliseconds = 1 day
         return Math.floor(Math.abs(utc2 - utc1) / 8.64e+7);
@@ -36,7 +36,7 @@ export class Util {
 		if (!str || maxLength < 0 || str.length <= maxLength)
 			return str;
 
-		return str.substr(0, maxLength - 3) + "...";
+		return str.substr(0, maxLength - 3) + '...';
     }
 
     /**
@@ -47,24 +47,24 @@ export class Util {
      * @param waitMs The number of milliseconds to debounce.
      * @param immediate If true, will execute the function immediatly and then waits for the interval before being called again.
      */
-    public static debounce(thisContext: any, func: Function, waitMs: number, immediate?: boolean) {
-        var timeout: any;
-
-        return function executedFunction() {
-            var args = arguments;
-
-            var later = function () {
-                timeout = null;
-                if (!immediate) func.apply(thisContext, args);
-            };
-
-            var callNow = immediate && !timeout;
-
-            clearTimeout(timeout);
-
-            timeout = setTimeout(later, waitMs);
-
-            if (callNow) func.apply(thisContext, args);
-        };
-    };
+    // public static debounce(thisContext: any, func: Function, waitMs: number, immediate?: boolean) {
+    //     let timeout: any;
+    //
+    //     return function executedFunction() {
+    //         const args = arguments;
+    //
+    //         const later = function () {
+    //             timeout = null;
+    //             if (!immediate) func.apply(thisContext, args);
+    //         };
+    //
+    //         const callNow = immediate && !timeout;
+    //
+    //         clearTimeout(timeout);
+    //
+    //         timeout = setTimeout(later, waitMs);
+    //
+    //         if (callNow) func.apply(thisContext, args);
+    //     };
+    // }
 }

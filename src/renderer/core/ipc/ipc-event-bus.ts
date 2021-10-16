@@ -1,13 +1,13 @@
-import { Constructable, IDisposable, IEventAggregator, singleton } from "aurelia";
-import { ipcRenderer, IpcRendererEvent } from "electron";
-import { DrivesChangedEvent } from "../events/drives-changed";
+import { Constructable, IDisposable, IEventAggregator, singleton } from 'aurelia';
+import { ipcRenderer, IpcRendererEvent } from 'electron';
+import { DrivesChangedEvent } from '../events/drives-changed';
 
 @singleton()
 export class IpcEventBus implements IDisposable {
     private disposables: (() => void)[] = [];
 
     constructor(@IEventAggregator private readonly eventBus: IEventAggregator) {
-        let token = this.subscribe(DrivesChangedEvent, message => this.eventBus.publish(new DrivesChangedEvent()));
+        const token = this.subscribe(DrivesChangedEvent, message => this.eventBus.publish(new DrivesChangedEvent()));
         this.disposables.push(() => token.dispose());
     }
 
@@ -24,7 +24,7 @@ export class IpcEventBus implements IDisposable {
             return new Token(() => ipcRenderer.off(type.name, handler));
         }
         else {
-            throw new Error(`Type has no name`);
+            throw new Error('Type has no name');
         }
     }
 

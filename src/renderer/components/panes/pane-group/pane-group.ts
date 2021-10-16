@@ -1,6 +1,6 @@
-import { Settings } from "../../../core";
-import { WindowManager } from "../../";
-import { Pane } from "../pane";
+import { Settings } from '../../../core';
+import { WindowManager } from '../../';
+import { Pane } from '../pane';
 
 export class PaneGroup {
     public panes: Pane[] = [];

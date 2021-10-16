@@ -1,5 +1,5 @@
-import { IContainer, singleton } from "aurelia";
-import { Pane } from "./pane";
+import { IContainer, singleton } from 'aurelia';
+import { Pane } from './pane';
 
 @singleton()
 export class Panes {
@@ -11,7 +11,7 @@ export class Panes {
     }
 
     public add(): Pane {
-        let pane = new Pane(this, this.container);
+        const pane = new Pane(this, this.container);
         this.list.push(pane);
         return pane;
     }
@@ -21,7 +21,7 @@ export class Panes {
             return;
 
         try {
-            let ix = this.list.indexOf(pane);
+            const ix = this.list.indexOf(pane);
 
             let newActive: Pane;
             if (this.list.length > 1) {

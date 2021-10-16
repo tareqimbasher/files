@@ -29,15 +29,15 @@ export class Dictionary<TKey extends string | number | Date, TValue> {
         const values = [];
 
         if (items.findIndex(i => i.key === undefined || i.key === null) >= 0)
-            throw new Error("Cannot add a null or undefined key.");
+            throw new Error('Cannot add a null or undefined key.');
 
-        for (var i = 0; i < items.length; i++) {
+        for (let i = 0; i < items.length; i++) {
             const item = items[i];
             const key = item.key;
             const value = item.value;
 
             const stringKey = this.getStringKey(key);
-            if (!this.keyMap.hasOwnProperty(stringKey))
+            if (!Object.prototype.hasOwnProperty.call(this.keyMap, stringKey))
                 this.keyMap[stringKey] = key;
 
             this.data[stringKey] = value;
@@ -71,7 +71,7 @@ export class Dictionary<TKey extends string | number | Date, TValue> {
      */
     public get(key: TKey): TValue {
         const stringKey = this.getStringKey(key);
-        if (!this.data.hasOwnProperty(stringKey))
+        if (!Object.prototype.hasOwnProperty.call(this.data, stringKey))
             throw new Error(`Key '${key}' not found.`);
         return this.data[stringKey];
     }
@@ -80,7 +80,7 @@ export class Dictionary<TKey extends string | number | Date, TValue> {
      * Checks if the provided key exists in the dictionary.
      */
     public containsKey(key: TKey) {
-        return this.keyMap.hasOwnProperty(this.getStringKey(key));
+        return Object.prototype.hasOwnProperty.call(this.keyMap, this.getStringKey(key));
     }
 
     /**
@@ -94,7 +94,7 @@ export class Dictionary<TKey extends string | number | Date, TValue> {
      * Iterates over the key/value pairs of this dictionary.
      */
     public forEach(iterator: (iterator: { key: TKey, value: TValue }) => void) {
-        for (let [k, v] of Object.entries(this.data)) {
+        for (const [k, v] of Object.entries(this.data)) {
             iterator({
                 key: this.keyMap[k],
                 value: v as TValue

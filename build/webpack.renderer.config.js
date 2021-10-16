@@ -20,7 +20,7 @@ rules.push(
 
     {
         test: /\.css$/i,
-        use: ["style-loader", cssLoader]
+        use: ['style-loader', cssLoader]
     },
     //{
     //    test: /\.scss$/i,
@@ -42,12 +42,12 @@ rules.push(
     },
     {
         test: /\.ts$/i,
-        use: ["ts-loader", "@aurelia/webpack-loader"],
+        use: ['ts-loader', '@aurelia/webpack-loader'],
         exclude: /node_modules/,
     },
     {
         test: /\.html$/i,
-        use: "@aurelia/webpack-loader",
+        use: '@aurelia/webpack-loader',
         exclude: /node_modules/,
     }
 );
@@ -61,6 +61,6 @@ module.exports = {
     },
     plugins: plugins,
     resolve: {
-        extensions: [".js", ".ts", ".css", ".scss", ".json"],
+        extensions: ['.js', '.ts', '.css', '.scss', '.json'],
     },
 };

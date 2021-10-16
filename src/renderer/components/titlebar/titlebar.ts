@@ -1,6 +1,6 @@
-import { IObserverLocator } from "@aurelia/runtime-html";
-import { Color, Titlebar as CustomTitlebar } from "custom-electron-titlebar";
-import { WindowManager } from "../window-manager";
+import { IObserverLocator } from '@aurelia/runtime-html';
+import { Color, Titlebar as CustomTitlebar } from 'custom-electron-titlebar';
+import { WindowManager } from '../window-manager';
 
 export class Titlebar {
 

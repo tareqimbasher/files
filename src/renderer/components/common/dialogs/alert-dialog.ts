@@ -1,6 +1,6 @@
 import { IDialogDom, DefaultDialogDom, IDialogController, IDialogService } from '@aurelia/runtime-html';
 import { Settings } from '../../../core';
-import { DialogBase } from "./dialog-base";
+import { DialogBase } from './dialog-base';
 
 export class AlertDialogHelper {
     constructor(@IDialogService private readonly dialogService: IDialogService) {
@@ -51,7 +51,7 @@ export class AlertDialogHelper {
 export class AlertDialog extends DialogBase {
 
     public options?: AlertDialogOptions;
-    public customStyles: string = '';
+    public customStyles = '';
 
     constructor(
         @IDialogDom dialogDom: DefaultDialogDom,

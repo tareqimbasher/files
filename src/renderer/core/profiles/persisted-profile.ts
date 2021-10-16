@@ -1,8 +1,8 @@
-import { FileViewTypes, Settings } from "../settings";
-import { Profile } from "./profile";
+import { FileViewTypes, Settings } from '../settings';
+import { Profile } from './profile';
 
 export class PersistedProfile {
-    public static latestVersion = "1";
+    public static latestVersion = '1';
 
     public name: string;
     public version: string;
@@ -15,10 +15,10 @@ export class PersistedProfile {
 
     constructor() {
         // Defaults
-        this.name = "Default";
-        this.version = "1";
+        this.name = 'Default';
+        this.version = '1';
         this.settings = {
-            theme: "dark",
+            theme: 'dark',
             showHiddenFiles: false,
             confirmOnMove: true,
             fileViewType: FileViewTypes.Icons
@@ -29,7 +29,7 @@ export class PersistedProfile {
         profile.name = this.name;
         profile.version = this.version;
 
-        settings.setTheme(this.settings.theme ?? "dark");
+        settings.setTheme(this.settings.theme ?? 'dark');
         settings.setShowHiddenFiles(this.settings.showHiddenFiles === true ? true : false);
         settings.setConfirmOnMove(this.settings.confirmOnMove === false ? false : true);
         settings.setFileViewType(this.settings.fileViewType ?? FileViewTypes.Icons);
@@ -50,7 +50,7 @@ export class PersistedProfile {
     public static from(obj: PersistedProfile): PersistedProfile {
         const profile = new PersistedProfile();
 
-        profile.name = obj.name ?? "Default";
+        profile.name = obj.name ?? 'Default';
         profile.version = obj.version ?? PersistedProfile.latestVersion;
 
         if (obj.settings)

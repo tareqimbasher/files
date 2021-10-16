@@ -3,9 +3,9 @@ export * from './settings';
 export * from './profiles/profile';
 export * from './data/dictionary';
 
-export * from "./system/system";
-export * from "./system/drive-service";
-export * from "./system/drive";
+export * from './system/system';
+export * from './system/drive-service';
+export * from './system/drive';
 
 export * from './file-system/file-system-item';
 export * from './file-system/file-system-item-type';

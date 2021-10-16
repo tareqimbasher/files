@@ -1,5 +1,5 @@
-import { globalShortcut } from "electron";
-import { WindowManager } from "./window-manager";
+import { globalShortcut } from 'electron';
+import { WindowManager } from './window-manager';
 
 export class EnvironmentManager {
     constructor(private readonly windowManager: WindowManager) {

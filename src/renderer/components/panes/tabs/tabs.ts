@@ -1,7 +1,7 @@
-import { Pane } from "../pane";
-import { Tab } from "./tab";
-import * as os from "os";
-import { IContainer, IDisposable } from "aurelia";
+import { Pane } from '../pane';
+import { Tab } from './tab';
+import * as os from 'os';
+import { IContainer, IDisposable } from 'aurelia';
 
 export class Tabs implements IDisposable {
     public pane: Pane;
@@ -23,7 +23,7 @@ export class Tabs implements IDisposable {
         if (!path)
             path = os.homedir();
 
-        let tab = new Tab(this, path, this.container);
+        const tab = new Tab(this, path, this.container);
         this.list.push(tab);
 
         // Semantic UI
@@ -37,7 +37,7 @@ export class Tabs implements IDisposable {
             return;
 
         try {
-            let ix = this.list.indexOf(tab);
+            const ix = this.list.indexOf(tab);
 
             if (this.list.length > 1) {
                 const newActive = ix == 0 ? this.list[1] : this.list[ix - 1];
@@ -63,11 +63,11 @@ export class Tabs implements IDisposable {
         this.active = tab;
 
         // Semantic UI
-        this.findTabs().tab("change tab", tab.id);
+        this.findTabs().tab('change tab', tab.id);
     }
 
     public refreshTabBinding() {
-        let tabs = this.findTabs();
+        const tabs = this.findTabs();
         tabs.tab('destroy');
         tabs.tab({
             onVisible: (tabId: string) => {
@@ -78,7 +78,7 @@ export class Tabs implements IDisposable {
     }
 
     public dispose(): void {
-        for (let tab of this.list) {
+        for (const tab of this.list) {
             this.remove(tab);
         }
     }

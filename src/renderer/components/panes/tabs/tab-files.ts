@@ -1,7 +1,7 @@
-import { IDisposable } from "aurelia";
-import { Stats } from "fs";
-import * as chokidar from "chokidar";
-import { Directory, FileService, FsItems, Settings, system } from "../../../core";
+import { IDisposable } from 'aurelia';
+import { Stats } from 'fs';
+import * as chokidar from 'chokidar';
+import { Directory, FileService, FsItems, Settings, system } from '../../../core';
 
 export class Files extends FsItems implements IDisposable {
     private fsWatcher: chokidar.FSWatcher | undefined;
@@ -13,20 +13,20 @@ export class Files extends FsItems implements IDisposable {
 
     public async updateFileListing(newPath: string) {
         performance.clearMarks();
-        performance.mark("tab.getfiles.start");
+        performance.mark('tab.getfiles.start');
 
-        let fsItems = await this.fileService.list(newPath);
+        const fsItems = await this.fileService.list(newPath);
         this.clear();
 
 
-        performance.mark("tab.fsItems.addOrSetRange.start");
+        performance.mark('tab.fsItems.addOrSetRange.start');
         this.addOrSetRange(...fsItems.map(f => {
             return {
                 key: f.name,
                 value: f
             };
         }));
-        performance.mark("tab.fsItems.addOrSetRange.end");
+        performance.mark('tab.fsItems.addOrSetRange.end');
 
         if (!this.fsWatcher) {
             this.fsWatcher = chokidar.watch(newPath, {
@@ -64,19 +64,19 @@ export class Files extends FsItems implements IDisposable {
                 this.itemRemoved(newPath, path);
             })
             .on('error', error => {
-                if (!error.message.startsWith("EPERM") && !error.message.startsWith("EBUSY")) {
-                    console.log(`Watcher error`, error);
+                if (!error.message.startsWith('EPERM') && !error.message.startsWith('EBUSY')) {
+                    console.log('Watcher error', error);
                 }
             });
 
-        performance.mark("tab.getfiles.end");
+        performance.mark('tab.getfiles.end');
 
 
         const showPerfInfo = false;
 
         if (showPerfInfo) {
-            const marks = Array.from(performance.getEntriesByType("mark"));
-            for (let item of marks) {
+            const marks = Array.from(performance.getEntriesByType('mark'));
+            for (const item of marks) {
                 if (item.name.endsWith('.start')) continue;
 
                 const endMark = item;
@@ -84,7 +84,7 @@ export class Files extends FsItems implements IDisposable {
                 const startMarkName = measurementName + '.start';
                 const startMark = marks.find(m => m.name == startMarkName);
 
-                if (!startMark) throw new Error("Could not find start mark for: " + endMark.name);
+                if (!startMark) throw new Error('Could not find start mark for: ' + endMark.name);
                 performance.measure(measurementName, startMark.name, endMark.name);
 
                 const measurement = performance.getEntriesByName(measurementName).slice(-1)[0];
@@ -119,7 +119,7 @@ export class Files extends FsItems implements IDisposable {
         );
 
         if (!item) {
-            console.warn("no item");
+            console.warn('no item');
             return;
         }
 

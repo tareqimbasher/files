@@ -1,9 +1,8 @@
-import { bindable } from "aurelia";
-import { FileSystemItem, IconLoader, system } from "../../../../core";
+import { bindable } from 'aurelia';
+import { FileSystemItem, IconLoader } from '../../../../core';
 
 export abstract class FsItemView {
-    @bindable
-    public item!: FileSystemItem;
+    @bindable public item!: FileSystemItem;
     public icon = IconLoader.defaultIcon;
 
     public attached() {

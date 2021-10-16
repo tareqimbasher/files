@@ -1,6 +1,6 @@
 import { IDialogDom, DefaultDialogDom, IDialogController, IDialogService } from '@aurelia/runtime-html';
 import { IEventAggregator, ILogger, watch } from 'aurelia';
-import { FileService, FileSystemItem, FileSystemItemPropertiesChangedEvent, IconLoader, Settings } from "../../../core";
+import { FileService, FileSystemItem, FileSystemItemPropertiesChangedEvent, IconLoader, Settings } from '../../../core';
 import { DialogBase } from '../../common';
 
 export class ItemProperties extends DialogBase {
@@ -68,8 +68,8 @@ export class ItemProperties extends DialogBase {
 
             return true;
         } catch (ex) {
-            this.logger.error("An error occurred applying changes.", ex);
-            alert("Error occurred.");
+            this.logger.error('An error occurred applying changes.', ex);
+            alert('Error occurred.');
             return false;
         }
 
