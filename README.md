@@ -1,5 +1,7 @@
 # Files
 
+[![🔨 Build](https://github.com/tareqimbasher/files/actions/workflows/build.yml/badge.svg)](https://github.com/tareqimbasher/files/actions/workflows/build.yml)
+
 A cross-platform file manager that features panes and tabs and more.
 
 (**Still under development**)
