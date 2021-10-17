@@ -12,7 +12,15 @@
     "plugin:import/errors",
     "plugin:import/warnings"
   ],
-  "ignorePatterns": ["**/styles/semantic-ui/*.js", "**/styles/semantic-ui/*.css"],
+  "ignorePatterns": ["**/style/semantic-ui/*"],
+  "overrides": [
+    {
+      "files": ["build/webpack.*.js"],
+      "rules": {
+        "@typescript-eslint/no-var-requires": "off"
+      }
+    }
+  ],
   "parser": "@typescript-eslint/parser",
   "settings": {
     "import/resolver": {

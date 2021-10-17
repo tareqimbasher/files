@@ -1,5 +1,5 @@
-const rules = require("./webpack.rules");
-const plugins = require("./webpack.plugins");
+const rules = require('./webpack.rules');
+const plugins = require('./webpack.plugins');
 const path = require('path');
 const cssLoader = 'css-loader';
 
