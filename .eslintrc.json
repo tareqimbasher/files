@@ -5,23 +5,22 @@
     "es6": true,
     "node": true
   },
+  "plugins": [
+    "@typescript-eslint",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:import/errors",
-    "plugin:import/warnings"
+    "plugin:import/warnings",
+    "plugin:prettier/recommended"
   ],
-  "ignorePatterns": ["**/style/semantic-ui/*"],
-  "overrides": [
-    {
-      "files": ["build/webpack.*.js"],
-      "rules": {
-        "@typescript-eslint/no-var-requires": "off"
-      }
-    }
-  ],
-  "parser": "@typescript-eslint/parser",
   "settings": {
     "import/resolver": {
       "node": {
@@ -32,14 +31,17 @@
       }
     }
   },
-  "rules": {
-    "quotes": [
-      2,
-      "single",
-      {
-        "avoidEscape": true
+  "overrides": [
+    {
+      "files": [
+        "build/webpack.*.js"
+      ],
+      "rules": {
+        "@typescript-eslint/no-var-requires": "off"
       }
-    ],
+    }
+  ],
+  "rules": {
     "@typescript-eslint/explicit-module-boundary-types": "off"
   }
 }
