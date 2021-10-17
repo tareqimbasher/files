@@ -1,30 +1,30 @@
-import { bindable, IEventAggregator, watch } from 'aurelia';
-import { KeyCode, Settings, system, ViewCommandEditAddressBarEvent } from '../../../core';
-import { Pane } from '../pane';
+import { bindable, IEventAggregator, watch } from "aurelia";
+import { KeyCode, Settings, system, ViewCommandEditAddressBarEvent } from "../../../core";
+import { Pane } from "../pane";
 
 export class AddressBar {
-
   @bindable public pane!: Pane;
   public isEditAddress = false;
   public addressBarPath?: string;
   public addressInput!: HTMLInputElement;
   private detaches: Array<() => void> = [];
 
-  constructor(public settings: Settings, @IEventAggregator private readonly eventBus: IEventAggregator) {
-  }
+  constructor(
+    public settings: Settings,
+    @IEventAggregator private readonly eventBus: IEventAggregator
+  ) {}
 
   public attached() {
     this.setAddressBarPathFromActivePath();
 
     const sub = this.eventBus.subscribe(ViewCommandEditAddressBarEvent, () => {
-      if (this.pane.isActive)
-        this.enableEditAddress();
+      if (this.pane.isActive) this.enableEditAddress();
     });
     this.detaches.push(() => sub.dispose());
   }
 
   public detached() {
-    this.detaches.forEach(f => f());
+    this.detaches.forEach((f) => f());
   }
 
   public enableEditAddress() {
@@ -38,20 +38,19 @@ export class AddressBar {
 
   public async addressBarPathEdited(ev: KeyboardEvent) {
     // If pressed key is not ENTER or ESC keys, don't handle event
-    if (ev.code != KeyCode.Enter && ev.code != KeyCode.Escape)
-      return;
+    if (ev.code != KeyCode.Enter && ev.code != KeyCode.Escape) return;
 
-    if (ev.code == KeyCode.Enter && this.addressBarPath) { // Enter key
+    if (ev.code == KeyCode.Enter && this.addressBarPath) {
+      // Enter key
 
       let address = this.addressBarPath.trim();
 
-      if (address.startsWith('~'))
-        address = address.replace('~', system.os.homedir());
-      else if (address.startsWith('/'))
-        address = address.replace('/', system.path.parse(process.cwd()).root);
+      if (address.startsWith("~")) address = address.replace("~", system.os.homedir());
+      else if (address.startsWith("/"))
+        address = address.replace("/", system.path.parse(process.cwd()).root);
 
       if (!system.fss.existsSync(address)) {
-        alert('Path does not exit: ' + address);
+        alert("Path does not exit: " + address);
       } else {
         const stat = await system.fs.stat(address);
         if (stat.isDirectory()) {
@@ -68,11 +67,10 @@ export class AddressBar {
 
   public async addressPartSelected(selectedPartIndex: number) {
     const activeTab = this.pane.tabs.active;
-    if (activeTab.pathParts.length - 1 == selectedPartIndex)
-      return;
+    if (activeTab.pathParts.length - 1 == selectedPartIndex) return;
 
     const newPath = system.path.join(...activeTab.pathParts.slice(0, selectedPartIndex + 1));
-    activeTab.setPath('/' + newPath);
+    activeTab.setPath("/" + newPath);
   }
 
   @watch((vm: AddressBar) => vm.pane.tabs.active.path)

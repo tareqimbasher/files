@@ -1,12 +1,10 @@
-import { App, protocol } from 'electron';
-import * as path from 'path';
-import { promises as fs } from 'fs';
-
+import { App, protocol } from "electron";
+import * as path from "path";
+import { promises as fs } from "fs";
 
 export function registerProtocols(app: App) {
   // Custom protocol to load files from disk
-  protocol.registerFileProtocol('atom', async (request, callback) => {
-
+  protocol.registerFileProtocol("atom", async (request, callback) => {
     const filePath = decodeURI(request.url.substr(7));
 
     if (path.isAbsolute(filePath) ? await pathExists(filePath) : await pathExists(`/${filePath}`)) {

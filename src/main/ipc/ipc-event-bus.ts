@@ -1,14 +1,14 @@
-import { ipcMain, IpcMainEvent } from 'electron';
-import { WindowManager } from '../window-manager';
+import { ipcMain, IpcMainEvent } from "electron";
+import { WindowManager } from "../window-manager";
 
 export class IpcEventBus {
-
-  constructor(private readonly windowManager: WindowManager) {
-  }
+  constructor(private readonly windowManager: WindowManager) {}
 
   public publish<T extends Constructable>(message: T extends Constructable ? InstanceType<T> : T) {
     if (message.constructor) {
-      this.windowManager.windows.forEach(window => window.webContents.send(message.constructor.name, message));
+      this.windowManager.windows.forEach((window) =>
+        window.webContents.send(message.constructor.name, message)
+      );
     }
   }
 
@@ -18,14 +18,13 @@ export class IpcEventBus {
       ipcMain.on(type.name, handler);
       return new Token(() => ipcMain.off(type.name, handler));
     } else {
-      throw new Error('Type has no name');
+      throw new Error("Type has no name");
     }
   }
 }
 
 export class Token {
-  constructor(private func: () => void) {
-  }
+  constructor(private func: () => void) {}
 
   public dispose() {
     this.func();
@@ -33,5 +32,5 @@ export class Token {
 }
 
 type Constructable<T = any> = {
-  new(...args: any[]): T;
+  new (...args: any[]): T;
 };

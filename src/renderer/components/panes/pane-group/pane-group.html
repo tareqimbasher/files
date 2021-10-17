@@ -1,8 +1,10 @@
 <template>
   <require from="../pane-view/pane-view" />
-  <pane-view class="${pane.isActive ? 'active' : ''}"
-             click.trigger="pane.activate()"
-             data-id.bind="pane.id"
-             pane.bind="pane"
-             repeat.for="pane of windowManager.panes.list"></pane-view>
+  <pane-view
+    repeat.for="pane of windowManager.panes.list"
+    class="${pane.isActive ? 'active' : ''}"
+    click.trigger="pane.activate()"
+    data-id.bind="pane.id"
+    pane.bind="pane"
+  ></pane-view>
 </template>

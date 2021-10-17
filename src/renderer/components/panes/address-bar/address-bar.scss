@@ -15,7 +15,7 @@
     }
 
     address-crumb:not(.active) .section:hover {
-      background-color: rgba(74, 204, 254, 0.30);
+      background-color: rgba(74, 204, 254, 0.3);
     }
 
     .divider {
@@ -42,7 +42,6 @@
 
 .dark {
   .address-bar.segment {
-
     .breadcrumb .icon {
       color: white;
     }
@@ -70,7 +69,6 @@
     }
   }
 }
-
 
 .light address-bar {
 }

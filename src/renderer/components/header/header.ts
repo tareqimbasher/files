@@ -1,8 +1,8 @@
-import { IDialogService, observable, watch } from '@aurelia/runtime-html';
-import { IEventAggregator } from 'aurelia';
-import { Settings, ViewCommandSearchEvent } from '../../core';
-import { WindowManager } from '../window-manager';
-import { KeyboardShortcuts } from '../dialogs/keyboard-shortcuts/keyboard-shortcuts';
+import { IDialogService, observable, watch } from "@aurelia/runtime-html";
+import { IEventAggregator } from "aurelia";
+import { Settings, ViewCommandSearchEvent } from "../../core";
+import { WindowManager } from "../window-manager";
+import { KeyboardShortcuts } from "../dialogs/keyboard-shortcuts/keyboard-shortcuts";
 
 export class Header {
   @observable public searchTerm?: string;
@@ -13,8 +13,8 @@ export class Header {
     private readonly settings: Settings,
     private readonly windowManager: WindowManager,
     @IDialogService private readonly dialogService: IDialogService,
-    @IEventAggregator private readonly eventBus: IEventAggregator) {
-  }
+    @IEventAggregator private readonly eventBus: IEventAggregator
+  ) {}
 
   public get activeTab() {
     return this.windowManager.panes.active.tabs.active;
@@ -29,14 +29,14 @@ export class Header {
   }
 
   public detached() {
-    this.detaches.forEach(f => f());
+    this.detaches.forEach((f) => f());
   }
 
   public async showKeyboardShortcuts() {
     await KeyboardShortcuts.openAsDialog(this.dialogService);
   }
 
-  @watch<Header>(vm => vm.activeTab.path)
+  @watch<Header>((vm) => vm.activeTab.path)
   private pathChanged() {
     this.searchTerm = undefined;
   }

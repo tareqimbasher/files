@@ -1,5 +1,5 @@
-import { IContainer, singleton } from 'aurelia';
-import { Pane } from './pane';
+import { IContainer, singleton } from "aurelia";
+import { Pane } from "./pane";
 
 @singleton()
 export class Panes {
@@ -17,8 +17,7 @@ export class Panes {
   }
 
   public remove(pane: Pane) {
-    if (this.list.length == 1)
-      return;
+    if (this.list.length == 1) return;
 
     try {
       const ix = this.list.indexOf(pane);
@@ -30,7 +29,6 @@ export class Panes {
       }
 
       this.list = this.list.filter((tab, index) => index != ix);
-
     } finally {
       pane.dispose();
     }
@@ -45,11 +43,9 @@ export class Panes {
   }
 
   public setActive(pane: Pane) {
-    if (this.active == pane)
-      return;
+    if (this.active == pane) return;
 
-    if (this.active)
-      this.active.isActive = false;
+    if (this.active) this.active.isActive = false;
 
     pane.isActive = true;
     this.active = pane;

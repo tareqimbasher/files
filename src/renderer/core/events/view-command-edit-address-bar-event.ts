@@ -1,2 +1,1 @@
-export class ViewCommandEditAddressBarEvent {
-}
+export class ViewCommandEditAddressBarEvent {}

@@ -1,26 +1,25 @@
-@import '../colors.scss';
+@import "../colors.scss";
 
-$dark: ( 
-    backgroundColor: #222,
-    backgroundTranslucentColor: rgb(27, 28, 29, 0.95),
-    backgroundContrast1Color: #1E1E1E,
-    backgroundContrast2Color: #2c2c2c,
-    borderColor: #333,
-    borderColorLight: #656565,
-    hoverColor: rgba(255, 255, 255, 0.12),
-    activeColor: rgba(255, 255, 255, 0.20),
-    activeUnfocusedColor: rgba(255, 255, 255, 0.15),
-    mutedTextColor: rgba(255, 255, 255, 0.6),
-
-    splitterColor: #333,
-    headerBackground: #333,
-    windowBorderColor: #333,
-    sidebarBackground: rgb(27, 28, 29, 0.90)
+$dark: (
+  backgroundColor: #222,
+  backgroundTranslucentColor: rgb(27, 28, 29, 0.95),
+  backgroundContrast1Color: #1e1e1e,
+  backgroundContrast2Color: #2c2c2c,
+  borderColor: #333,
+  borderColorLight: #656565,
+  hoverColor: rgba(255, 255, 255, 0.12),
+  activeColor: rgba(255, 255, 255, 0.2),
+  activeUnfocusedColor: rgba(255, 255, 255, 0.15),
+  mutedTextColor: rgba(255, 255, 255, 0.6),
+  splitterColor: #333,
+  headerBackground: #333,
+  windowBorderColor: #333,
+  sidebarBackground: rgb(27, 28, 29, 0.9),
 );
 
 .dark {
-    /*header {
-        background: $dark-header-background;
-        border-bottom: 1px solid $dark-border-color;
-    }*/
+  /*header {
+      background: $dark-header-background;
+      border-bottom: 1px solid $dark-border-color;
+  }*/
 }

@@ -1,10 +1,9 @@
-﻿import { TabHistoryState } from './tab-history-state';
+﻿import { TabHistoryState } from "./tab-history-state";
 
 /**
  * Keeps track of the navigation history for a Tab.
  */
 export class TabHistory {
-
   public list: TabHistoryState[];
   public current!: TabHistoryState;
   public currentIndex = 0;
@@ -17,7 +16,6 @@ export class TabHistory {
   }
 
   public set(state: TabHistoryState): TabHistoryState {
-
     this.current = state;
 
     const ix = this.list.indexOf(state);
@@ -31,24 +29,19 @@ export class TabHistory {
 
       this.list.push(state);
       this.currentIndex = this.list.length - 1;
-    } else
-      this.currentIndex = ix;
+    } else this.currentIndex = ix;
 
     this.canGoBack = this.currentIndex > 0;
-    this.canGoForward = this.currentIndex < (this.list.length - 1);
+    this.canGoForward = this.currentIndex < this.list.length - 1;
 
     return state;
   }
 
   public getPrevious(): TabHistoryState | undefined {
-    return this.currentIndex >= 1
-      ? this.list[this.currentIndex - 1]
-      : undefined;
+    return this.currentIndex >= 1 ? this.list[this.currentIndex - 1] : undefined;
   }
 
   public getNext(): TabHistoryState | undefined {
-    return this.currentIndex < (this.list.length - 1)
-      ? this.list[this.currentIndex + 1]
-      : undefined;
+    return this.currentIndex < this.list.length - 1 ? this.list[this.currentIndex + 1] : undefined;
   }
 }

@@ -1,10 +1,9 @@
-import { singleton } from 'aurelia';
-import { system } from '../core';
-import { Panes } from './panes/panes';
+import { singleton } from "aurelia";
+import { system } from "../core";
+import { Panes } from "./panes/panes";
 
 @singleton()
 export class WindowManager {
-
   private window: Electron.BrowserWindow;
 
   constructor(public panes: Panes) {
@@ -20,9 +19,7 @@ export class WindowManager {
   }
 
   maximize() {
-    if (this.window.isMaximized())
-      this.window.restore();
-    else
-      this.window.maximize();
+    if (this.window.isMaximized()) this.window.restore();
+    else this.window.maximize();
   }
 }

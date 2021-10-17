@@ -10,7 +10,9 @@ status-bar {
     padding-right: 10px;
     user-select: none;
 
-    .ui.grid, .ui.grid .row, .ui.grid .column {
+    .ui.grid,
+    .ui.grid .row,
+    .ui.grid .column {
       padding: 0;
       margin: 0;
     }
@@ -38,7 +40,9 @@ status-bar {
       margin-bottom: 0px;
     }
 
-    button, .ui.button, .ui.inverted.button {
+    button,
+    .ui.button,
+    .ui.inverted.button {
       background: transparent;
       box-shadow: none;
       color: #cbcbcb;

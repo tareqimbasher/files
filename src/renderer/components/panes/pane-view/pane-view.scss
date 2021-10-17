@@ -61,7 +61,6 @@ pane-view {
       border-top-style: solid !important;
     }
 
-
     &:not(:first-child) {
       &:before {
         background-color: $dark-splitter-color;

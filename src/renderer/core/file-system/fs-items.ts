@@ -1,8 +1,7 @@
-import { Dictionary, FileSystemItem } from '../';
-import { Settings } from '../settings';
+import { Dictionary, FileSystemItem } from "../";
+import { Settings } from "../settings";
 
 export class FsItems extends Dictionary<string, FileSystemItem> {
-
   private searchTerm?: string;
 
   constructor(protected settings: Settings) {
@@ -10,21 +9,20 @@ export class FsItems extends Dictionary<string, FileSystemItem> {
   }
 
   public get selected(): FileSystemItem[] {
-    return this.view.filter(i => i.isSelected);
+    return this.view.filter((i) => i.isSelected);
   }
 
   public get view(): FileSystemItem[] {
-
     let results: FileSystemItem[] = [];
 
     if (this.settings.showHiddenFiles && !this.searchTerm) {
       results = this.values;
     } else {
-      results = this.values
-        .filter(i =>
+      results = this.values.filter(
+        (i) =>
           (this.settings.showHiddenFiles || !i.isHidden) &&
           (!this.searchTerm || i.name.toLowerCase().indexOf(this.searchTerm) >= 0)
-        );
+      );
     }
 
     return results;
@@ -32,8 +30,7 @@ export class FsItems extends Dictionary<string, FileSystemItem> {
 
   public select(...items: FileSystemItem[]) {
     for (const item of items) {
-      if (item.isSelected)
-        continue;
+      if (item.isSelected) continue;
 
       item.isSelected = true;
     }
@@ -45,8 +42,7 @@ export class FsItems extends Dictionary<string, FileSystemItem> {
 
   public unselect(...items: FileSystemItem[]) {
     for (const item of items) {
-      if (!item.isSelected)
-        continue;
+      if (!item.isSelected) continue;
 
       item.isSelected = false;
     }

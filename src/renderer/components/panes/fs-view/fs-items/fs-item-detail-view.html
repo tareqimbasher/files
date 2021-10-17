@@ -2,10 +2,25 @@
   <bindable name="click"></bindable>
   <bindable name="dblClick"></bindable>
 
-  <tr class="fs-item fs-item-detail-view draggable ${item.isSelected ? 'selected' : ''} ${item.isHidden ? 'hidden' : ''}"
-      data-is-dir.bind="item.isDir"
-      data-name.bind="item.name"
-      dblClick.trigger="dblClick()">
+  <tr
+    class="
+      fs-item fs-item-detail-view
+      draggable
+      ${item.isSelected
+      ?
+      'selected'
+      :
+      ''}
+      ${item.isHidden
+      ?
+      'hidden'
+      :
+      ''}
+    "
+    data-is-dir.bind="item.isDir"
+    data-name.bind="item.name"
+    dblClick.trigger="dblClick()"
+  >
     <td class="">
       <div class="fs-item-icon">
         <img class="ui middle aligned image" src.bind="icon" />
@@ -15,12 +30,9 @@
     <td class="">
       ${item.dateModified.toLocaleDateString()} ${item.dateModified.toLocaleTimeString()}
     </td>
+    <td class="">${item.typeDescription}</td>
     <td class="">
-      ${item.typeDescription}
-    </td>
-    <td class="">
-      ${item.isDir ? (item.itemCount + ' items') : ''}
-      ${!item.isDir ? item.size : '' | fileSize}
+      ${item.isDir ? (item.itemCount + ' items') : ''} ${!item.isDir ? item.size : '' | fileSize}
     </td>
   </tr>
 </template>

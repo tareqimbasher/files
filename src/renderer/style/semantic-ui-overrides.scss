@@ -1,41 +1,47 @@
-@import './colors.scss';
+@import "./colors.scss";
 
-.primary, .blue {
-    &.text {
-        color: dodgerblue;
+.primary,
+.blue {
+  &.text {
+    color: dodgerblue;
+  }
+
+  &.icon {
+    color: dodgerblue !important;
+  }
+
+  &.ui.button,
+  .ui.buttons &.button {
+    background-color: dodgerblue;
+
+    &:hover {
+      background-color: #2185d0;
     }
-
-    &.icon {
-        color: dodgerblue !important;
-    }
-
-    &.ui.button, .ui.buttons &.button {
-        background-color: dodgerblue;
-
-        &:hover {
-            background-color: #2185D0;
-        }
-    }
+  }
 }
 
-
-.item .header, .ui.menu {
-    font-family: Arabic, 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif !important;
+.item .header,
+.ui.menu {
+  font-family: Arabic, "Lato", "Helvetica Neue", Arial, Helvetica, sans-serif !important;
 }
 
-.ui.segments, .ui.segment, .ui.segment.inverted {
-    border-radius: 0 !important;
-    background: none;
+.ui.segments,
+.ui.segment,
+.ui.segment.inverted {
+  border-radius: 0 !important;
+  background: none;
 }
 
-.ui.menu, .ui.menu.inverted {
-    background: none;
+.ui.menu,
+.ui.menu.inverted {
+  background: none;
 }
 
 .dark {
-    .ui.segments, .ui.inverted.segment {
-        border-color: $dark-border-color !important;
-    }
+  .ui.segments,
+  .ui.inverted.segment {
+    border-color: $dark-border-color !important;
+  }
 }
 
 /*.ui.button, .ui.buttons.button {

@@ -1,7 +1,7 @@
-import { Pane } from '../pane';
-import { Tab } from './tab';
-import * as os from 'os';
-import { IContainer, IDisposable } from 'aurelia';
+import { Pane } from "../pane";
+import { Tab } from "./tab";
+import * as os from "os";
+import { IContainer, IDisposable } from "aurelia";
 
 export class Tabs implements IDisposable {
   public pane: Pane;
@@ -20,8 +20,7 @@ export class Tabs implements IDisposable {
   }
 
   public add(path?: string): Tab {
-    if (!path)
-      path = os.homedir();
+    if (!path) path = os.homedir();
 
     const tab = new Tab(this, path, this.container);
     this.list.push(tab);
@@ -33,8 +32,7 @@ export class Tabs implements IDisposable {
   }
 
   public remove(tab: Tab) {
-    if (this.list.length == 1)
-      return;
+    if (this.list.length == 1) return;
 
     try {
       const ix = this.list.indexOf(tab);
@@ -53,27 +51,25 @@ export class Tabs implements IDisposable {
   }
 
   public setActive(tab: Tab) {
-    if (this.active == tab)
-      return;
+    if (this.active == tab) return;
 
-    if (this.active)
-      this.active.isActive = false;
+    if (this.active) this.active.isActive = false;
 
     tab.isActive = true;
     this.active = tab;
 
     // Semantic UI
-    this.findTabs().tab('change tab', tab.id);
+    this.findTabs().tab("change tab", tab.id);
   }
 
   public refreshTabBinding() {
     const tabs = this.findTabs();
-    tabs.tab('destroy');
+    tabs.tab("destroy");
     tabs.tab({
       onVisible: (tabId: string) => {
-        this.list.find(x => x.id == tabId)?.activate();
+        this.list.find((x) => x.id == tabId)?.activate();
         //this.addressBarPath = this.pane.tabs.active.path;
-      }
+      },
     });
   }
 

@@ -10,29 +10,33 @@
   <div class="ui ${settings.inverted} segment address-bar">
     <div class="address-bar-inner-container">
       <!--BREADCRUMBS-->
-      <div class="ui ${settings.inverted} small breadcrumb"
-           click.trigger="enableEditAddress() & self"
-           show.bind="!isEditAddress">
-
+      <div
+        class="ui ${settings.inverted} small breadcrumb"
+        click.trigger="enableEditAddress() & self"
+        show.bind="!isEditAddress"
+      >
         <i class="orange folder icon divider"></i>
 
-        <address-crumb click.trigger="$last ? enableEditAddress() : addressPartSelected($index)"
-                       data-path="${pane.tabs.active.path}"
-                       data-path-index="${$index}"
-                       if.bind="!!part"
-                       last.bind="$last"
-                       part.bind="part"
-                       repeat.for="part of pane.tabs.active.pathParts"></address-crumb>
+        <address-crumb
+          repeat.for="part of pane.tabs.active.pathParts"
+          click.trigger="$last ? enableEditAddress() : addressPartSelected($index)"
+          data-path="${pane.tabs.active.path}"
+          data-path-index="${$index}"
+          if.bind="!!part"
+          last.bind="$last"
+          part.bind="part"
+        ></address-crumb>
       </div>
 
       <!--PATH INPUT-->
-      <div class="ui fluid left icon ${settings.inverted} small input"
-           show.bind="isEditAddress">
-        <input blur.trigger="isEditAddress = false"
-               keydown.delegate="addressBarPathEdited($event)"
-               ref="addressInput"
-               type="text"
-               value.bind="addressBarPath">
+      <div class="ui fluid left icon ${settings.inverted} small input" show.bind="isEditAddress">
+        <input
+          blur.trigger="isEditAddress = false"
+          keydown.delegate="addressBarPathEdited($event)"
+          ref="addressInput"
+          type="text"
+          value.bind="addressBarPath"
+        />
         <i class="folder icon"></i>
       </div>
     </div>

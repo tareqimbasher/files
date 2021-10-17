@@ -16,18 +16,18 @@ export class Dictionary<TKey extends string | number | Date, TValue> {
   public addOrSet(key: TKey, value: TValue): void {
     this.addOrSetRange({
       key: key,
-      value: value
+      value: value,
     });
   }
 
   /**
    * Adds or sets a range of key/value pairs to this dictionary. If keys doesn't exist they will be added, otherwise provided values will be set to their existing key.
    */
-  public addOrSetRange(...items: { key: TKey, value: TValue }[]) {
+  public addOrSetRange(...items: { key: TKey; value: TValue }[]) {
     const values = [];
 
-    if (items.findIndex(i => i.key === undefined || i.key === null) >= 0)
-      throw new Error('Cannot add a null or undefined key.');
+    if (items.findIndex((i) => i.key === undefined || i.key === null) >= 0)
+      throw new Error("Cannot add a null or undefined key.");
 
     for (let i = 0; i < items.length; i++) {
       const item = items[i];
@@ -91,11 +91,11 @@ export class Dictionary<TKey extends string | number | Date, TValue> {
   /**
    * Iterates over the key/value pairs of this dictionary.
    */
-  public forEach(iterator: (iterator: { key: TKey, value: TValue }) => void) {
+  public forEach(iterator: (iterator: { key: TKey; value: TValue }) => void) {
     for (const [k, v] of Object.entries(this.data)) {
       iterator({
         key: this.keyMap[k],
-        value: v as TValue
+        value: v as TValue,
       });
     }
   }

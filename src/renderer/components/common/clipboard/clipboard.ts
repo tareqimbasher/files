@@ -1,5 +1,5 @@
-import { singleton } from 'aurelia';
-import { FileSystemItem } from '../../../core';
+import { singleton } from "aurelia";
+import { FileSystemItem } from "../../../core";
 
 @singleton()
 export class Clipboard {
@@ -9,13 +9,13 @@ export class Clipboard {
   public addCopyItems(...items: FileSystemItem[]) {
     this.clear();
     this.type = ClipboardItemType.Copy;
-    this.items.push(...items.map(i => new ClipboardItem(i, ClipboardItemType.Copy)));
+    this.items.push(...items.map((i) => new ClipboardItem(i, ClipboardItemType.Copy)));
   }
 
   public addCutItems(...items: FileSystemItem[]) {
     this.clear();
     this.type = ClipboardItemType.Cut;
-    this.items.push(...items.map(i => new ClipboardItem(i, ClipboardItemType.Cut)));
+    this.items.push(...items.map((i) => new ClipboardItem(i, ClipboardItemType.Cut)));
   }
 
   public clear() {
@@ -24,11 +24,10 @@ export class Clipboard {
 }
 
 class ClipboardItem {
-  constructor(public item: FileSystemItem, public type: ClipboardItemType) {
-  }
+  constructor(public item: FileSystemItem, public type: ClipboardItemType) {}
 }
 
 export enum ClipboardItemType {
-  Copy = 'Copy',
-  Cut = 'Cut'
+  Copy = "Copy",
+  Cut = "Cut",
 }

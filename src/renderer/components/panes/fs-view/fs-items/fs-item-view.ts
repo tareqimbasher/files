@@ -1,12 +1,11 @@
-import { bindable } from 'aurelia';
-import { FileSystemItem, IconLoader } from '../../../../core';
+import { bindable } from "aurelia";
+import { FileSystemItem, IconLoader } from "../../../../core";
 
 export abstract class FsItemView {
   @bindable public item!: FileSystemItem;
   public icon = IconLoader.defaultIcon;
 
   public attached() {
-    IconLoader.getIcon(this.item)
-      .then(icon => this.icon = icon);
+    IconLoader.getIcon(this.item).then((icon) => (this.icon = icon));
   }
 }

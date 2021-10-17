@@ -1,5 +1,3 @@
-import { FsItemView } from './fs-item-view';
+import { FsItemView } from "./fs-item-view";
 
-export class FsItemDetailView extends FsItemView {
-
-}
+export class FsItemDetailView extends FsItemView {}

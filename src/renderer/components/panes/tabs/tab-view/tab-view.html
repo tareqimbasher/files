@@ -1,4 +1,7 @@
 <bindable name="tab" />
 
 <span class="name">${tab.pathName}</span>
-<i class="close icon ${tab.tabs.list.length === 1 ? 'disabled' : ''}" click.trigger="tab.close()"></i>
+<i
+  class="close icon ${tab.tabs.list.length === 1 ? 'disabled' : ''}"
+  click.trigger="tab.close()"
+></i>

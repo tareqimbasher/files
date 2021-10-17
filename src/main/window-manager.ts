@@ -1,10 +1,9 @@
-import { App, BrowserWindow, screen } from 'electron';
+import { App, BrowserWindow, screen } from "electron";
 
 export class WindowManager {
   public windows = new Set<BrowserWindow>();
 
-  constructor(private readonly app: App, private readonly windowEntryPoint: string) {
-  }
+  constructor(private readonly app: App, private readonly windowEntryPoint: string) {}
 
   public createWindow(): BrowserWindow {
     let window: BrowserWindow | null;
@@ -13,26 +12,25 @@ export class WindowManager {
 
     window = new BrowserWindow({
       show: false,
-      height: Math.floor(displaySize.height * 2 / 3),
-      width: Math.floor(displaySize.width * 2 / 3),
+      height: Math.floor((displaySize.height * 2) / 3),
+      width: Math.floor((displaySize.width * 2) / 3),
       frame: false,
       transparent: false,
       webPreferences: {
         enableRemoteModule: true,
         nodeIntegration: true,
         nodeIntegrationInWorker: true,
-        contextIsolation: false
-      }
+        contextIsolation: false,
+      },
     });
 
     // Load the index.html of the app.
     window.loadURL(this.windowEntryPoint);
 
-    window.on('ready-to-show', () => window?.show());
+    window.on("ready-to-show", () => window?.show());
 
-    window.on('closed', () => {
-      if (window)
-        this.windows.delete(window);
+    window.on("closed", () => {
+      if (window) this.windows.delete(window);
       window = null;
     });
 

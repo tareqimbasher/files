@@ -8,8 +8,10 @@ header {
   @include theme(background, headerBackground);
   //border-bottom: 1px solid $dark-splitter-color; //should make this into themable
 
-
-  button, .button, .input, .icon {
+  button,
+  .button,
+  .input,
+  .icon {
     -webkit-app-region: none;
   }
 
@@ -21,7 +23,6 @@ header {
       margin-right: -25px;
     }
   }
-
 
   .controls {
     white-space: nowrap;
@@ -47,7 +48,8 @@ header {
         height: 1.15em;
       }
 
-      svg.active path, path.active {
+      svg.active path,
+      path.active {
         fill: $accent-color;
       }
     }
@@ -58,7 +60,7 @@ header {
       $search-input-padding: 0.35em;
       padding-top: $search-input-padding;
       padding-bottom: $search-input-padding;
-      background-color: #E0E1E2;
+      background-color: #e0e1e2;
 
       &::placeholder {
         color: #808080;

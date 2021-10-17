@@ -1,2 +1,1 @@
-export class ViewCommandSearchEvent {
-}
+export class ViewCommandSearchEvent {}

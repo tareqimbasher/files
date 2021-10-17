@@ -61,12 +61,12 @@ fs-item-icon-view:not(.gu-mirror) {
 
   &.selected {
     /*background-color: rgba(234, 234, 234, 0.65);*/
-    background-color: rgba(74, 204, 254, 0.30);
+    background-color: rgba(74, 204, 254, 0.3);
     border: 1px dashed rgb(45, 196, 254);
   }
 
   &:hover:not(.selected) {
-    background-color: rgba(234, 234, 234, 0.40);
+    background-color: rgba(234, 234, 234, 0.4);
   }
 }
 
@@ -93,7 +93,6 @@ fs-view:not(:focus) .fs-item {
     color: $dark-muted-text-color !important;
   }
 }
-
 
 /*.file {
     display: inline-block;

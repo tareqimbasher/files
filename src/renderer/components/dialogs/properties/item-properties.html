@@ -1,21 +1,17 @@
 <div id="item-properties">
   <div class="wrapper ui ${settings.inverted} segment">
-
-    <button class="ui red circular icon mini close button"
-            click.delegate="cancel()">
+    <button class="ui red circular icon mini close button" click.delegate="cancel()">
       <i class="ui close icon"></i>
     </button>
 
-    <h6 class="ui header">
-      ${item.name} Properties
-    </h6>
+    <h6 class="ui header">${item.name} Properties</h6>
 
     <div class="ui hidden divider"></div>
 
     <div class="ui items" style="margin: 0">
       <div class="item">
         <div class="item-icon ui mini image">
-          <img src.bind="icon">
+          <img src.bind="icon" />
         </div>
         <div class="middle aligned content">
           <div class="item-name ui mini fluid ${settings.inverted} input">
@@ -48,11 +44,10 @@
       <div class="property" if.bind="item.type === 'Directory'">
         <div class="label">Contains:</div>
         <div class="value">
-                    <span>
-                        ${item.directoriesCount} Folders,
-                        ${item.filesCount} files
-                        <span if.bind="item.filesCount">(${item.filesTotalSize | fileSize})</span>
-                    </span>
+          <span>
+            ${item.directoriesCount} Folders, ${item.filesCount} files
+            <span if.bind="item.filesCount">(${item.filesTotalSize | fileSize})</span>
+          </span>
         </div>
       </div>
       <div class="property" if.bind="item.type !== 'Directory'">
@@ -82,26 +77,23 @@
       <div class="property">
         <div class="label">Hidden:</div>
         <div class="value">
-          <input checked.bind="editableInfo.isHidden"
-                 type="checkbox">
+          <input checked.bind="editableInfo.isHidden" type="checkbox" />
         </div>
       </div>
     </div>
 
     <div class="buttons clearfix">
-      <button class="ui right floated mini ${changePending ? '' : 'disabled'} button"
-              click.delegate="apply()"
-              tabindex="3">
+      <button
+        class="ui right floated mini ${changePending ? '' : 'disabled'} button"
+        click.delegate="apply()"
+        tabindex="3"
+      >
         Apply
       </button>
-      <button class="ui right floated mini primary button"
-              click.delegate="ok()"
-              tabindex="2">
+      <button class="ui right floated mini primary button" click.delegate="ok()" tabindex="2">
         OK
       </button>
-      <button class="ui right floated mini button"
-              click.delegate="cancel()"
-              tabindex="1">
+      <button class="ui right floated mini button" click.delegate="cancel()" tabindex="1">
         Cancel
       </button>
     </div>

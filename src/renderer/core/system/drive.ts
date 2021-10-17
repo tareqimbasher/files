@@ -5,8 +5,8 @@
     public fileSystem: string,
     public size: number,
     public usedSize: number,
-    public freeSize: number) {
-  }
+    public freeSize: number
+  ) {}
 
   public get usedPercent(): number {
     return Math.round((this.usedSize / this.size) * 100);

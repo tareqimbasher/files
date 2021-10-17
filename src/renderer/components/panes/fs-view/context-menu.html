@@ -1,23 +1,22 @@
 <template bindable="model">
-
-  <div any.bind="model.fsItems.selected.length > 0"
-       class="ui ${model.settings.inverted} selection list"
-       ref="selected">
-
+  <div
+    any.bind="model.fsItems.selected.length > 0"
+    class="ui ${model.settings.inverted} selection list"
+    ref="selected"
+  >
     <!--IF NO FILES SELECTED-->
-    <div class="item"
-         click.trigger="model.createNewFolder()"
-         show.bind="!selected.any">
+    <div class="item" click.trigger="model.createNewFolder()" show.bind="!selected.any">
       <i class="folder plus icon"></i>
-      <div class="content">
-        New Folder
-      </div>
+      <div class="content">New Folder</div>
     </div>
-    <div class="ui simple ${model.settings.inverted} dropdown left pointing item" show.bind="!selected.any"
-         style="width: 100%">
+    <div
+      class="ui simple ${model.settings.inverted} dropdown left pointing item"
+      show.bind="!selected.any"
+      style="width: 100%"
+    >
       <span style="padding-left: 28px; pointer-events: none">Sort by</span>
-      <i class="dropdown icon" style="float:right"></i>
-      <div class="menu" style="margin-left: 0;">
+      <i class="dropdown icon" style="float: right"></i>
+      <div class="menu" style="margin-left: 0">
         <div class="item" click.trigger="model.sorting.sortBy('name')">
           <i class="tiny ${model.sorting.by === 'name' ? 'circle' : 'blank'} icon"></i>
           Name
@@ -45,121 +44,77 @@
         </div>
       </div>
     </div>
-    <div class="item"
-         show.bind="!selected.any">
+    <div class="item" show.bind="!selected.any">
       <i class="blank icon"></i>
-      <div class="content">
-        Group by
-      </div>
+      <div class="content">Group by</div>
     </div>
-    <div class="item"
-         click.trigger="model.tab.refresh()"
-         show.bind="!selected.any">
+    <div class="item" click.trigger="model.tab.refresh()" show.bind="!selected.any">
       <i class="redo alternate icon"></i>
-      <div class="content">
-        Refresh
-      </div>
+      <div class="content">Refresh</div>
     </div>
 
-
-    <div class="item"
-         click.trigger="model.openSelected()"
-         show.bind="selected.any">
+    <div class="item" click.trigger="model.openSelected()" show.bind="selected.any">
       <i class="blank icon"></i>
       <div class="content">
         <b>Open</b>
       </div>
     </div>
-    <div class="item"
-         click.trigger="!selected.any ? model.tab.tabs.add(model.tab.path).activate() : model.tab.tabs.add(model.fsItems.selected[0].path).activate()"
-         show.bind="!selected.any || (model.fsItems.selected.length == 1 && model.fsItems.selected[0].type == 'Directory')">
+    <div
+      class="item"
+      click.trigger="!selected.any ? model.tab.tabs.add(model.tab.path).activate() : model.tab.tabs.add(model.fsItems.selected[0].path).activate()"
+      show.bind="!selected.any || (model.fsItems.selected.length == 1 && model.fsItems.selected[0].type == 'Directory')"
+    >
       <i class="${!selected.any ? 'clone outline' : 'plus'} icon"></i>
-      <div class="content">
-        ${!selected.any ? 'Duplicate tab' : 'Open in a new tab'}
-      </div>
+      <div class="content">${!selected.any ? 'Duplicate tab' : 'Open in a new tab'}</div>
     </div>
-    <div class="item"
-         click.trigger="model.cutSelectedItems()"
-         show.bind="selected.any">
+    <div class="item" click.trigger="model.cutSelectedItems()" show.bind="selected.any">
       <i class="cut icon"></i>
-      <div class="muted text content">
-        Cut
-      </div>
+      <div class="muted text content">Cut</div>
     </div>
-    <div class="item"
-         click.trigger="model.copySelectedItems()"
-         show.bind="selected.any">
+    <div class="item" click.trigger="model.copySelectedItems()" show.bind="selected.any">
       <i class="copy outline icon"></i>
-      <div class="content">
-        Copy
-      </div>
+      <div class="content">Copy</div>
     </div>
-    <div class="item"
-         click.trigger="model.pasteItems()"
-         show.bind="model.clipboard.items.length">
+    <div class="item" click.trigger="model.pasteItems()" show.bind="model.clipboard.items.length">
       <i class="paste icon"></i>
-      <div class="content">
-        Paste
-      </div>
+      <div class="content">Paste</div>
     </div>
     <div class="ui divider"></div>
-    <div class="item"
-         show.bind="selected.any">
+    <div class="item" show.bind="selected.any">
       <i class="linkify icon"></i>
-      <div class="content">
-        Create shortcut
-      </div>
+      <div class="content">Create shortcut</div>
     </div>
-    <div class="item"
-         show.bind="selected.any">
+    <div class="item" show.bind="selected.any">
       <i class="pencil icon"></i>
-      <div class="content">
-        Rename
-      </div>
+      <div class="content">Rename</div>
     </div>
-    <div class="item"
-         click.trigger="model.deleteSelected(false)"
-         show.bind="selected.any">
+    <div class="item" click.trigger="model.deleteSelected(false)" show.bind="selected.any">
       <i class="trash icon"></i>
-      <div class="content">
-        Move to trash
-      </div>
+      <div class="content">Move to trash</div>
     </div>
-    <div class="item"
-         click.trigger="model.deleteSelected(true)"
-         show.bind="selected.any">
+    <div class="item" click.trigger="model.deleteSelected(true)" show.bind="selected.any">
       <i class="red times circle icon"></i>
       <div class="content">
-                <span class="ui red text">
-                    Delete permanently
-                </span>
+        <span class="ui red text"> Delete permanently </span>
       </div>
     </div>
 
-    <div class="item"
-         click.trigger="model.fsItems.selectAll()"
-         show.bind="!selected.any">
+    <div class="item" click.trigger="model.fsItems.selectAll()" show.bind="!selected.any">
       <i class="object group icon"></i>
-      <div class="content">
-        Select all
-      </div>
+      <div class="content">Select all</div>
     </div>
     <div class="ui divider"></div>
-    <div class="item"
-         click.trigger="model.showSelectedItemProperties()"
-         show.bind="model.fsItems.selected.length === 1 && model.fsItems.selected[0].isDir">
+    <div
+      class="item"
+      click.trigger="model.showSelectedItemProperties()"
+      show.bind="model.fsItems.selected.length === 1 && model.fsItems.selected[0].isDir"
+    >
       <i class="pin icon"></i>
-      <div class="content">
-        Pin to sidebar
-      </div>
+      <div class="content">Pin to sidebar</div>
     </div>
-    <div class="item"
-         click.trigger="model.showSelectedItemProperties()">
+    <div class="item" click.trigger="model.showSelectedItemProperties()">
       <i class="info circle icon"></i>
-      <div class="content">
-        Properties
-      </div>
+      <div class="content">Properties</div>
     </div>
   </div>
-
 </template>

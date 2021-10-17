@@ -1,25 +1,36 @@
-import { DefaultDialogDom, IDialogController, IDialogDom, IDialogService } from '@aurelia/runtime-html';
-import { IEventAggregator, ILogger, watch } from 'aurelia';
-import { FileService, FileSystemItem, FileSystemItemPropertiesChangedEvent, IconLoader, Settings } from '../../../core';
-import { DialogBase } from '../../common';
+import {
+  DefaultDialogDom,
+  IDialogController,
+  IDialogDom,
+  IDialogService,
+} from "@aurelia/runtime-html";
+import { IEventAggregator, ILogger, watch } from "aurelia";
+import {
+  FileService,
+  FileSystemItem,
+  FileSystemItemPropertiesChangedEvent,
+  IconLoader,
+  Settings,
+} from "../../../core";
+import { DialogBase } from "../../common";
 
 export class ItemProperties extends DialogBase {
   item!: FileSystemItem;
   public editableInfo = {
-    name: '',
-    isHidden: false
+    name: "",
+    isHidden: false,
   };
 
   public icon = IconLoader.defaultIcon;
   public changePending = false;
   public dateOptions = {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'numeric',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-    second: 'numeric'
+    weekday: "long",
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
   };
 
   constructor(
@@ -28,14 +39,18 @@ export class ItemProperties extends DialogBase {
     @IDialogDom dialogDom: DefaultDialogDom,
     @IDialogController controller: IDialogController,
     @IEventAggregator private readonly eventBus: IEventAggregator,
-    @ILogger private readonly logger: ILogger) {
+    @ILogger private readonly logger: ILogger
+  ) {
     super(dialogDom, controller);
   }
 
-  public static async openAsDialog(dialogService: IDialogService, items: FileSystemItem[]): Promise<void> {
+  public static async openAsDialog(
+    dialogService: IDialogService,
+    items: FileSystemItem[]
+  ): Promise<void> {
     const opened = await dialogService.open({
       component: () => ItemProperties,
-      model: items
+      model: items,
     });
 
     await opened.dialog.closed;
@@ -51,22 +66,19 @@ export class ItemProperties extends DialogBase {
   }
 
   public attached() {
-    IconLoader.getIcon(this.item).then(i => this.icon = i);
+    IconLoader.getIcon(this.item).then((i) => (this.icon = i));
   }
 
   @watch((vm: ItemProperties) => vm.editableInfo.name)
   @watch((vm: ItemProperties) => vm.editableInfo.isHidden)
   public change() {
-    if (!this.item)
-      return;
+    if (!this.item) return;
 
     this.changePending =
-      this.editableInfo.name != this.item.name
-      || this.editableInfo.isHidden != this.item.isHidden;
+      this.editableInfo.name != this.item.name || this.editableInfo.isHidden != this.item.isHidden;
   }
 
   public apply(): boolean {
-
     try {
       if (this.changePending) {
         if (!!this.editableInfo.name && this.item.name != this.editableInfo.name) {
@@ -83,16 +95,14 @@ export class ItemProperties extends DialogBase {
 
       return true;
     } catch (ex) {
-      this.logger.error('An error occurred applying changes.', ex);
-      alert('Error occurred.');
+      this.logger.error("An error occurred applying changes.", ex);
+      alert("Error occurred.");
       return false;
     }
-
   }
 
   public ok() {
-    if (this.apply())
-      this.controller.ok();
+    if (this.apply()) this.controller.ok();
   }
 
   public cancel() {

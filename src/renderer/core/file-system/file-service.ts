@@ -1,32 +1,28 @@
-import { system } from '../system/system';
-import { Directory } from './directory';
-import { File } from './file';
-import { FileSystemItem } from './file-system-item';
-import { SymbolicLink } from './symbolic-link';
-import { exec } from 'child_process';
-import { Dictionary } from '../data/dictionary';
-import { ILogger } from 'aurelia';
-import { Stats } from 'fs';
+import { system } from "../system/system";
+import { Directory } from "./directory";
+import { File } from "./file";
+import { FileSystemItem } from "./file-system-item";
+import { SymbolicLink } from "./symbolic-link";
+import { exec } from "child_process";
+import { Dictionary } from "../data/dictionary";
+import { ILogger } from "aurelia";
+import { Stats } from "fs";
 
 export class FileService {
-
-  constructor(@ILogger private readonly logger: ILogger) {
-  }
+  constructor(@ILogger private readonly logger: ILogger) {}
 
   public async list(dirPath: string): Promise<FileSystemItem[]> {
-    performance.mark('fileservice.list.fs.readdir.start');
+    performance.mark("fileservice.list.fs.readdir.start");
     const itemNames = await system.fs.readdir(dirPath);
-    performance.mark('fileservice.list.fs.readdir.end');
+    performance.mark("fileservice.list.fs.readdir.end");
 
-    performance.mark('fileservice.list.getDirItemAttributes.start');
+    performance.mark("fileservice.list.getDirItemAttributes.start");
     const itemAttributes = await this.getDirItemAttributes(dirPath, itemNames);
-    performance.mark('fileservice.list.getDirItemAttributes.end');
+    performance.mark("fileservice.list.getDirItemAttributes.end");
 
-
-    performance.mark('fileservice.list.createItems.start');
+    performance.mark("fileservice.list.createItems.start");
     const items: FileSystemItem[] = [];
     for (const name of itemNames) {
-
       let attributes;
 
       if (itemAttributes.containsKey(name)) {
@@ -39,17 +35,20 @@ export class FileService {
         attributes
       );
 
-      if (!item)
-        continue;
+      if (!item) continue;
 
       items.push(item);
     }
-    performance.mark('fileservice.list.createItems.end');
+    performance.mark("fileservice.list.createItems.end");
 
     return items;
   }
 
-  public async createFileSystemItem(itemPath: string, stats?: Stats, attributes?: { hidden: boolean, system: boolean } | undefined | null): Promise<FileSystemItem | null> {
+  public async createFileSystemItem(
+    itemPath: string,
+    stats?: Stats,
+    attributes?: { hidden: boolean; system: boolean } | undefined | null
+  ): Promise<FileSystemItem | null> {
     try {
       let item: FileSystemItem;
 
@@ -63,8 +62,7 @@ export class FileService {
         item = new Directory(itemPath);
       } else if (stats.isSymbolicLink()) {
         item = new SymbolicLink(itemPath);
-      } else
-        return null;
+      } else return null;
 
       item.updateInfo(stats);
 
@@ -74,7 +72,6 @@ export class FileService {
       }
 
       return item;
-
     } catch (ex) {
       this.logger.error(`Could not read file: ${itemPath}`, ex);
       return null;
@@ -89,19 +86,26 @@ export class FileService {
     }
 
     // TODO for a safer copy (also for move), copy to a temp file, then rename it
-    await system.fs.copyFile(source.path, targetPath, !overwrite ? system.fss.constants.COPYFILE_EXCL : undefined);
+    await system.fs.copyFile(
+      source.path,
+      targetPath,
+      !overwrite ? system.fss.constants.COPYFILE_EXCL : undefined
+    );
   }
 
   public move(item: FileSystemItem, targetPath: string, overwrite?: boolean): Promise<void>;
   public move(item: FileSystemItem, targetDirectory: Directory, overwrite?: boolean): Promise<void>;
 
-  public async move(item: FileSystemItem, target: string | Directory, overwrite = false): Promise<void> {
-    if (overwrite !== true)
-      overwrite = false;
+  public async move(
+    item: FileSystemItem,
+    target: string | Directory,
+    overwrite = false
+  ): Promise<void> {
+    if (overwrite !== true) overwrite = false;
 
     let targetPath: string;
 
-    if (typeof target === 'string') {
+    if (typeof target === "string") {
       targetPath = target;
     } else {
       targetPath = system.path.join(target.path, item.name);
@@ -123,18 +127,18 @@ export class FileService {
   }
 
   public async delete(item: FileSystemItem) {
-    if (item.isDir)
-      await system.fs.rmdir(item.path, { recursive: true });
-    else
-      await system.fs.unlink(item.path);
+    if (item.isDir) await system.fs.rmdir(item.path, { recursive: true });
+    else await system.fs.unlink(item.path);
   }
 
   public pathExists(path: string): boolean {
     return system.fss.existsSync(path);
   }
 
-  public async getDirItemAttributes(dirPath: string, itemNames: string[]): Promise<Dictionary<string, { hidden: boolean, system: boolean }>> {
-
+  public async getDirItemAttributes(
+    dirPath: string,
+    itemNames: string[]
+  ): Promise<Dictionary<string, { hidden: boolean; system: boolean }>> {
     return this.getUnixDirItemAttributes(itemNames);
 
     //return system.platform == "win32" ?
@@ -142,46 +146,51 @@ export class FileService {
     //    this.getUnixDirItemAttributes(itemNames);
   }
 
-  public async getWinDirItemAttributes(dirPath: string): Promise<Dictionary<string, { hidden: boolean, system: boolean }>> {
-    return new Promise<Dictionary<string, { hidden: boolean, system: boolean }>>((resolve, reject) => {
-      const data = new Dictionary<string, { hidden: boolean, system: boolean }>();
+  public async getWinDirItemAttributes(
+    dirPath: string
+  ): Promise<Dictionary<string, { hidden: boolean; system: boolean }>> {
+    return new Promise<Dictionary<string, { hidden: boolean; system: boolean }>>(
+      (resolve, reject) => {
+        const data = new Dictionary<string, { hidden: boolean; system: boolean }>();
 
-      exec(`ls "${dirPath}" -Hidden | select Name, Attributes | format-list`,
-        { shell: 'powershell.exe' },
-        (error, stdout, stderr) => {
+        exec(
+          `ls "${dirPath}" -Hidden | select Name, Attributes | format-list`,
+          { shell: "powershell.exe" },
+          (error, stdout, stderr) => {
+            if (error) {
+              reject(stderr);
+              return;
+            }
 
-          if (error) {
-            reject(stderr);
-            return;
-          }
+            if (!stdout) {
+              resolve(data);
+              return;
+            }
 
-          if (!stdout) {
+            const itemInfos = stdout.trim().split(system.os.EOL + system.os.EOL);
+
+            for (let i = 0; i < itemInfos.length; i++) {
+              const itemInfoLines = itemInfos[i].split(system.os.EOL);
+              const itemName = itemInfoLines[0].split(":")[1].trim();
+              const attributes = itemInfoLines[1].split(":")[1].trim().split(", ");
+
+              data.addOrSet(itemName, {
+                hidden: !!attributes.find((x) => x.indexOf("Hidden") >= 0),
+                system: !!attributes.find((x) => x.indexOf("System") >= 0),
+              });
+            }
+
             resolve(data);
-            return;
           }
-
-          const itemInfos = stdout
-            .trim()
-            .split(system.os.EOL + system.os.EOL);
-
-          for (let i = 0; i < itemInfos.length; i++) {
-            const itemInfoLines = itemInfos[i].split(system.os.EOL);
-            const itemName = itemInfoLines[0].split(':')[1].trim();
-            const attributes = itemInfoLines[1].split(':')[1].trim().split(', ');
-
-            data.addOrSet(itemName, {
-              hidden: !!attributes.find(x => x.indexOf('Hidden') >= 0),
-              system: !!attributes.find(x => x.indexOf('System') >= 0)
-            });
-          }
-
-          resolve(data);
-        });
-    });
+        );
+      }
+    );
   }
 
-  public getUnixDirItemAttributes(itemNames: string[]): Dictionary<string, { hidden: boolean, system: boolean }> {
-    const data = new Dictionary<string, { hidden: boolean, system: boolean }>();
+  public getUnixDirItemAttributes(
+    itemNames: string[]
+  ): Dictionary<string, { hidden: boolean; system: boolean }> {
+    const data = new Dictionary<string, { hidden: boolean; system: boolean }>();
 
     for (let i = 0; i < itemNames.length; i++) {
       const itemName = itemNames[i];
@@ -191,10 +200,10 @@ export class FileService {
     return data;
   }
 
-  public getUnixMethodItemAttributes(itemName: string): { hidden: boolean, system: boolean } {
+  public getUnixMethodItemAttributes(itemName: string): { hidden: boolean; system: boolean } {
     return {
-      hidden: itemName.startsWith('.'),
-      system: false
+      hidden: itemName.startsWith("."),
+      system: false,
     };
   }
 }

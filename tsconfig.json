@@ -19,13 +19,7 @@
     "baseUrl": ".",
     "outDir": "dist",
     "resolveJsonModule": true,
-    "lib": [
-      "esnext",
-      "dom"
-    ]
+    "lib": ["esnext", "dom"]
   },
-  "include": [
-    "src/**/*",
-    "build/**/*"
-  ]
+  "include": ["src/**/*", "build/**/*"]
 }

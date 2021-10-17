@@ -1,9 +1,8 @@
-import { Stats } from 'fs';
-import * as pathUtil from 'path';
-import { FileType } from './file-system-item-type';
+import { Stats } from "fs";
+import * as pathUtil from "path";
+import { FileType } from "./file-system-item-type";
 
 export abstract class FileSystemItem {
-
   public path: string;
   public type: FileType;
   public isDir: boolean;
@@ -35,16 +34,14 @@ export abstract class FileSystemItem {
   }
 
   public get typeDescription() {
-    if (this.type == FileType.Directory)
-      return 'Folder';
+    if (this.type == FileType.Directory) return "Folder";
     else if (this.type == FileType.File) {
       // Handle files like .gitconfig
-      if (!this.extension && this.name.startsWith('.'))
-        return this.name.replace('.', '').toUpperCase() + ' File';
-      else if (!this.extension)
-        return 'File';
+      if (!this.extension && this.name.startsWith("."))
+        return this.name.replace(".", "").toUpperCase() + " File";
+      else if (!this.extension) return "File";
 
-      const ext = this.extension.replace('.', '');
+      const ext = this.extension.replace(".", "");
 
       switch (ext) {
         //case "txt": return "Text Document";
@@ -62,9 +59,9 @@ export abstract class FileSystemItem {
           return ext.toUpperCase();
       }
     } else if (this.type == FileType.SymbolicLink) {
-      return 'Shortcut';
+      return "Shortcut";
     } else {
-      return 'Unknown';
+      return "Unknown";
     }
   }
 
@@ -81,10 +78,8 @@ export abstract class FileSystemItem {
   //}
 
   public updateInfo(stats: Stats) {
-    if (this.type == FileType.Directory)
-      this.size = -1;
-    else if (stats.size || stats.size == 0)
-      this.size = stats.size;
+    if (this.type == FileType.Directory) this.size = -1;
+    else if (stats.size || stats.size == 0) this.size = stats.size;
 
     if (stats.mtime) this.dateModified = stats.mtime;
     if (stats.atime) this.dateAccessed = stats.atime;

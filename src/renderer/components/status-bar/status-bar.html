@@ -5,23 +5,25 @@
         <div class="column">
           ${allFsItemsCount} items
           <span show.bind="selectedFsItemsCount > 0">
-                        | ${selectedFsItemsCount} item selected
-                    </span>
+            | ${selectedFsItemsCount} item selected
+          </span>
           <span show.bind="selectedFsItemsSize !== undefined">
-                        | Size: ${selectedFsItemsSize | fileSize}
-                    </span>
+            | Size: ${selectedFsItemsSize | fileSize}
+          </span>
         </div>
         <div class="right aligned column">
-                    <span class="selectable" click.trigger="showClipboard = !showClipboard"
-                          if.bind="clipboard.items.length">
-                        <i class="ui green check circle icon"></i> 
-                        ${clipboard.items.length} 
-                        item${clipboard.items.length > 1 ? 's' : ''} 
-                        ${clipboard.type === 'Copy' ? 'copied' : 'cut'}
-                    </span>
+          <span
+            class="selectable"
+            click.trigger="showClipboard = !showClipboard"
+            if.bind="clipboard.items.length"
+          >
+            <i class="ui green check circle icon"></i>
+            ${clipboard.items.length} item${clipboard.items.length > 1 ? 's' : ''} ${clipboard.type
+            === 'Copy' ? 'copied' : 'cut'}
+          </span>
           <span class="selectable" click.trigger="showClipboard = !showClipboard" else>
-                        <i class="ui grey clipboard icon" title="Clipboard is empty"></i>
-                    </span>
+            <i class="ui grey clipboard icon" title="Clipboard is empty"></i>
+          </span>
         </div>
       </div>
     </div>
@@ -34,8 +36,10 @@
         </div>
       </div>
       <div class="ui divider"></div>
-      <button class="ui fluid ${settings.inverted} ${clipboard.items.length ? '' : 'disabled'} button"
-              click.delegate="clipboard.clear()">
+      <button
+        class="ui fluid ${settings.inverted} ${clipboard.items.length ? '' : 'disabled'} button"
+        click.delegate="clipboard.clear()"
+      >
         Clear
       </button>
     </div>

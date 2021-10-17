@@ -1,14 +1,11 @@
-<template class="${item.isSelected ? 'selected' : ''} ${item.isHidden ? 'hidden' : ''}"
-          title="${title}">
-
+<template
+  class="${item.isSelected ? 'selected' : ''} ${item.isHidden ? 'hidden' : ''}"
+  title="${title}"
+>
   <div class="fs-item-icon">
     <img src.bind="icon" />
   </div>
 
-  <div class="fs-item-name" title.bind="item.name">
-    ${item.name | truncate: 30}
-  </div>
-  <span class="ui grey text fs-item-info" if.bind="item.isDir">
-        ${item.itemCount} items
-    </span>
+  <div class="fs-item-name" title.bind="item.name">${item.name | truncate: 30}</div>
+  <span class="ui grey text fs-item-info" if.bind="item.isDir"> ${item.itemCount} items </span>
 </template>
