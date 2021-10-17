@@ -228,15 +228,34 @@ export class FsView {
   private navigateGrid(direction: "up" | "down" | "right" | "left", ev: KeyboardEvent) {
     if (!ev.ctrlKey && !ev.shiftKey) this.fsItems.unselectAll();
 
-    UiUtil.navigateGrid(this.itemList, ".draggable.selected", direction, (nextItemIndex) => {
-      const item = this.fsItems.view[nextItemIndex];
-      if (!ev.ctrlKey) {
-        this.fsItems.select(item);
-      } else {
-        if (item.isSelected) this.fsItems.unselect(item);
-        else this.fsItems.select(item);
+    UiUtil.navigateGrid(
+      this.itemList,
+      ".draggable.selected",
+      direction,
+      (nextItemIndex: number, nextItemElement: HTMLElement) => {
+        const item = this.fsItems.view[nextItemIndex];
+        if (!ev.ctrlKey) {
+          this.fsItems.select(item);
+        } else {
+          if (item.isSelected) this.fsItems.unselect(item);
+          else this.fsItems.select(item);
+        }
+
+        const viewRect = this.element.getBoundingClientRect();
+        const nextRect = nextItemElement.getBoundingClientRect();
+        if (nextRect.bottom > viewRect.bottom) {
+          console.warn(
+            `Item is below viewport, scrolling down a bit. Element bottom: ${nextRect.bottom}. View bottom: ${viewRect.bottom}`
+          );
+          nextItemElement.scrollIntoView({ block: "end" });
+        } else if (nextRect.top < viewRect.top) {
+          console.warn(
+            `Item is above viewport, scrolling up a bit. Element top: ${nextRect.top}. View top: ${viewRect.top}`
+          );
+          nextItemElement.scrollIntoView({ block: "start" });
+        }
       }
-    });
+    );
   }
 
   private bindKeyboardEvents() {
@@ -258,8 +277,10 @@ export class FsView {
         } else if (ev.code === KeyCode.ArrowLeft) {
           this.navigateGrid("left", ev);
         } else if (ev.code === KeyCode.ArrowUp) {
+          ev.preventDefault(); // To disable browser default view scrolling
           this.navigateGrid("up", ev);
         } else if (ev.code === KeyCode.ArrowDown) {
+          ev.preventDefault(); // To disable browser default view scrolling
           this.navigateGrid("down", ev);
         } else if (ev.code === KeyCode.Enter && this.fsItems.selected.length > 0) {
           this.openSelected();

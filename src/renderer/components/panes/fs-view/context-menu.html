@@ -15,7 +15,7 @@
       style="width: 100%"
     >
       <span style="padding-left: 28px; pointer-events: none">Sort by</span>
-      <i class="dropdown icon" style="float: right"></i>
+      <i class="right caret icon" style="float: right"></i>
       <div class="menu" style="margin-left: 0">
         <div class="item" click.trigger="model.sorting.sortBy('name')">
           <i class="tiny ${model.sorting.by === 'name' ? 'circle' : 'blank'} icon"></i>
@@ -23,7 +23,7 @@
         </div>
         <div class="item" click.trigger="model.sorting.sortBy('dateModified')">
           <i class="tiny ${model.sorting.by === 'dateModified' ? 'circle' : 'blank'} icon"></i>
-          Date modified
+          Last Modified
         </div>
         <div class="item" click.trigger="model.sorting.sortBy('typeDescription')">
           <i class="tiny ${model.sorting.by === 'typeDescription' ? 'circle' : 'blank'} icon"></i>
@@ -44,10 +44,10 @@
         </div>
       </div>
     </div>
-    <div class="item" show.bind="!selected.any">
-      <i class="blank icon"></i>
-      <div class="content">Group by</div>
-    </div>
+    <!--    <div class="item" show.bind="!selected.any">-->
+    <!--      <i class="blank icon"></i>-->
+    <!--      <div class="content">Group by</div>-->
+    <!--    </div>-->
     <div class="item" click.trigger="model.tab.refresh()" show.bind="!selected.any">
       <i class="redo alternate icon"></i>
       <div class="content">Refresh</div>
