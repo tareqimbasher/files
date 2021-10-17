@@ -8,16 +8,16 @@ import { converters } from './global-resources';
 import { Window } from './components/window';
 
 Aurelia
-    .register(
-        LoggerConfiguration.create({
-            colorOptions: ColorOptions.colors,
-            level: LogLevel.info,
-            sinks: [ConsoleSink]
-        }),
-        DialogDefaultConfiguration.customize(config => {
-            config.lock = true;
-        }),
-        converters
-    )
-    .app(Window)
-    .start();
+  .register(
+    LoggerConfiguration.create({
+      colorOptions: ColorOptions.colors,
+      level: LogLevel.info,
+      sinks: [ConsoleSink]
+    }),
+    DialogDefaultConfiguration.customize(config => {
+      config.lock = true;
+    }),
+    converters
+  )
+  .app(Window)
+  .start();

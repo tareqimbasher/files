@@ -1,56 +1,56 @@
 tab-view {
-    padding: 0em 0.5em 0em 0.9em !important;
+  padding: 0em 0.5em 0em 0.9em !important;
 
-    .name {
-        margin-right: 10px;
+  .name {
+    margin-right: 10px;
+  }
+
+  .close.icon {
+    color: #c6c6c6;
+
+    &:hover {
+      color: salmon;
+      cursor: pointer;
     }
-
-    .close.icon {
-        color: #c6c6c6;
-
-        &:hover {
-            color: salmon;
-            cursor: pointer;
-        }
-    }
+  }
 }
 
 .ui.tabular.menu tab-view.item {
 
-    &:hover {
-        background-color: rgba(238, 238, 238, 0.5);
-    }
+  &:hover {
+    background-color: rgba(238, 238, 238, 0.5);
+  }
 
-    &.active {
-        border-top-left-radius: 0 !important;
-        border-top-right-radius: 0 !important;
-        border-top-width: 0px;
+  &.active {
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+    border-top-width: 0px;
 
-        &:first-child {
-            border-left: none;
-        }
+    &:first-child {
+      border-left: none;
     }
+  }
 
-    &.active-tab {
-        border-bottom-width: 3px;
-        border-bottom-style: solid;
-        border-bottom-color: dodgerblue;
-    }
+  &.active-tab {
+    border-bottom-width: 3px;
+    border-bottom-style: solid;
+    border-bottom-color: dodgerblue;
+  }
 }
 
 .ui.tabular.inverted.menu tab-view.item {
 
-    &:hover {
-        background: rgba(255, 255, 255, 0.08);
-        color: #fff;
-    }
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+  }
 
-    &.active {
-        border-right-color: #696969;
-        border-left-color: #696969;
+  &.active {
+    border-right-color: #696969;
+    border-left-color: #696969;
 
-        &:first-child {
-            border-left: none;
-        }
+    &:first-child {
+      border-left: none;
     }
+  }
 }

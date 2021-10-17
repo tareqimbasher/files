@@ -1,12 +1,12 @@
 <div class="alert-dialog" style.bind="customStyles">
-    <div class="wrapper ui ${settings.inverted} segment">
+  <div class="wrapper ui ${settings.inverted} segment">
 
-        <button class="ui circular icon mini close button"
-                click.delegate="controller.cancel()">
-            <i class="ui close icon"></i>
-        </button>
+    <button class="ui circular icon mini close button"
+            click.delegate="controller.cancel()">
+      <i class="ui close icon"></i>
+    </button>
 
-        <h6 class="ui title header">
+    <h6 class="ui title header">
             <span switch.bind="options.type">
                 <i case="Info" class="blue info circle icon"></i>
                 <i case="Success" class="green check circle icon"></i>
@@ -14,19 +14,20 @@
                 <i case="Warning" class="yellow exclamation triangle icon"></i>
                 <i case="Question" class="teal question circle icon"></i>
             </span>
-            ${options.title}
-        </h6>
+      ${options.title}
+    </h6>
 
-        <div class="ui header divider"></div>
+    <div class="ui header divider"></div>
 
-        <div class="dialog-content" innerHTML.bind="options.text | sanitize"></div>
+    <div class="dialog-content" innerHTML.bind="options.text | sanitize"></div>
 
-        <div class="buttons clearfix">
-            <button class="ui right floated mini ${button.type === 'Primary' ? 'primary' : ''} ${button.type === 'Danger' ? 'red' : ''} button"
-                    repeat.for="button of options.buttons"
-                    click.delegate="button.type === 'Cancel' ? controller.cancel() : controller.ok(button.value)"
-                    innerHTML.bind="button.text | sanitize">
-            </button>
-        </div>
+    <div class="buttons clearfix">
+      <button
+        class="ui right floated mini ${button.type === 'Primary' ? 'primary' : ''} ${button.type === 'Danger' ? 'red' : ''} button"
+        click.delegate="button.type === 'Cancel' ? controller.cancel() : controller.ok(button.value)"
+        innerHTML.bind="button.text | sanitize"
+        repeat.for="button of options.buttons">
+      </button>
     </div>
+  </div>
 </div>

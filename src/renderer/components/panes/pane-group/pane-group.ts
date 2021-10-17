@@ -3,8 +3,8 @@ import { WindowManager } from '../../';
 import { Pane } from '../pane';
 
 export class PaneGroup {
-    public panes: Pane[] = [];
+  public panes: Pane[] = [];
 
-    constructor(public windowManager: WindowManager, public settings: Settings) {
-    }
+  constructor(public windowManager: WindowManager, public settings: Settings) {
+  }
 }

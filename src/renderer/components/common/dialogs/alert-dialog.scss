@@ -1,50 +1,50 @@
 @import '../../../style/colors.scss';
 
 .alert-dialog {
-    min-width: 300px;
-    max-width: 600px;
-    min-height: 120px;
-    display: flex;
-    flex-direction: column;
+  min-width: 300px;
+  max-width: 600px;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
 
-    .ui.wrapper.segment {
-        flex: 1;
+  .ui.wrapper.segment {
+    flex: 1;
+  }
+
+  .ui.title.header {
+    margin-top: -5px;
+    margin-bottom: 0;
+    margin-right: 15px;
+
+    .icon {
+      font-size: 1em;
     }
+  }
 
-    .ui.title.header {
-        margin-top: -5px;
-        margin-bottom: 0;
-        margin-right: 15px;
+  .ui.header.divider {
+    margin-left: -1em;
+    margin-right: -1em;
+    margin-top: 0.4em;
+  }
 
-        .icon {
-            font-size: 1em;
-        }
+  .ui.circular.close.icon.mini.button {
+    position: absolute;
+    top: 8px;
+    right: 5px;
+    padding: 4px;
+    font-size: 0.6em;
+
+    &:hover {
+      background: red;
+      color: white;
     }
+  }
 
-    .ui.header.divider {
-        margin-left: -1em;
-        margin-right: -1em;
-        margin-top: 0.4em;
-    }
-
-    .ui.circular.close.icon.mini.button {
-        position: absolute;
-        top: 8px;
-        right: 5px;
-        padding: 4px;
-        font-size: 0.6em;
-
-        &:hover {
-            background: red;
-            color: white;
-        }
-    }
-
-    .buttons {
-        margin-top: 1em;
-    }
+  .buttons {
+    margin-top: 1em;
+  }
 }
 
 .dark .alert-dialog {
-    border: 1px solid $accent-color;
+  border: 1px solid $accent-color;
 }

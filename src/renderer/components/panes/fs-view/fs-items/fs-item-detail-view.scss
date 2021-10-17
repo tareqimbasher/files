@@ -1,31 +1,31 @@
 .fs-item-detail-view {
-    user-select: none;
+  user-select: none;
 
-    &.selected, &.selected:hover {
-        /*background-color: rgba(234, 234, 234, 0.65);*/
-        background-color: rgba(74, 204, 254, 0.30) !important;
-        border: 1px dashed rgb(45, 196, 254);
+  &.selected, &.selected:hover {
+    /*background-color: rgba(234, 234, 234, 0.65);*/
+    background-color: rgba(74, 204, 254, 0.30) !important;
+    border: 1px dashed rgb(45, 196, 254);
+  }
+
+  .fs-item-icon {
+    display: inline-block;
+    height: 1rem;
+    width: 20px;
+    text-align: center;
+    margin-right: 3px;
+
+    img {
+      max-width: 20px !important;
+      height: 1rem;
+      margin-top: -3px;
     }
+  }
 
-    .fs-item-icon {
-        display: inline-block;
-        height: 1rem;
-        width: 20px;
-        text-align: center;
-        margin-right: 3px;
+  &.hidden .fs-item-icon {
+    opacity: 0.5;
+  }
 
-        img {
-            max-width: 20px !important;
-            height: 1rem;
-            margin-top: -3px;
-        }
-    }
-
-    &.hidden .fs-item-icon {
-        opacity: 0.5;
-    }
-
-    .fs-item-name {
-        display: inline-block;
-    }
+  .fs-item-name {
+    display: inline-block;
+  }
 }

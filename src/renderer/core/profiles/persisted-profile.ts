@@ -2,60 +2,60 @@ import { FileViewTypes, Settings } from '../settings';
 import { Profile } from './profile';
 
 export class PersistedProfile {
-    public static latestVersion = '1';
+  public static latestVersion = '1';
 
-    public name: string;
-    public version: string;
-    public settings: {
-        theme?: string;
-        showHiddenFiles?: boolean;
-        fileViewType?: FileViewTypes;
-        confirmOnMove?: boolean;
+  public name: string;
+  public version: string;
+  public settings: {
+    theme?: string;
+    showHiddenFiles?: boolean;
+    fileViewType?: FileViewTypes;
+    confirmOnMove?: boolean;
+  };
+
+  constructor() {
+    // Defaults
+    this.name = 'Default';
+    this.version = '1';
+    this.settings = {
+      theme: 'dark',
+      showHiddenFiles: false,
+      confirmOnMove: true,
+      fileViewType: FileViewTypes.Icons
     };
+  }
 
-    constructor() {
-        // Defaults
-        this.name = 'Default';
-        this.version = '1';
-        this.settings = {
-            theme: 'dark',
-            showHiddenFiles: false,
-            confirmOnMove: true,
-            fileViewType: FileViewTypes.Icons
-        };
-    }
+  public static from(obj: PersistedProfile): PersistedProfile {
+    const profile = new PersistedProfile();
 
-    public applyTo(profile: Profile, settings: Settings) {
-        profile.name = this.name;
-        profile.version = this.version;
+    profile.name = obj.name ?? 'Default';
+    profile.version = obj.version ?? PersistedProfile.latestVersion;
 
-        settings.setTheme(this.settings.theme ?? 'dark');
-        settings.setShowHiddenFiles(this.settings.showHiddenFiles === true ? true : false);
-        settings.setConfirmOnMove(this.settings.confirmOnMove === false ? false : true);
-        settings.setFileViewType(this.settings.fileViewType ?? FileViewTypes.Icons);
-    }
+    if (obj.settings)
+      profile.settings = obj.settings;
 
-    public saveFrom(profile: Profile, settings: Settings) {
-        this.name = profile.name;
-        this.version = profile.version;
+    return profile;
+  }
 
-        this.settings = {
-            theme: settings.theme,
-            showHiddenFiles: settings.showHiddenFiles,
-            confirmOnMove: settings.confirmOnMove,
-            fileViewType: settings.fileViewType,
-        }
-    }
+  public applyTo(profile: Profile, settings: Settings) {
+    profile.name = this.name;
+    profile.version = this.version;
 
-    public static from(obj: PersistedProfile): PersistedProfile {
-        const profile = new PersistedProfile();
+    settings.setTheme(this.settings.theme ?? 'dark');
+    settings.setShowHiddenFiles(this.settings.showHiddenFiles === true ? true : false);
+    settings.setConfirmOnMove(this.settings.confirmOnMove === false ? false : true);
+    settings.setFileViewType(this.settings.fileViewType ?? FileViewTypes.Icons);
+  }
 
-        profile.name = obj.name ?? 'Default';
-        profile.version = obj.version ?? PersistedProfile.latestVersion;
+  public saveFrom(profile: Profile, settings: Settings) {
+    this.name = profile.name;
+    this.version = profile.version;
 
-        if (obj.settings)
-            profile.settings = obj.settings;
-
-        return profile;
-    }
+    this.settings = {
+      theme: settings.theme,
+      showHiddenFiles: settings.showHiddenFiles,
+      confirmOnMove: settings.confirmOnMove,
+      fileViewType: settings.fileViewType
+    };
+  }
 }

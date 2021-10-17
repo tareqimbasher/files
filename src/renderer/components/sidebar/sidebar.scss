@@ -1,45 +1,45 @@
 @import "../../style/themes/index";
 
 sidebar {
-    flex: 0 0 15em;
-    order: -1;
-    display: flex;
-    user-select: none;
-    @include theme(background, sidebarBackground);
+  flex: 0 0 15em;
+  order: -1;
+  display: flex;
+  user-select: none;
+  @include theme(background, sidebarBackground);
 
-    > .ui.segment {
-        flex: 1;
-        padding-left: 0;
-        padding-right: 0;
-        border: none;
-        border-radius: 0;
-    }
+  > .ui.segment {
+    flex: 1;
+    padding-left: 0;
+    padding-right: 0;
+    border: none;
+    border-radius: 0;
+  }
 
-    .ui.list {
-        > .item {
-            padding-left: 20px;
-            padding-right: 10px;
+  .ui.list {
+    > .item {
+      padding-left: 20px;
+      padding-right: 10px;
 
-            &.header {
-                padding-left: 10px;
-            }
+      &.header {
+        padding-left: 10px;
+      }
 
-            &.selectable {
-                cursor: pointer;
+      &.selectable {
+        cursor: pointer;
 
-                &:hover {
-                    @include theme(background, hoverColor);
-                }
-
-                &.active {
-                    @include theme(background, activeColor);
-                    font-weight: bold;
-                }
-            }
+        &:hover {
+          @include theme(background, hoverColor);
         }
-    }
 
-    .ui.progress {
-        margin-bottom: 0 !important;
+        &.active {
+          @include theme(background, activeColor);
+          font-weight: bold;
+        }
+      }
     }
+  }
+
+  .ui.progress {
+    margin-bottom: 0 !important;
+  }
 }

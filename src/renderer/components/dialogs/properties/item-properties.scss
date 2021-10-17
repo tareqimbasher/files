@@ -1,59 +1,59 @@
 @import '../../../style/colors.scss';
 
 #item-properties {
-    width: 350px;
-    height: 380px;
+  width: 350px;
+  height: 380px;
 
-    .ui.wrapper.segment {
-        height: 100%;
-    }
+  .ui.wrapper.segment {
+    height: 100%;
+  }
 
-    .ui.header {
-        margin-top: -5px !important;
-    }
+  .ui.header {
+    margin-top: -5px !important;
+  }
 
-    .ui.circular.close.icon.mini.button {
-        position: absolute;
-        top: 5px;
-        right: 5px;
-        padding: 4px;
-        font-size: 0.6em;
-    }
+  .ui.circular.close.icon.mini.button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    padding: 4px;
+    font-size: 0.6em;
+  }
 
-    .ui.hidden.divider {
-        margin-top: 7px;
-        margin-bottom: 7px;
-    }
+  .ui.hidden.divider {
+    margin-top: 7px;
+    margin-bottom: 7px;
+  }
 
-    .item-icon {
-        margin-left: 5px !important;
-    }
+  .item-icon {
+    margin-left: 5px !important;
+  }
 
-    .item-name {
-        margin-left: 10px;
-    }
+  .item-name {
+    margin-left: 10px;
+  }
 
-    .buttons {
-        position: absolute;
-        bottom: 15px;
-        right: 15px;
-    }
+  .buttons {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+  }
 }
 
 .properties {
-    .property {
-        .label {
-            width: 70px;
-            display: inline-block;
-            font-weight: bold;
-        }
-
-        .value {
-            display: inline-block;
-        }
+  .property {
+    .label {
+      width: 70px;
+      display: inline-block;
+      font-weight: bold;
     }
+
+    .value {
+      display: inline-block;
+    }
+  }
 }
 
 .dark #item-properties {
-    border: 1px solid dodgerblue;
+  border: 1px solid dodgerblue;
 }

@@ -1,74 +1,74 @@
 @import "../../../style/colors.scss";
 
 .address-bar.segment {
-    padding: 0;
+  padding: 0;
 
-    .breadcrumb {
-        user-select: none;
+  .breadcrumb {
+    user-select: none;
 
-        address-crumb {
-            display: inline-block;
-            
-            .section {
-                padding: 2px 5px;
-            }
-        }
+    address-crumb {
+      display: inline-block;
 
-        address-crumb:not(.active) .section:hover {
-            background-color: rgba(74, 204, 254, 0.30);
-        }
-
-        .divider {
-            margin-left: 0;
-            margin-right: 2px;
-            width: auto;
-        }
+      .section {
+        padding: 2px 5px;
+      }
     }
 
-    .ui.input {
-        input {
-            font-family: monospace;
-            padding-top: 6.5px;
-            padding-bottom: 6.5px;
-            border-radius: 0 !important;
-            background: transparent;
-        }
-
-        .icon {
-            color: dodgerblue;
-        }
+    address-crumb:not(.active) .section:hover {
+      background-color: rgba(74, 204, 254, 0.30);
     }
+
+    .divider {
+      margin-left: 0;
+      margin-right: 2px;
+      width: auto;
+    }
+  }
+
+  .ui.input {
+    input {
+      font-family: monospace;
+      padding-top: 6.5px;
+      padding-bottom: 6.5px;
+      border-radius: 0 !important;
+      background: transparent;
+    }
+
+    .icon {
+      color: dodgerblue;
+    }
+  }
 }
 
 .dark {
-    .address-bar.segment {
+  .address-bar.segment {
 
-        .breadcrumb .icon {
-            color: white;
-        }
-
-        .ui.input {
-            > input {
-                border: 1px solid $dark-border-color;
-
-                &:focus {
-                    border: 1px solid $accent-color;
-                }
-            }
-        }
-
-        .ui.input > input {
-            color: white;
-        }
-
-        .ui.input > input::selection {
-            color: white;
-        }
-
-        address-crumb:not(.active) .section:hover {
-            background: $dark-hover-color;
-        }
+    .breadcrumb .icon {
+      color: white;
     }
+
+    .ui.input {
+      > input {
+        border: 1px solid $dark-border-color;
+
+        &:focus {
+          border: 1px solid $accent-color;
+        }
+      }
+    }
+
+    .ui.input > input {
+      color: white;
+    }
+
+    .ui.input > input::selection {
+      color: white;
+    }
+
+    address-crumb:not(.active) .section:hover {
+      background: $dark-hover-color;
+    }
+  }
 }
 
 
@@ -76,7 +76,7 @@
 }
 
 .dark address-bar {
-    .breadcrumb {
-        /*background-color: #333;*/
-    }
+  .breadcrumb {
+    /*background-color: #333;*/
+  }
 }

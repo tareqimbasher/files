@@ -2,14 +2,14 @@
 @import '../style/themes/index';
 
 .window-wrapper {
-    display: flex;
-    min-height: calc(100vh - #{$titlebar-height});
-    flex-direction: column;
+  display: flex;
+  min-height: calc(100vh - #{$titlebar-height});
+  flex-direction: column;
 
-    .window-body {
-        display: flex;
-        flex: 1;
-        @include theme(border-left, windowBorderColor, 1px solid);
-        @include theme(border-right, windowBorderColor, 1px solid);
-    }
+  .window-body {
+    display: flex;
+    flex: 1;
+    @include theme(border-left, windowBorderColor, 1px solid);
+    @include theme(border-right, windowBorderColor, 1px solid);
+  }
 }

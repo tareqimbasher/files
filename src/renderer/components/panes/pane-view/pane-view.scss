@@ -1,71 +1,71 @@
 @import "../../../style/colors.scss";
 
 pane-view {
+  display: flex;
+  flex: 1;
+
+  &:not(:first-child) {
+    &:before {
+      content: " ";
+      /*background-color: #ccc;*/
+      width: 2px;
+      min-width: 2px;
+      max-width: 2px;
+      cursor: w-resize;
+    }
+  }
+
+  .pane-container {
     display: flex;
     flex: 1;
+  }
 
-    &:not(:first-child) {
-        &:before {
-            content: " ";
-            /*background-color: #ccc;*/
-            width: 2px;
-            min-width: 2px;
-            max-width: 2px;
-            cursor: w-resize;
-        }
-    }
+  .tabs.segment {
+    padding: 0;
+    height: 2rem;
 
-    .pane-container {
-        display: flex;
-        flex: 1;
-    }
-
-    .tabs.segment {
-        padding: 0;
+    > .tabular.menu {
+      tab-view {
         height: 2rem;
-        
-        > .tabular.menu {
-            tab-view {
-                height: 2rem;
-            }
+      }
 
-            a.item {
-                height: 2rem;
-                border-top: 0 none;
-                line-height: 2rem;
-            }
-        }
+      a.item {
+        height: 2rem;
+        border-top: 0 none;
+        line-height: 2rem;
+      }
     }
+  }
 
-    .fs-views.segment {
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        flex: 1;
+  .fs-views.segment {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .segments {
+    border: none !important;
+    border-radius: 0;
+
+    > .segment {
+      border-top: none !important;
     }
-
-    .segments {
-        border: none !important;
-        border-radius: 0;
-
-        > .segment {
-            border-top: none !important;
-        }
-    }
+  }
 }
 
 .dark {
-    pane-view {
-        .segments > .segment:not(:first-child) {
-            border-top-width: 1px !important;
-            border-top-style: solid !important;
-        }
-
-
-        &:not(:first-child) {
-            &:before {
-                background-color: $dark-splitter-color;
-            }
-        }
+  pane-view {
+    .segments > .segment:not(:first-child) {
+      border-top-width: 1px !important;
+      border-top-style: solid !important;
     }
+
+
+    &:not(:first-child) {
+      &:before {
+        background-color: $dark-splitter-color;
+      }
+    }
+  }
 }

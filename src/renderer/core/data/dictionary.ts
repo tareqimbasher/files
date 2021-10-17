@@ -1,118 +1,116 @@
 export class Dictionary<TKey extends string | number | Date, TValue> {
-    private data: any = {};
-    private keyMap: any = {};
+  /**
+   * Number of items in this dictionary.
+   */
+  public length = 0;
+  /**
+   * Values stored in this dictionary.
+   */
+  public values: TValue[] = [];
+  private data: any = {};
+  private keyMap: any = {};
 
-    /**
-     * Number of items in this dictionary.
-     */
-    public length = 0;
+  /**
+   * Adds a key/value pair to this dictionary if key doesn't exist, otherwise sets provided value to the existing key.
+   */
+  public addOrSet(key: TKey, value: TValue): void {
+    this.addOrSetRange({
+      key: key,
+      value: value
+    });
+  }
 
-    /**
-    * Values stored in this dictionary.
-    */
-    public values: TValue[] = [];
+  /**
+   * Adds or sets a range of key/value pairs to this dictionary. If keys doesn't exist they will be added, otherwise provided values will be set to their existing key.
+   */
+  public addOrSetRange(...items: { key: TKey, value: TValue }[]) {
+    const values = [];
 
-    /**
-     * Adds a key/value pair to this dictionary if key doesn't exist, otherwise sets provided value to the existing key.
-     */
-    public addOrSet(key: TKey, value: TValue): void {
-        this.addOrSetRange({
-            key: key,
-            value: value
-        });
+    if (items.findIndex(i => i.key === undefined || i.key === null) >= 0)
+      throw new Error('Cannot add a null or undefined key.');
+
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i];
+      const key = item.key;
+      const value = item.value;
+
+      const stringKey = this.getStringKey(key);
+      if (!Object.prototype.hasOwnProperty.call(this.keyMap, stringKey))
+        this.keyMap[stringKey] = key;
+
+      this.data[stringKey] = value;
+      values.push(value);
     }
 
-    /**
-     * Adds or sets a range of key/value pairs to this dictionary. If keys doesn't exist they will be added, otherwise provided values will be set to their existing key.
-     */
-    public addOrSetRange(...items: { key: TKey, value: TValue }[]) {
-        const values = [];
+    this.values.push(...values);
+    this.length = this.values.length;
+  }
 
-        if (items.findIndex(i => i.key === undefined || i.key === null) >= 0)
-            throw new Error('Cannot add a null or undefined key.');
+  /**
+   * Removes an item from the dictionary.
+   */
+  public remove(key: TKey): TValue | undefined {
+    if (this.containsKey(key)) {
+      const stringKey = this.getStringKey(key);
+      const valueToRemove = this.data[stringKey];
 
-        for (let i = 0; i < items.length; i++) {
-            const item = items[i];
-            const key = item.key;
-            const value = item.value;
+      delete this.data[stringKey];
+      delete this.keyMap[stringKey];
 
-            const stringKey = this.getStringKey(key);
-            if (!Object.prototype.hasOwnProperty.call(this.keyMap, stringKey))
-                this.keyMap[stringKey] = key;
-
-            this.data[stringKey] = value;
-            values.push(value);
-        }
-
-        this.values.push(...values);
-        this.length = this.values.length;
+      this.values.splice(this.values.indexOf(valueToRemove), 1);
+      this.length = this.values.length;
+      return valueToRemove;
     }
+    return undefined;
+  }
 
-    /**
-     * Removes an item from the dictionary.
-     */
-    public remove(key: TKey): TValue | undefined {
-        if (this.containsKey(key)) {
-            const stringKey = this.getStringKey(key);
-            const valueToRemove = this.data[stringKey];
+  /**
+   * Gets value by key.
+   */
+  public get(key: TKey): TValue {
+    const stringKey = this.getStringKey(key);
+    if (!Object.prototype.hasOwnProperty.call(this.data, stringKey))
+      throw new Error(`Key '${key}' not found.`);
+    return this.data[stringKey];
+  }
 
-            delete this.data[stringKey];
-            delete this.keyMap[stringKey];
+  /**
+   * Checks if the provided key exists in the dictionary.
+   */
+  public containsKey(key: TKey) {
+    return Object.prototype.hasOwnProperty.call(this.keyMap, this.getStringKey(key));
+  }
 
-            this.values.splice(this.values.indexOf(valueToRemove), 1);
-            this.length = this.values.length;
-            return valueToRemove;
-        }
-        return undefined;
+  /**
+   * Returns all keys in this dictionary.
+   */
+  public keys(): TKey[] {
+    return Object.values(this.keyMap);
+  }
+
+  /**
+   * Iterates over the key/value pairs of this dictionary.
+   */
+  public forEach(iterator: (iterator: { key: TKey, value: TValue }) => void) {
+    for (const [k, v] of Object.entries(this.data)) {
+      iterator({
+        key: this.keyMap[k],
+        value: v as TValue
+      });
     }
+  }
 
-    /**
-     * Gets value by key.
-     */
-    public get(key: TKey): TValue {
-        const stringKey = this.getStringKey(key);
-        if (!Object.prototype.hasOwnProperty.call(this.data, stringKey))
-            throw new Error(`Key '${key}' not found.`);
-        return this.data[stringKey];
-    }
+  /**
+   * Removes all entries from this dictionary.
+   */
+  public clear() {
+    this.data = {};
+    this.keyMap = {};
+    this.length = 0;
+    this.values.splice(0, this.values.length);
+  }
 
-    /**
-     * Checks if the provided key exists in the dictionary.
-     */
-    public containsKey(key: TKey) {
-        return Object.prototype.hasOwnProperty.call(this.keyMap, this.getStringKey(key));
-    }
-
-    /**
-     * Returns all keys in this dictionary.
-     */
-    public keys(): TKey[] {
-        return Object.values(this.keyMap);
-    }
-
-    /**
-     * Iterates over the key/value pairs of this dictionary.
-     */
-    public forEach(iterator: (iterator: { key: TKey, value: TValue }) => void) {
-        for (const [k, v] of Object.entries(this.data)) {
-            iterator({
-                key: this.keyMap[k],
-                value: v as TValue
-            });
-        }
-    }
-
-    /**
-     * Removes all entries from this dictionary.
-     */
-    public clear() {
-        this.data = {};
-        this.keyMap = {};
-        this.length = 0;
-        this.values.splice(0, this.values.length);
-    }
-
-    private getStringKey(key: TKey) {
-        return key.toString();
-    }
+  private getStringKey(key: TKey) {
+    return key.toString();
+  }
 }

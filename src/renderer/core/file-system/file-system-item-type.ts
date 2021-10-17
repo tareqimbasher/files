@@ -1,5 +1,5 @@
 export enum FileType {
-    File = 'File',
-    Directory = 'Directory',
-    SymbolicLink = 'SymbolicLink'
+  File = 'File',
+  Directory = 'Directory',
+  SymbolicLink = 'SymbolicLink'
 }

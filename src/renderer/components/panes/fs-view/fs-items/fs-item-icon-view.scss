@@ -1,97 +1,97 @@
 @import "../../../../style/colors.scss";
 
 fs-item-icon-view:not(.gu-mirror) {
-    display: block;
-    width: 100px;
-    text-align: center;
+  display: block;
+  width: 100px;
+  text-align: center;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid transparent;
+
+  .fs-item-icon {
+    height: 70px;
+    max-width: 70px;
+    padding: 7px;
+    user-select: none;
     overflow: hidden;
-    cursor: pointer;
-    border: 1px solid transparent;
+    margin: 0 auto;
+    position: relative;
 
-    .fs-item-icon {
-        height: 70px;
-        max-width: 70px;
-        padding: 7px;
-        user-select: none;
-        overflow: hidden;
-        margin: 0 auto;
+    .icon {
+      text-align: center;
+      margin: 0 auto;
+    }
+
+    img {
+      height: 100%;
+
+      &.image-thumbnail {
         position: relative;
-
-        .icon {
-            text-align: center;
-            margin: 0 auto;
-        }
-
-        img {
-            height: 100%;
-
-            &.image-thumbnail {
-                position: relative;
-                width: auto;
-                max-height: 100%;
-                max-width: 100%;
-                top: 50%;
-                transform: translateY(-50%);
-                -webkit-transform: translateY(-50%);
-            }
-        }
+        width: auto;
+        max-height: 100%;
+        max-width: 100%;
+        top: 50%;
+        transform: translateY(-50%);
+        -webkit-transform: translateY(-50%);
+      }
     }
+  }
 
-    &.hidden .fs-item-icon {
-        opacity: 0.5;
-    }
+  &.hidden .fs-item-icon {
+    opacity: 0.5;
+  }
 
-    .fs-item-name {
-        display: block;
-        max-height: 2rem;
-        font-size: 0.9rem;
-        line-height: 1rem;
-        user-select: none;
-        padding: 0 5px 0 5px;
-        word-break: break-word;
-        overflow: hidden;
-    }
+  .fs-item-name {
+    display: block;
+    max-height: 2rem;
+    font-size: 0.9rem;
+    line-height: 1rem;
+    user-select: none;
+    padding: 0 5px 0 5px;
+    word-break: break-word;
+    overflow: hidden;
+  }
 
-    .fs-item-info {
-        height: 0.8rem;
-        font-size: 0.8rem;
-        line-height: 0.8rem;
-        user-select: none;
-    }
+  .fs-item-info {
+    height: 0.8rem;
+    font-size: 0.8rem;
+    line-height: 0.8rem;
+    user-select: none;
+  }
 
-    &.selected {
-        /*background-color: rgba(234, 234, 234, 0.65);*/
-        background-color: rgba(74, 204, 254, 0.30);
-        border: 1px dashed rgb(45, 196, 254);
-    }
+  &.selected {
+    /*background-color: rgba(234, 234, 234, 0.65);*/
+    background-color: rgba(74, 204, 254, 0.30);
+    border: 1px dashed rgb(45, 196, 254);
+  }
 
-    &:hover:not(.selected) {
-        background-color: rgba(234, 234, 234, 0.40);
-    }
+  &:hover:not(.selected) {
+    background-color: rgba(234, 234, 234, 0.40);
+  }
 }
 
 fs-view:not(:focus) .fs-item {
-    &.selected {
-        background: rgb(232 232 232 / 0.65);
-        border-color: transparent;
-    }
+  &.selected {
+    background: rgb(232 232 232 / 0.65);
+    border-color: transparent;
+  }
 }
 
 .dark {
-    fs-item-icon-view:hover:not(.selected) {
-        background: $dark-hover-color;
-    }
+  fs-item-icon-view:hover:not(.selected) {
+    background: $dark-hover-color;
+  }
 
-    fs-view:not(:focus) .fs-item {
-        &.selected {
-            background: $dark-active-unfocused-color;
-            border-color: transparent;
-        }
+  fs-view:not(:focus) .fs-item {
+    &.selected {
+      background: $dark-active-unfocused-color;
+      border-color: transparent;
     }
+  }
 
-    .fs-item-info {
-        color: $dark-muted-text-color !important;
-    }
+  .fs-item-info {
+    color: $dark-muted-text-color !important;
+  }
 }
 
 

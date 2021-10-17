@@ -1,42 +1,43 @@
 <template>
-    <div class="ui basic ${settings.inverted} segment p-0">
-        <div class="container">
-            <div class="ui equal width grid">
-                <div class="column">
-                    ${allFsItemsCount} items
-                    <span show.bind="selectedFsItemsCount > 0">
+  <div class="ui basic ${settings.inverted} segment p-0">
+    <div class="container">
+      <div class="ui equal width grid">
+        <div class="column">
+          ${allFsItemsCount} items
+          <span show.bind="selectedFsItemsCount > 0">
                         | ${selectedFsItemsCount} item selected
                     </span>
-                    <span show.bind="selectedFsItemsSize !== undefined">
+          <span show.bind="selectedFsItemsSize !== undefined">
                         | Size: ${selectedFsItemsSize | fileSize}
                     </span>
-                </div>
-                <div class="right aligned column">
-                    <span class="selectable" if.bind="clipboard.items.length" click.trigger="showClipboard = !showClipboard">
+        </div>
+        <div class="right aligned column">
+                    <span class="selectable" click.trigger="showClipboard = !showClipboard"
+                          if.bind="clipboard.items.length">
                         <i class="ui green check circle icon"></i> 
                         ${clipboard.items.length} 
                         item${clipboard.items.length > 1 ? 's' : ''} 
                         ${clipboard.type === 'Copy' ? 'copied' : 'cut'}
                     </span>
-                    <span else class="selectable" click.trigger="showClipboard = !showClipboard">
+          <span class="selectable" click.trigger="showClipboard = !showClipboard" else>
                         <i class="ui grey clipboard icon" title="Clipboard is empty"></i>
                     </span>
-                </div>
-            </div>
         </div>
-
-        <div class="clipboard-contents" show.bind="showClipboard">
-            <div class="ui list">
-                <div class="item" repeat.for="ci of clipboard.items" title="${ci.item.path}">
-                    <i class="ui ${ci.item.isDir ? 'yellow folder' : 'file'} icon"></i>
-                    ${ci.item.name | truncate:20}
-                </div>
-            </div>
-            <div class="ui divider"></div>
-            <button class="ui fluid ${settings.inverted} ${clipboard.items.length ? '' : 'disabled'} button"
-                    click.delegate="clipboard.clear()">
-                Clear
-            </button>
-        </div>
+      </div>
     </div>
+
+    <div class="clipboard-contents" show.bind="showClipboard">
+      <div class="ui list">
+        <div class="item" repeat.for="ci of clipboard.items" title="${ci.item.path}">
+          <i class="ui ${ci.item.isDir ? 'yellow folder' : 'file'} icon"></i>
+          ${ci.item.name | truncate:20}
+        </div>
+      </div>
+      <div class="ui divider"></div>
+      <button class="ui fluid ${settings.inverted} ${clipboard.items.length ? '' : 'disabled'} button"
+              click.delegate="clipboard.clear()">
+        Clear
+      </button>
+    </div>
+  </div>
 </template>

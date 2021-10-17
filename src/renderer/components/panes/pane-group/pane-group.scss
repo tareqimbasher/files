@@ -1,28 +1,28 @@
 @import "../../../style/colors.scss";
 
 pane-group {
-    display: flex;
-    flex: 3;
+  display: flex;
+  flex: 3;
 
-    &:before {
-        content: " ";
-        /*background-color: #ccc;*/
-        width: 2px;
-        min-width: 2px;
-        max-width: 2px;
-        cursor: w-resize;
-        left: 0;
-    }
+  &:before {
+    content: " ";
+    /*background-color: #ccc;*/
+    width: 2px;
+    min-width: 2px;
+    max-width: 2px;
+    cursor: w-resize;
+    left: 0;
+  }
 }
 
 .light pane-group {
-    background-color: $light-background;
+  background-color: $light-background;
 }
 
 .dark pane-group {
-    background-color: $dark-background;
+  background-color: $dark-background;
 
-    &:before {
-        background-color: $dark-splitter-color;
-    }
+  &:before {
+    background-color: $dark-splitter-color;
+  }
 }

@@ -1,165 +1,165 @@
 <template bindable="model">
 
-    <div class="ui ${model.settings.inverted} selection list"
-         ref="selected"
-         any.bind="model.fsItems.selected.length > 0">
+  <div any.bind="model.fsItems.selected.length > 0"
+       class="ui ${model.settings.inverted} selection list"
+       ref="selected">
 
-        <!--IF NO FILES SELECTED-->
-        <div class="item"
-             show.bind="!selected.any"
-             click.trigger="model.createNewFolder()">
-            <i class="folder plus icon"></i>
-            <div class="content">
-                New Folder
-            </div>
+    <!--IF NO FILES SELECTED-->
+    <div class="item"
+         click.trigger="model.createNewFolder()"
+         show.bind="!selected.any">
+      <i class="folder plus icon"></i>
+      <div class="content">
+        New Folder
+      </div>
+    </div>
+    <div class="ui simple ${model.settings.inverted} dropdown left pointing item" show.bind="!selected.any"
+         style="width: 100%">
+      <span style="padding-left: 28px; pointer-events: none">Sort by</span>
+      <i class="dropdown icon" style="float:right"></i>
+      <div class="menu" style="margin-left: 0;">
+        <div class="item" click.trigger="model.sorting.sortBy('name')">
+          <i class="tiny ${model.sorting.by === 'name' ? 'circle' : 'blank'} icon"></i>
+          Name
         </div>
-        <div class="ui simple ${model.settings.inverted} dropdown left pointing item" style="width: 100%"
-             show.bind="!selected.any">
-            <span style="padding-left: 28px; pointer-events: none">Sort by</span>
-            <i class="dropdown icon" style="float:right"></i>
-            <div class="menu" style="margin-left: 0;">
-                <div class="item" click.trigger="model.sorting.sortBy('name')">
-                    <i class="tiny ${model.sorting.by === 'name' ? 'circle' : 'blank'} icon"></i>
-                    Name
-                </div>
-                <div class="item" click.trigger="model.sorting.sortBy('dateModified')">
-                    <i class="tiny ${model.sorting.by === 'dateModified' ? 'circle' : 'blank'} icon"></i>
-                    Date modified
-                </div>
-                <div class="item" click.trigger="model.sorting.sortBy('typeDescription')">
-                    <i class="tiny ${model.sorting.by === 'typeDescription' ? 'circle' : 'blank'} icon"></i>
-                    Type
-                </div>
-                <div class="item" click.trigger="model.sorting.sortBy('size')">
-                    <i class="tiny ${model.sorting.by === 'size' ? 'circle' : 'blank'} icon"></i>
-                    Size
-                </div>
-                <div class="ui divider"></div>
-                <div class="item" click.trigger="model.sorting.sortDir('asc')">
-                    <i class="tiny ${model.sorting.dir === 'asc' ? 'circle' : 'blank'} icon"></i>
-                    Ascending
-                </div>
-                <div class="item" click.trigger="model.sorting.sortDir('desc')">
-                    <i class="tiny ${model.sorting.dir === 'desc' ? 'circle' : 'blank'} icon"></i>
-                    Descending
-                </div>
-            </div>
+        <div class="item" click.trigger="model.sorting.sortBy('dateModified')">
+          <i class="tiny ${model.sorting.by === 'dateModified' ? 'circle' : 'blank'} icon"></i>
+          Date modified
         </div>
-        <div class="item"
-             show.bind="!selected.any">
-            <i class="blank icon"></i>
-            <div class="content">
-                Group by
-            </div>
+        <div class="item" click.trigger="model.sorting.sortBy('typeDescription')">
+          <i class="tiny ${model.sorting.by === 'typeDescription' ? 'circle' : 'blank'} icon"></i>
+          Type
         </div>
-        <div class="item"
-             show.bind="!selected.any"
-             click.trigger="model.tab.refresh()">
-            <i class="redo alternate icon"></i>
-            <div class="content">
-                Refresh
-            </div>
-        </div>
-
-
-        <div class="item"
-             show.bind="selected.any"
-             click.trigger="model.openSelected()">
-            <i class="blank icon"></i>
-            <div class="content">
-                <b>Open</b>
-            </div>
-        </div>
-        <div class="item"
-             show.bind="!selected.any || (model.fsItems.selected.length == 1 && model.fsItems.selected[0].type == 'Directory')"
-             click.trigger="!selected.any ? model.tab.tabs.add(model.tab.path).activate() : model.tab.tabs.add(model.fsItems.selected[0].path).activate()">
-            <i class="${!selected.any ? 'clone outline' : 'plus'} icon"></i>
-            <div class="content">
-                ${!selected.any ? 'Duplicate tab' : 'Open in a new tab'}
-            </div>
-        </div>
-        <div class="item"
-             show.bind="selected.any"
-             click.trigger="model.cutSelectedItems()">
-            <i class="cut icon"></i>
-            <div class="muted text content">
-                Cut
-            </div>
-        </div>
-        <div class="item"
-             show.bind="selected.any"
-             click.trigger="model.copySelectedItems()">
-            <i class="copy outline icon"></i>
-            <div class="content">
-                Copy
-            </div>
-        </div>
-        <div class="item"
-             show.bind="model.clipboard.items.length"
-             click.trigger="model.pasteItems()">
-            <i class="paste icon"></i>
-            <div class="content">
-                Paste
-            </div>
+        <div class="item" click.trigger="model.sorting.sortBy('size')">
+          <i class="tiny ${model.sorting.by === 'size' ? 'circle' : 'blank'} icon"></i>
+          Size
         </div>
         <div class="ui divider"></div>
-        <div class="item"
-             show.bind="selected.any">
-            <i class="linkify icon"></i>
-            <div class="content">
-                Create shortcut
-            </div>
+        <div class="item" click.trigger="model.sorting.sortDir('asc')">
+          <i class="tiny ${model.sorting.dir === 'asc' ? 'circle' : 'blank'} icon"></i>
+          Ascending
         </div>
-        <div class="item"
-             show.bind="selected.any">
-            <i class="pencil icon"></i>
-            <div class="content">
-                Rename
-            </div>
+        <div class="item" click.trigger="model.sorting.sortDir('desc')">
+          <i class="tiny ${model.sorting.dir === 'desc' ? 'circle' : 'blank'} icon"></i>
+          Descending
         </div>
-        <div class="item"
-             show.bind="selected.any"
-             click.trigger="model.deleteSelected(false)">
-            <i class="trash icon"></i>
-            <div class="content">
-                Move to trash
-            </div>
-        </div>
-        <div class="item"
-             show.bind="selected.any"
-             click.trigger="model.deleteSelected(true)">
-            <i class="red times circle icon"></i>
-            <div class="content">
+      </div>
+    </div>
+    <div class="item"
+         show.bind="!selected.any">
+      <i class="blank icon"></i>
+      <div class="content">
+        Group by
+      </div>
+    </div>
+    <div class="item"
+         click.trigger="model.tab.refresh()"
+         show.bind="!selected.any">
+      <i class="redo alternate icon"></i>
+      <div class="content">
+        Refresh
+      </div>
+    </div>
+
+
+    <div class="item"
+         click.trigger="model.openSelected()"
+         show.bind="selected.any">
+      <i class="blank icon"></i>
+      <div class="content">
+        <b>Open</b>
+      </div>
+    </div>
+    <div class="item"
+         click.trigger="!selected.any ? model.tab.tabs.add(model.tab.path).activate() : model.tab.tabs.add(model.fsItems.selected[0].path).activate()"
+         show.bind="!selected.any || (model.fsItems.selected.length == 1 && model.fsItems.selected[0].type == 'Directory')">
+      <i class="${!selected.any ? 'clone outline' : 'plus'} icon"></i>
+      <div class="content">
+        ${!selected.any ? 'Duplicate tab' : 'Open in a new tab'}
+      </div>
+    </div>
+    <div class="item"
+         click.trigger="model.cutSelectedItems()"
+         show.bind="selected.any">
+      <i class="cut icon"></i>
+      <div class="muted text content">
+        Cut
+      </div>
+    </div>
+    <div class="item"
+         click.trigger="model.copySelectedItems()"
+         show.bind="selected.any">
+      <i class="copy outline icon"></i>
+      <div class="content">
+        Copy
+      </div>
+    </div>
+    <div class="item"
+         click.trigger="model.pasteItems()"
+         show.bind="model.clipboard.items.length">
+      <i class="paste icon"></i>
+      <div class="content">
+        Paste
+      </div>
+    </div>
+    <div class="ui divider"></div>
+    <div class="item"
+         show.bind="selected.any">
+      <i class="linkify icon"></i>
+      <div class="content">
+        Create shortcut
+      </div>
+    </div>
+    <div class="item"
+         show.bind="selected.any">
+      <i class="pencil icon"></i>
+      <div class="content">
+        Rename
+      </div>
+    </div>
+    <div class="item"
+         click.trigger="model.deleteSelected(false)"
+         show.bind="selected.any">
+      <i class="trash icon"></i>
+      <div class="content">
+        Move to trash
+      </div>
+    </div>
+    <div class="item"
+         click.trigger="model.deleteSelected(true)"
+         show.bind="selected.any">
+      <i class="red times circle icon"></i>
+      <div class="content">
                 <span class="ui red text">
                     Delete permanently
                 </span>
-            </div>
-        </div>
-
-        <div class="item"
-             show.bind="!selected.any"
-             click.trigger="model.fsItems.selectAll()">
-            <i class="object group icon"></i>
-            <div class="content">
-                Select all
-            </div>
-        </div>
-        <div class="ui divider"></div>
-        <div class="item"
-             show.bind="model.fsItems.selected.length === 1 && model.fsItems.selected[0].isDir"
-             click.trigger="model.showSelectedItemProperties()">
-            <i class="pin icon"></i>
-            <div class="content">
-                Pin to sidebar
-            </div>
-        </div>
-        <div class="item"
-             click.trigger="model.showSelectedItemProperties()">
-            <i class="info circle icon"></i>
-            <div class="content">
-                Properties
-            </div>
-        </div>
+      </div>
     </div>
+
+    <div class="item"
+         click.trigger="model.fsItems.selectAll()"
+         show.bind="!selected.any">
+      <i class="object group icon"></i>
+      <div class="content">
+        Select all
+      </div>
+    </div>
+    <div class="ui divider"></div>
+    <div class="item"
+         click.trigger="model.showSelectedItemProperties()"
+         show.bind="model.fsItems.selected.length === 1 && model.fsItems.selected[0].isDir">
+      <i class="pin icon"></i>
+      <div class="content">
+        Pin to sidebar
+      </div>
+    </div>
+    <div class="item"
+         click.trigger="model.showSelectedItemProperties()">
+      <i class="info circle icon"></i>
+      <div class="content">
+        Properties
+      </div>
+    </div>
+  </div>
 
 </template>

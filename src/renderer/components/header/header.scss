@@ -1,68 +1,68 @@
 @import "../../style/themes/index";
 
 header {
-    $header-height: 75px;
-    -webkit-app-region: drag;
-    height: $header-height;
-    color: white;
-    @include theme(background, headerBackground);
-    //border-bottom: 1px solid $dark-splitter-color; //should make this into themable
+  $header-height: 75px;
+  -webkit-app-region: drag;
+  height: $header-height;
+  color: white;
+  @include theme(background, headerBackground);
+  //border-bottom: 1px solid $dark-splitter-color; //should make this into themable
 
 
-    button, .button, .input, .icon {
-        -webkit-app-region: none;
+  button, .button, .input, .icon {
+    -webkit-app-region: none;
+  }
+
+  address-bar .address-bar-inner-container {
+    -webkit-app-region: none;
+
+    .breadcrumb {
+      padding-right: 25px;
+      margin-right: -25px;
+    }
+  }
+
+
+  .controls {
+    white-space: nowrap;
+
+    .ui.buttons {
+      margin-right: 10px !important;
     }
 
-    address-bar .address-bar-inner-container {
-        -webkit-app-region: none;
+    button {
+      padding: 0.5em !important;
+      height: 2.5em;
+      width: 3.5em;
 
-        .breadcrumb {
-            padding-right: 25px;
-            margin-right: -25px;
-        }
+      .icon {
+        font-size: 1.15em;
+      }
+
+      &:active .icon {
+        color: $accent-color;
+      }
+
+      svg {
+        height: 1.15em;
+      }
+
+      svg.active path, path.active {
+        fill: $accent-color;
+      }
     }
-    
+  }
 
-    .controls {
-        white-space: nowrap;
+  .search.input {
+    input {
+      $search-input-padding: 0.35em;
+      padding-top: $search-input-padding;
+      padding-bottom: $search-input-padding;
+      background-color: #E0E1E2;
 
-        .ui.buttons {
-            margin-right: 10px !important;
-        }
-
-        button {
-            padding: 0.5em !important;
-            height: 2.5em;
-            width: 3.5em;
-
-            .icon {
-                font-size: 1.15em;
-            }
-
-            &:active .icon {
-                color: $accent-color;
-            }
-
-            svg {
-                height: 1.15em;
-            }
-
-            svg.active path, path.active {
-                fill: $accent-color;
-            }
-        }
+      &::placeholder {
+        color: #808080;
+      }
     }
-
-    .search.input {
-        input {
-            $search-input-padding: 0.35em;
-            padding-top: $search-input-padding;
-            padding-bottom: $search-input-padding;
-            background-color: #E0E1E2;
-
-            &::placeholder {
-                color: #808080;
-            }
-        }
-    }
+  }
 }

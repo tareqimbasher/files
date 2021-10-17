@@ -1,12 +1,12 @@
 <template containerless>
-    <!--THIS COMPONENT IS NO LONGER USED AND WILL BE DELETED-->
-    <bindable name="icon" />
-    <bindable name="type" />
+  <!--THIS COMPONENT IS NO LONGER USED AND WILL BE DELETED-->
+  <bindable name="icon" />
+  <bindable name="type" />
 
-    <img if.bind="type != 'svg'"
-         src="assets/icons/file-system/png/${icon}.png" />
+  <img if.bind="type != 'svg'"
+       src="assets/icons/file-system/png/${icon}.png" />
 
-    <object else
-            type="image/svg+xml"
-            data="assets/icons/file-system/svg/${icon}.svg"></object>
+  <object data="assets/icons/file-system/svg/${icon}.svg"
+          else
+          type="image/svg+xml"></object>
 </template>

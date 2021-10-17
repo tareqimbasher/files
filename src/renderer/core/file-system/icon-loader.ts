@@ -4,110 +4,124 @@ import { FileType } from './file-system-item-type';
 
 export class IconLoader {
 
-    public static defaultIcon = `${system.fileScheme}://assets/icons/file-system/png/026-file-65.png`;
-    private static imgFormats = ['.jpg', '.jpeg', '.png', '.gif', '.jfif', '.bmp', '.svg'];
+  public static defaultIcon = `${system.fileScheme}://assets/icons/file-system/png/026-file-65.png`;
+  private static imgFormats = ['.jpg', '.jpeg', '.png', '.gif', '.jfif', '.bmp', '.svg'];
 
-    public static async getIcon(item: FileSystemItem): Promise<string> {
-        let iconPath = '';
+  public static async getIcon(item: FileSystemItem): Promise<string> {
+    let iconPath = '';
 
-        if (item.extension) {
-            if (IconLoader.imgFormats.indexOf(item.extension.toLocaleLowerCase()) >= 0)
-                iconPath = this.thumbnail(item);
-            else if (item.extension.toLowerCase() == '.exe') {
-                const icon = await system.remote.app.getFileIcon(item.path, { size: 'large' });
-                iconPath = icon.toDataURL();
-            }
-        }
-
-        if (!iconPath)
-            iconPath = `${system.fileScheme}://assets/icons/file-system/png/${this.localIcon(item)}.png`;
-
-        return iconPath;
+    if (item.extension) {
+      if (IconLoader.imgFormats.indexOf(item.extension.toLocaleLowerCase()) >= 0)
+        iconPath = this.thumbnail(item);
+      else if (item.extension.toLowerCase() == '.exe') {
+        const icon = await system.remote.app.getFileIcon(item.path, { size: 'large' });
+        iconPath = icon.toDataURL();
+      }
     }
 
-    private static localIcon(item: FileSystemItem): string {
-        if (item.type == FileType.Directory)
-            return '119-folder-22';
+    if (!iconPath)
+      iconPath = `${system.fileScheme}://assets/icons/file-system/png/${this.localIcon(item)}.png`;
 
-        if (item.type == FileType.SymbolicLink)
-            return 'star';
+    return iconPath;
+  }
 
-        switch (item.extension.toLowerCase()) {
+  private static localIcon(item: FileSystemItem): string {
+    if (item.type == FileType.Directory)
+      return '119-folder-22';
 
-            // Documents
-            case '.pdf': return '023-pdf-1';
-            case '.docx':
-            case '.doc':
-                return '052-doc-3';
-            case '.xlsx':
-            case '.xls':
-                return '077-xls';
-            case '.txt': return '078-txt';
+    if (item.type == FileType.SymbolicLink)
+      return 'star';
 
-            // Media
-            case '.mp3':
-            case '.wav':
-            case '.ogg':
-                return '017-audio-file';
-            case '.mp4':
-            case '.wmv':
-            case '.avi':
-            case '.mov':
-            case '.3gp':
-                return '003-video-file-2';
-            case '.mkv': return '033-mkv-2';
-            case '.flv': return '043-flv';
+    switch (item.extension.toLowerCase()) {
 
-            // Archives
-            case '.zip': return '183-zip-file';
-            case '.rar':
-            case '.tar':
-            case '.tz':
-            case '.7z':
-                return '114-archive-1';
+      // Documents
+      case '.pdf':
+        return '023-pdf-1';
+      case '.docx':
+      case '.doc':
+        return '052-doc-3';
+      case '.xlsx':
+      case '.xls':
+        return '077-xls';
+      case '.txt':
+        return '078-txt';
 
-            case '.html':
-            case '.htm':
-                return '185-html';
+      // Media
+      case '.mp3':
+      case '.wav':
+      case '.ogg':
+        return '017-audio-file';
+      case '.mp4':
+      case '.wmv':
+      case '.avi':
+      case '.mov':
+      case '.3gp':
+        return '003-video-file-2';
+      case '.mkv':
+        return '033-mkv-2';
+      case '.flv':
+        return '043-flv';
 
-            case '.psd': return '019-psd-1';
-            case '.ai': return '150-ai';
-            case '.aep':
-            case '.aepx':
-                return 'after-effects';
-            case '.cdr': return '146-cdr';
-            case '.sketch': return '095-sketch';
+      // Archives
+      case '.zip':
+        return '183-zip-file';
+      case '.rar':
+      case '.tar':
+      case '.tz':
+      case '.7z':
+        return '114-archive-1';
 
-            case '.css':
-            case '.less':
-            case '.scss':
-                return '060-css';
-            case '.php': return '210-php';
-            case '.swf': return '009-swf';
-            case '.ps': return '120-ps';
+      case '.html':
+      case '.htm':
+        return '185-html';
 
-            case '.iso': return '121-iso';
+      case '.psd':
+        return '019-psd-1';
+      case '.ai':
+        return '150-ai';
+      case '.aep':
+      case '.aepx':
+        return 'after-effects';
+      case '.cdr':
+        return '146-cdr';
+      case '.sketch':
+        return '095-sketch';
 
-            case '.cert':
-            case '.crt':
-            case '.pfx':
-                return '075-certificate-2';
+      case '.css':
+      case '.less':
+      case '.scss':
+        return '060-css';
+      case '.php':
+        return '210-php';
+      case '.swf':
+        return '009-swf';
+      case '.ps':
+        return '120-ps';
 
-            case '.lock':
-            case '.lck':
-                return '045-file-58';
+      case '.iso':
+        return '121-iso';
 
-            case '.eml': return '048-email';
+      case '.cert':
+      case '.crt':
+      case '.pfx':
+        return '075-certificate-2';
 
-            case '.js':
-            case '.ts':
-            case '.json':
-            default:
-                return '026-file-65';
-        }
+      case '.lock':
+      case '.lck':
+        return '045-file-58';
+
+      case '.eml':
+        return '048-email';
+
+      case '.js':
+      case '.ts':
+      case '.json':
+      default:
+        return '026-file-65';
     }
+  }
 
-    private static thumbnail(item: FileSystemItem): string {
-        return `${system.fileScheme}://${item.path}`;
-    }
+  private static thumbnail(item: FileSystemItem): string {
+    return `${system.fileScheme}://${item.path}`;
+  }
 }

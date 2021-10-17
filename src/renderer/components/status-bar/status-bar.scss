@@ -2,50 +2,50 @@
 @import "../../style/themes/index";
 
 status-bar {
-    @include theme(background, backgroundColor);
-    @include theme(border-top, borderColor, 1px solid);
+  @include theme(background, backgroundColor);
+  @include theme(border-top, borderColor, 1px solid);
 
-    .container {
-        padding-left: 10px;
-        padding-right: 10px;
-        user-select: none;
+  .container {
+    padding-left: 10px;
+    padding-right: 10px;
+    user-select: none;
 
-        .ui.grid, .ui.grid .row, .ui.grid .column {
-            padding: 0;
-            margin: 0;
-        }
+    .ui.grid, .ui.grid .row, .ui.grid .column {
+      padding: 0;
+      margin: 0;
+    }
+  }
+
+  .clipboard-contents {
+    position: fixed;
+    bottom: 30px;
+    right: 20px;
+    height: 200px;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    @include theme(background, backgroundContrast2Color);
+    @include theme(border, borderColorLight, 1px solid);
+
+    .ui.list {
+      flex: 1;
+      padding: 5px;
+      overflow-y: auto;
     }
 
-    .clipboard-contents {
-        position: fixed;
-        bottom: 30px;
-        right: 20px;
-        height: 200px;
-        width: 200px;
-        display: flex;
-        flex-direction: column;
-        @include theme(background, backgroundContrast2Color);
-        @include theme(border, borderColorLight, 1px solid);
-
-        .ui.list {
-            flex: 1;
-            padding: 5px;
-            overflow-y: auto;
-        }
-
-        .ui.divider {
-            margin-top: 5px;
-            margin-bottom: 0px;
-        }
-
-        button, .ui.button, .ui.inverted.button {
-            background: transparent;
-            box-shadow: none;
-            color: #cbcbcb;
-
-            &:hover {
-                color: white;
-            }
-        }
+    .ui.divider {
+      margin-top: 5px;
+      margin-bottom: 0px;
     }
+
+    button, .ui.button, .ui.inverted.button {
+      background: transparent;
+      box-shadow: none;
+      color: #cbcbcb;
+
+      &:hover {
+        color: white;
+      }
+    }
+  }
 }

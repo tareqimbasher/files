@@ -1,32 +1,32 @@
 <template>
-    <require from="../tabs/tab-view/tab-view.html" />
-    <require from="../fs-view/fs-view" />
+  <require from="../tabs/tab-view/tab-view.html" />
+  <require from="../fs-view/fs-view" />
 
-    <div class="ui segments pane-container">
-        <!--TABS-->
-        <div class="ui ${settings.inverted} segment tabs">
-            <div class="ui top attached tabular mini ${settings.inverted} menu" ref="tabsElement">
-                <tab-view repeat.for="tab of pane.tabs.list"
-                          class="item ${pane == pane.panes.active && tab == pane.tabs.active ? 'active-tab' : ''}"
-                          data-tab="${tab.id}"
-                          tab.bind="tab">
-                </tab-view>
+  <div class="ui segments pane-container">
+    <!--TABS-->
+    <div class="ui ${settings.inverted} segment tabs">
+      <div class="ui top attached tabular mini ${settings.inverted} menu" ref="tabsElement">
+        <tab-view class="item ${pane == pane.panes.active && tab == pane.tabs.active ? 'active-tab' : ''}"
+                  data-tab="${tab.id}"
+                  repeat.for="tab of pane.tabs.list"
+                  tab.bind="tab">
+        </tab-view>
 
-                <div class="right menu">
-                    <a class="item" click.delegate="pane.tabs.add().activate()">
-                        <i class="add icon"></i> New Tab
-                    </a>
-                </div>
-            </div>
+        <div class="right menu">
+          <a class="item" click.delegate="pane.tabs.add().activate()">
+            <i class="add icon"></i> New Tab
+          </a>
         </div>
-
-        <!--FS VIEWS-->
-        <div class="ui ${settings.inverted} segment fs-views">
-            <fs-view repeat.for="tab of pane.tabs.list"
-                     class="ui tab"
-                     data-tab="${tab.id}"
-                     tab.bind="tab"
-                     fs-items.bind="tab.fsItems"></fs-view>
-        </div>
+      </div>
     </div>
+
+    <!--FS VIEWS-->
+    <div class="ui ${settings.inverted} segment fs-views">
+      <fs-view class="ui tab"
+               data-tab="${tab.id}"
+               fs-items.bind="tab.fsItems"
+               repeat.for="tab of pane.tabs.list"
+               tab.bind="tab"></fs-view>
+    </div>
+  </div>
 </template>

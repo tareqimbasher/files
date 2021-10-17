@@ -5,24 +5,24 @@ import { Panes } from './panes/panes';
 @singleton()
 export class WindowManager {
 
-    private window: Electron.BrowserWindow;
+  private window: Electron.BrowserWindow;
 
-    constructor(public panes: Panes) {
-        this.window = system.remote.getCurrentWindow();
-    }
+  constructor(public panes: Panes) {
+    this.window = system.remote.getCurrentWindow();
+  }
 
-    close() {
-        this.window.close();
-    }
+  close() {
+    this.window.close();
+  }
 
-    minimize() {
-        this.window.minimize();
-    }
+  minimize() {
+    this.window.minimize();
+  }
 
-    maximize() {
-        if (this.window.isMaximized())
-            this.window.restore();
-        else
-            this.window.maximize();
-    }
+  maximize() {
+    if (this.window.isMaximized())
+      this.window.restore();
+    else
+      this.window.maximize();
+  }
 }
