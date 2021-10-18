@@ -36,6 +36,18 @@ sidebar {
           font-weight: bold;
         }
       }
+
+      &.pinned-directory {
+        $pdPadding: 7px;
+        padding-top: $pdPadding;
+        padding-bottom: $pdPadding;
+      }
+
+      &.drive {
+        $dPadding: 5px;
+        padding-top: $dPadding;
+        padding-bottom: $dPadding;
+      }
     }
   }
 
