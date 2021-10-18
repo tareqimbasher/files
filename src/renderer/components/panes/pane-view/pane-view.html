@@ -1,4 +1,4 @@
-<template>
+<template tabindex="0">
   <require from="../tabs/tab-view/tab-view.html" />
   <require from="../fs-view/fs-view" />
 
@@ -26,7 +26,7 @@
     <div class="ui ${settings.inverted} segment fs-views">
       <fs-view
         repeat.for="tab of pane.tabs.list"
-        class="ui tab"
+        class="ui tab ${tab.isActive ? 'active' : ''}"
         data-tab="${tab.id}"
         fs-items.bind="tab.fsItems"
         tab.bind="tab"

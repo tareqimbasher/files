@@ -4,6 +4,10 @@ pane-view {
   display: flex;
   flex: 1;
 
+  &:focus {
+    outline: none;
+  }
+
   &:not(:first-child) {
     &:before {
       content: " ";

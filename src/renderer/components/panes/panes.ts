@@ -36,7 +36,7 @@ export class Panes {
 
   public toggleDualPanes() {
     if (this.list.length == 1) {
-      this.add();
+      this.add().activate();
     } else {
       this.list[1].close();
     }
@@ -49,5 +49,10 @@ export class Panes {
 
     pane.isActive = true;
     this.active = pane;
+
+    const panesEls = document.querySelectorAll(`pane-view[data-id="${pane.id}"] fs-view`);
+    if (panesEls.length) {
+      (panesEls[0] as HTMLElement).focus();
+    }
   }
 }

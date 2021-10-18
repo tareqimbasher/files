@@ -60,9 +60,8 @@ fs-item-icon-view:not(.gu-mirror) {
   }
 
   &.selected {
-    /*background-color: rgba(234, 234, 234, 0.65);*/
-    background-color: rgba(74, 204, 254, 0.3);
-    border: 1px dashed rgb(45, 196, 254);
+    background: rgb(232 232 232 / 0.75);
+    border-color: transparent;
   }
 
   &:hover:not(.selected) {
@@ -70,27 +69,38 @@ fs-item-icon-view:not(.gu-mirror) {
   }
 }
 
-fs-view:not(:focus) .fs-item {
-  &.selected {
-    background: rgb(232 232 232 / 0.65);
-    border-color: transparent;
+pane-view:focus,
+fs-view:focus {
+  fs-item-icon-view.selected {
+    /*background-color: rgba(234, 234, 234, 0.65);*/
+    background-color: rgba(74, 204, 254, 0.3);
+    border: 1px dashed rgb(45, 196, 254);
   }
 }
 
 .dark {
-  fs-item-icon-view:hover:not(.selected) {
-    background: $dark-hover-color;
-  }
-
-  fs-view:not(:focus) .fs-item {
+  fs-item-icon-view {
     &.selected {
       background: $dark-active-unfocused-color;
       border-color: transparent;
     }
+
+    &:hover:not(.selected) {
+      background: $dark-hover-color;
+    }
+
+    .fs-item-info {
+      color: $dark-muted-text-color !important;
+    }
   }
 
-  .fs-item-info {
-    color: $dark-muted-text-color !important;
+  pane-view:focus,
+  fs-view:focus {
+    fs-item-icon-view.selected {
+      /*background-color: rgba(234, 234, 234, 0.65);*/
+      background-color: rgba(74, 204, 254, 0.3);
+      border: 1px dashed rgb(45, 196, 254);
+    }
   }
 }
 

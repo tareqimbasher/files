@@ -2,15 +2,15 @@
 
 fs-view {
   flex: 1 1 auto;
-  height: 0px;
+  height: 0;
   overflow-y: auto;
 
   &:focus {
     outline: none;
   }
 
-  .ui.horizontal.list {
-    padding: 12px 10px;
+  .fs-item-grid {
+    padding: 12px 10px !important;
   }
 
   .ui.table,

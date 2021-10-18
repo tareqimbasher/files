@@ -5,7 +5,7 @@ import { Pane } from "../pane";
 export class PaneView {
   @bindable public pane!: Pane;
 
-  constructor(public settings: Settings) {}
+  constructor(public readonly settings: Settings) {}
 
   public attached() {
     this.pane.tabs.refreshTabBinding();

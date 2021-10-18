@@ -4,9 +4,8 @@
   <require from="./fs-items/fs-item-detail-view" />
 
   <div
-    class="ui horizontal ${settings.inverted} list"
+    class="fs-item-grid ui horizontal ${settings.inverted} list"
     if.bind="settings.fileViewType === 'Icons'"
-    ref="itemList"
   >
     <div
       repeat.for="fsItem of fsItems.view | sort:sorting.by:sorting.dir:sorting.type"
