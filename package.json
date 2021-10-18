@@ -9,6 +9,7 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
+    "lint": "prettier --check .",
     "lint:js": "eslint --ext .js,.ts .",
     "electron-rebuild": "electron-rebuild -f -s"
   },

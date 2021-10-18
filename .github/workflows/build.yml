@@ -41,7 +41,7 @@ jobs:
 
       - name: 🧐 Lint (Prettier)
         run: |
-          npx prettier --check .
+          npm run lint
 
       - name: 🔨 Build
         run: |
