@@ -15,13 +15,11 @@ header {
     -webkit-app-region: none;
   }
 
-  address-bar .address-bar-inner-container {
+  address-bar .address-bar-inner-container .breadcrumb {
     -webkit-app-region: none;
 
-    .breadcrumb {
-      padding-right: 25px;
-      margin-right: -25px;
-    }
+    padding-right: 25px;
+    padding-left: 25px;
   }
 
   .controls {
