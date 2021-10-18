@@ -33,7 +33,8 @@ export class Util {
 
   /**
    * Truncates a string.
-   * @param str string
+   * @param str The string to truncate
+   * @param maxLength The length after which the target string will be truncated.
    */
   public static truncate(str: string, maxLength: number) {
     if (!str || maxLength < 0 || str.length <= maxLength) return str;
@@ -44,29 +45,27 @@ export class Util {
   /**
    * Creates a debounced function that delays invoking func until after wait milliseconds have elapsed since the last time the
    * debounced function was invoked.
-   * @param thisContext The context of 'this'
+   * @param thisArg The value to use as this when calling func.
    * @param func The function to debounce.
    * @param waitMs The number of milliseconds to debounce.
-   * @param immediate If true, will execute the function immediatly and then waits for the interval before being called again.
+   * @param immediate If true, will execute the function immediately and then waits for the interval before being called again.
    */
-  // public static debounce(thisContext: any, func: Function, waitMs: number, immediate?: boolean) {
-  //     let timeout: any;
-  //
-  //     return function executedFunction() {
-  //         const args = arguments;
-  //
-  //         const later = function () {
-  //             timeout = null;
-  //             if (!immediate) func.apply(thisContext, args);
-  //         };
-  //
-  //         const callNow = immediate && !timeout;
-  //
-  //         clearTimeout(timeout);
-  //
-  //         timeout = setTimeout(later, waitMs);
-  //
-  //         if (callNow) func.apply(thisContext, args);
-  //     };
-  // }
+  public static debounce(thisArg: unknown, func: () => void, waitMs: number, immediate?: boolean) {
+    let timeout: NodeJS.Timeout | null;
+
+    return () => {
+      const later = () => {
+        timeout = null;
+        if (!immediate) func.call(thisArg);
+      };
+
+      const callNow = immediate && !timeout;
+
+      if (timeout) clearTimeout(timeout);
+
+      timeout = setTimeout(later, waitMs) as unknown as NodeJS.Timeout;
+
+      if (callNow) func.call(thisArg);
+    };
+  }
 }

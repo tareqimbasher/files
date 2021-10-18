@@ -1,6 +1,7 @@
 import { system } from "../system/system";
 import { FileSystemItem } from "./file-system-item";
 import { FileType } from "./file-system-item-type";
+import { Util } from "../utils/util";
 
 export class Directory extends FileSystemItem {
   public directoriesCount = 0;
@@ -10,9 +11,7 @@ export class Directory extends FileSystemItem {
 
   constructor(path: string) {
     super(path, FileType.Directory);
-    this.containingItemsChanged = () => {
-      return;
-    }; //Util.debounce(this, this.updateContainingItemInfo, 1000, true);
+    this.containingItemsChanged = Util.debounce(this, this.updateContainingItemInfo, 1000, true);
   }
 
   public get itemCount() {
