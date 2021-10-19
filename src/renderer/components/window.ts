@@ -8,14 +8,12 @@ import {
   ViewCommandSearchEvent,
 } from "../core";
 import { IpcEventBus } from "../core/ipc/ipc-event-bus";
-import { Titlebar } from "./titlebar/titlebar";
 import { WindowManager } from "./window-manager";
 import { IDialogService } from "@aurelia/runtime-html";
 import { KeyboardShortcuts } from "./dialogs/keyboard-shortcuts/keyboard-shortcuts";
 
 export class Window {
   constructor(
-    private titleBar: Titlebar,
     private profile: Profile,
     private settings: Settings,
     private windowManager: WindowManager,
