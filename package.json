@@ -85,8 +85,8 @@
     "@typescript-eslint/eslint-plugin": "^5.1.0",
     "@typescript-eslint/parser": "^5.1.0",
     "css-loader": "^5.0.1",
-    "electron": "^11.0.0",
-    "electron-rebuild": "^2.3.5",
+    "electron": "^14.1.0",
+    "electron-rebuild": "^3.2.3",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.22.1",
@@ -103,10 +103,10 @@
     "url-loader": "^4.1.1"
   },
   "dependencies": {
+    "@electron/remote": "^2.0.1",
     "@simonwep/selection-js": "2.1.1",
     "aurelia": "latest",
     "chokidar": "^3.5.1",
-    "custom-electron-titlebar": "^3.2.6",
     "dragula": "^3.7.3",
     "electron-squirrel-startup": "^1.0.0",
     "fs-extra": "^9.1.0",

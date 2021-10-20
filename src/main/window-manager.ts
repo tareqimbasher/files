@@ -1,7 +1,9 @@
 import { App, BrowserWindow, screen } from "electron";
+import * as remoteMain from "@electron/remote/main";
 
 export class WindowManager {
   public windows = new Set<BrowserWindow>();
+  private remoteMainInitialized = false;
 
   constructor(private readonly app: App, private readonly windowEntryPoint: string) {}
 
@@ -17,12 +19,18 @@ export class WindowManager {
       frame: false,
       transparent: true,
       webPreferences: {
-        enableRemoteModule: true,
         nodeIntegration: true,
         nodeIntegrationInWorker: true,
         contextIsolation: false,
       },
     });
+
+    if (!this.remoteMainInitialized) {
+      remoteMain.initialize();
+      this.remoteMainInitialized = true;
+    }
+
+    remoteMain.enable(window.webContents);
 
     // Load the index.html of the app.
     window.loadURL(this.windowEntryPoint);

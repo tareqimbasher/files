@@ -123,7 +123,7 @@ export class FileService {
   }
 
   public async moveToTrash(item: FileSystemItem) {
-    return system.shell.moveItemToTrash(item.path, false);
+    return await system.shell.trashItem(item.path);
   }
 
   public async delete(item: FileSystemItem) {

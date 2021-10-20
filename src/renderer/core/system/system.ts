@@ -1,8 +1,9 @@
 import * as _os from "os";
 import * as _fs from "fs";
-//import * as _fsx from "fs-extra";
 import * as _path from "path";
-import { remote as _remote, shell as _shell } from "electron";
+import { shell as _shell } from "electron";
+import * as _remote from "@electron/remote";
+//import * as _fsx from "fs-extra";
 
 export class system {
   public static fileScheme = "atom";

@@ -156,8 +156,7 @@ export class FsView {
     ) {
       for (const item of fsItems) {
         try {
-          if (!(await this.fileService.moveToTrash(item)))
-            throw new Error(`${item.name} could not be moved to the trash.`);
+          await this.fileService.moveToTrash(item);
         } catch (ex) {
           await this.alertDialogHelper.alert(
             "Error",
