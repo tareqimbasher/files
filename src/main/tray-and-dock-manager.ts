@@ -1,7 +1,7 @@
 import { App, Menu, nativeImage, Tray } from "electron";
 import { WindowManager } from "./window-manager";
 import * as path from "path";
-import { system } from "../renderer/core";
+import * as os from "os";
 
 export class TrayAndDockManager {
   public tray?: Tray;
@@ -56,7 +56,7 @@ export class TrayAndDockManager {
   }
 
   private createDockJumpList() {
-    if (system.platform === "win32") {
+    if (os.platform() === "win32") {
       this.app.setUserTasks([
         {
           program: process.execPath,

@@ -1,5 +1,5 @@
 import * as usb from "usb";
-import { DrivesChangedEvent } from "../../renderer/core/events/drives-changed";
+import { DrivesChangedEvent } from "../../common/events/drives-changed";
 import { IpcEventBus } from "../ipc/ipc-event-bus";
 
 export class DriveService {

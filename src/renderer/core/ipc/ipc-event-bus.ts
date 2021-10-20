@@ -1,6 +1,6 @@
 import { Constructable, IDisposable, IEventAggregator, singleton } from "aurelia";
 import { ipcRenderer, IpcRendererEvent } from "electron";
-import { DrivesChangedEvent } from "../events/drives-changed";
+import { DrivesChangedEvent } from "../../../common/events/drives-changed";
 
 @singleton()
 export class IpcEventBus implements IDisposable {
