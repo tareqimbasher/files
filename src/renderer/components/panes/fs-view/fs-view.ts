@@ -73,7 +73,7 @@ export class FsView {
         if (fsItem instanceof Directory) {
           this.tab.setPath(fsItem.path);
         } else {
-          system.shell.openExternal(fsItem.path);
+          system.shell.openPath(fsItem.path);
         }
       } catch (ex) {
         this.logger.error(ex);
