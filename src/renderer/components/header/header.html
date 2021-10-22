@@ -4,8 +4,6 @@
   <div
     class="
       ui
-      equal
-      width
       unstyled
       middle
       aligned
@@ -14,11 +12,11 @@
       ${settings.windowControlsPosition==='left'?'reversed':''}
     "
   >
-    <div class="column"></div>
-    <div class="center aligned column">
+    <div class="two wide column"></div>
+    <div class="twelve wide center aligned column">
       <address-bar pane.bind="windowManager.panes.active"></address-bar>
     </div>
-    <div class="window-controls column">
+    <div class="two wide window-controls column">
       <i class="selectable minus icon" click.trigger="windowManager.minimize()"></i>
       <i
         class="selectable outline square outline icon"
@@ -77,7 +75,7 @@
         <div class="ui icon mini divided buttons">
           <button
             class="ui button ${settings.fileViewType === 'Icons' ? 'active' : ''}"
-            click.trigger="settings.setFileViewType('Icons')"
+            click.trigger="settings.fileViewType = 'Icons'"
             title="Icon View"
           >
             <svg class="${settings.fileViewType === 'Icons' ? 'active' : ''}" viewBox="0 0 24 24">
@@ -97,7 +95,7 @@
           </button>
           <button
             class="ui button ${settings.fileViewType === 'Details' ? 'active' : ''}"
-            click.trigger="settings.setFileViewType('Details')"
+            click.trigger="settings.fileViewType = 'Details'"
             title="List View"
           >
             <!--<svg viewBox="0 0 24 24" class="${settings.fileViewType === 'Details' ? 'active' : ''}">
