@@ -27,18 +27,19 @@ header {
 
     .window-controls {
       text-align: right;
+
       i {
         margin: 0 5px;
-        
+
         &:last-child {
           margin-right: 10px;
         }
       }
     }
-    
+
     &.reversed {
       flex-direction: row-reverse;
-      
+
       .window-controls {
         text-align: left;
         direction: rtl;

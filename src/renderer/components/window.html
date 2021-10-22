@@ -1,13 +1,13 @@
-<require from="./header/header" />
-<require from="./sidebar/sidebar" />
-<require from="./status-bar/status-bar" />
-<require from="./panes/pane-group/pane-group" />
+<template class="window rounded-window ${settings.theme}">
+  <require from="./header/header" />
+  <require from="./sidebar/sidebar" />
+  <require from="./status-bar/status-bar" />
+  <require from="./panes/pane-group/pane-group" />
 
-<div class="window-wrapper">
   <header></header>
   <div class="window-body">
     <sidebar></sidebar>
     <pane-group></pane-group>
   </div>
   <status-bar></status-bar>
-</div>
+</template>

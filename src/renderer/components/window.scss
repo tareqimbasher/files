@@ -15,7 +15,7 @@
   }
 }
 
-.window-wrapper {
+.window {
   display: flex;
   min-height: calc(100vh - #{$titlebar-height});
   flex-direction: column;
