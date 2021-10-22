@@ -33,6 +33,8 @@ export class Files extends FsItems implements IDisposable {
       this.fsWatcher = chokidar.watch(newPath, {
         depth: 1,
         persistent: true,
+        followSymlinks: false,
+        ignorePermissionErrors: true,
       });
       this.disposables.push(() => this.fsWatcher?.close());
     } else {
@@ -63,9 +65,7 @@ export class Files extends FsItems implements IDisposable {
         this.itemRemoved(newPath, path);
       })
       .on("error", (error) => {
-        if (!error.message.startsWith("EPERM") && !error.message.startsWith("EBUSY")) {
-          console.log("Watcher error", error);
-        }
+        console.error("FS Watcher error", error);
       });
 
     performance.mark("tab.getfiles.end");
@@ -128,6 +128,8 @@ export class Files extends FsItems implements IDisposable {
   }
 
   private async itemRemoved(newPath: string, itemPath: string) {
+    if (itemPath.startsWith(system.path.parse(process.cwd()).root)) return;
+
     const name = system.path.basename(itemPath);
     const dirPath = system.path.dirname(itemPath);
 
