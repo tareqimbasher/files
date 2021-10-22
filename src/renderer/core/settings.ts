@@ -8,6 +8,7 @@ export class Settings {
   public showHiddenFiles!: boolean;
   public fileViewType: FileViewTypes = FileViewTypes.Icons;
   public confirmOnMove!: boolean;
+  public windowControlsPosition: "left" | "right" = "right";
 
   constructor(@IEventAggregator private readonly eventBus: IEventAggregator) {}
 
@@ -46,6 +47,11 @@ export class Settings {
 
   public setConfirmOnMove(confirm: boolean) {
     this.confirmOnMove = confirm;
+    this.publishSettingsChangedEvent();
+  }
+
+  public setWindowControlsPosition(position: "left" | "right") {
+    this.windowControlsPosition = position;
     this.publishSettingsChangedEvent();
   }
 

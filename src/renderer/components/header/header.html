@@ -1,21 +1,33 @@
 <template>
   <require from="../panes/address-bar/address-bar" />
 
-  <div class="ui equal width unstyled middle aligned grid" style="height: 30px">
-    <div class="column pl-10"></div>
+  <div
+    class="
+      ui
+      equal
+      width
+      unstyled
+      middle
+      aligned
+      grid
+      title-bar
+      ${settings.windowControlsPosition==='left'?'reversed':''}
+    "
+  >
+    <div class="column"></div>
     <div class="center aligned column">
       <address-bar pane.bind="windowManager.panes.active"></address-bar>
     </div>
-    <div class="right aligned column pr-10">
-      <i class="selectable minus icon mr-10" click.trigger="windowManager.minimize()"></i>
+    <div class="window-controls column">
+      <i class="selectable minus icon" click.trigger="windowManager.minimize()"></i>
       <i
-        class="selectable outline square outline icon mr-10"
+        class="selectable outline square outline icon"
         click.trigger="windowManager.maximize()"
       ></i>
       <i class="selectable close icon" click.trigger="windowManager.close()"></i>
     </div>
   </div>
-  <div class="ui equal width unstyled middle aligned grid" style="line-height: 45px">
+  <div class="ui equal width unstyled middle aligned grid control-bar">
     <div class="column pl-10">
       <div class="controls">
         <div class="ui icon mini divided buttons">

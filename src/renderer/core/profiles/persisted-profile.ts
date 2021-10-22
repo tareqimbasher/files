@@ -11,6 +11,7 @@ export class PersistedProfile {
     showHiddenFiles?: boolean;
     fileViewType?: FileViewTypes;
     confirmOnMove?: boolean;
+    windowControlsPosition: "left" | "right";
   };
 
   constructor() {
@@ -22,6 +23,7 @@ export class PersistedProfile {
       showHiddenFiles: false,
       confirmOnMove: true,
       fileViewType: FileViewTypes.Icons,
+      windowControlsPosition: "right",
     };
   }
 
@@ -41,9 +43,10 @@ export class PersistedProfile {
     profile.version = this.version;
 
     settings.setTheme(this.settings.theme ?? "dark");
-    settings.setShowHiddenFiles(this.settings.showHiddenFiles === true ? true : false);
-    settings.setConfirmOnMove(this.settings.confirmOnMove === false ? false : true);
+    settings.setShowHiddenFiles(this.settings.showHiddenFiles === true);
+    settings.setConfirmOnMove(this.settings.confirmOnMove !== false);
     settings.setFileViewType(this.settings.fileViewType ?? FileViewTypes.Icons);
+    settings.setWindowControlsPosition(this.settings.windowControlsPosition ?? "right");
   }
 
   public saveFrom(profile: Profile, settings: Settings) {
@@ -55,6 +58,7 @@ export class PersistedProfile {
       showHiddenFiles: settings.showHiddenFiles,
       confirmOnMove: settings.confirmOnMove,
       fileViewType: settings.fileViewType,
+      windowControlsPosition: settings.windowControlsPosition
     };
   }
 }

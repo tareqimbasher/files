@@ -22,6 +22,39 @@ header {
     padding-left: 25px;
   }
 
+  .title-bar {
+    height: 30px;
+
+    .window-controls {
+      text-align: right;
+      i {
+        margin: 0 5px;
+        
+        &:last-child {
+          margin-right: 10px;
+        }
+      }
+    }
+    
+    &.reversed {
+      flex-direction: row-reverse;
+      
+      .window-controls {
+        text-align: left;
+        direction: rtl;
+
+        i:last-child {
+          margin-right: 5px;
+          margin-left: 10px;
+        }
+      }
+    }
+  }
+
+  .control-bar {
+    line-height: 45px;
+  }
+
   .controls {
     white-space: nowrap;
 

@@ -101,7 +101,7 @@ export class Window {
         panes.toggleDualPanes();
         ev.preventDefault();
       } else if (ev.ctrlKey && ev.code == KeyCode.KeyH) {
-        this.settings.setShowHiddenFiles(!this.settings.showHiddenFiles);
+        this.settings.toggleShowHiddenFiles();
       } else if (ev.ctrlKey && ev.code == KeyCode.KeyK) {
         KeyboardShortcuts.openAsDialog(this.dialogService);
       } else if (ev.ctrlKey && KeyCodeUtil.isDigit(ev.code)) {
