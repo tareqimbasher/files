@@ -2,6 +2,7 @@ const rules = require("./webpack.rules");
 const plugins = require("./webpack.plugins");
 const path = require("path");
 const cssLoader = "css-loader";
+const tsNameof = require("ts-nameof");
 
 const sassLoader = {
   loader: "sass-loader",
@@ -50,7 +51,15 @@ rules.push(
   },
   {
     test: /\.ts$/i,
-    use: ["ts-loader", "@aurelia/webpack-loader"],
+    use: [
+      {
+        loader: "ts-loader",
+        options: {
+          getCustomTransformers: () => ({ before: [tsNameof] }),
+        },
+      },
+      "@aurelia/webpack-loader",
+    ],
     exclude: /node_modules/,
   },
   {

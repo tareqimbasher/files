@@ -81,6 +81,7 @@
     "@types/md5": "^2.3.1",
     "@types/node": "^12.19.7",
     "@types/semantic-ui": "^2.2.7",
+    "@types/ts-nameof": "^4.2.1",
     "@types/usb": "^1.5.3",
     "@typescript-eslint/eslint-plugin": "^5.1.0",
     "@typescript-eslint/parser": "^5.1.0",
@@ -99,6 +100,7 @@
     "sass-loader": "^10.1.1",
     "style-loader": "^2.0.0",
     "ts-loader": "^8.0.11",
+    "ts-nameof": "^5.0.0",
     "typescript": "^4.1.2",
     "url-loader": "^4.1.1"
   },
