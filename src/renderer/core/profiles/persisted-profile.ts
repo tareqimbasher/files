@@ -1,64 +1,43 @@
-import { FileViewTypes, Settings } from "../settings";
 import { Profile } from "./profile";
 
 export class PersistedProfile {
+  public static defaultName = "Default";
   public static latestVersion = "1";
 
-  public name: string;
-  public version: string;
-  public settings: {
-    theme?: string;
-    showHiddenFiles?: boolean;
-    fileViewType?: FileViewTypes;
-    confirmOnMove?: boolean;
-    windowControlsPosition: "left" | "right";
-  };
+  public name = PersistedProfile.defaultName;
+  public version = PersistedProfile.latestVersion;
+  public settings = new Map<string, unknown>();
 
-  constructor() {
-    // Defaults
-    this.name = "Default";
-    this.version = "1";
-    this.settings = {
-      theme: "dark",
-      showHiddenFiles: false,
-      confirmOnMove: true,
-      fileViewType: FileViewTypes.Icons,
-      windowControlsPosition: "right",
-    };
+  public static from(from: PersistedProfile): PersistedProfile {
+    const persisted = new PersistedProfile();
+
+    persisted.name = from.name ?? PersistedProfile.defaultName;
+    persisted.version = from.version ?? PersistedProfile.latestVersion;
+    if (from.settings?.size > 0) {
+      persisted.settings = new Map<string, unknown>(from.settings);
+    }
+
+    return persisted;
   }
 
-  public static from(obj: PersistedProfile): PersistedProfile {
-    const profile = new PersistedProfile();
-
-    profile.name = obj.name ?? "Default";
-    profile.version = obj.version ?? PersistedProfile.latestVersion;
-
-    if (obj.settings) profile.settings = obj.settings;
-
-    return profile;
-  }
-
-  public applyTo(profile: Profile, settings: Settings) {
+  public applyTo(profile: Profile) {
     profile.name = this.name;
     profile.version = this.version;
 
-    settings.setTheme(this.settings.theme ?? "dark");
-    settings.setShowHiddenFiles(this.settings.showHiddenFiles === true);
-    settings.setConfirmOnMove(this.settings.confirmOnMove !== false);
-    settings.setFileViewType(this.settings.fileViewType ?? FileViewTypes.Icons);
-    settings.setWindowControlsPosition(this.settings.windowControlsPosition ?? "right");
+    for (const key of profile.settings.values.keys()) {
+      if (this.settings.has(key)) {
+        profile.settings.values.set(key, this.settings.get(key));
+      }
+    }
   }
 
-  public saveFrom(profile: Profile, settings: Settings) {
+  public hydrateFrom(profile: Profile) {
     this.name = profile.name;
     this.version = profile.version;
 
-    this.settings = {
-      theme: settings.theme,
-      showHiddenFiles: settings.showHiddenFiles,
-      confirmOnMove: settings.confirmOnMove,
-      fileViewType: settings.fileViewType,
-      windowControlsPosition: settings.windowControlsPosition
-    };
+    this.settings.clear();
+    for (const key of profile.settings.values.keys()) {
+      this.settings.set(key, profile.settings.values.get(key));
+    }
   }
 }

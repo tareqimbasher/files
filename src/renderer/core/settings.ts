@@ -1,62 +1,70 @@
-import { IEventAggregator, singleton } from "aurelia";
-import { SettingsChangedEvent } from "./events/settings-changed-event";
+import { singleton } from "aurelia";
 
 @singleton
 export class Settings {
-  public theme!: string;
-  public inverted!: string;
-  public showHiddenFiles!: boolean;
-  public fileViewType: FileViewTypes = FileViewTypes.Icons;
-  public confirmOnMove!: boolean;
-  public windowControlsPosition: "left" | "right" = "right";
+  public values: Map<string, unknown> = new Map<string, unknown>([
+    [nameof(this.theme), "light"],
+    [nameof(this.showHiddenFiles), false],
+    [nameof(this.fileViewType), FileViewTypes.Icons],
+    [nameof(this.confirmOnMove), true],
+    [nameof(this.windowControlsPosition), "right"],
+  ]);
 
-  constructor(@IEventAggregator private readonly eventBus: IEventAggregator) {}
+  public get inverted(): "inverted" | "" {
+    return this.theme == "light" ? "" : "inverted";
+  }
 
-  public setTheme(theme: string) {
-    document.body.classList.remove(this.theme);
-    document.body.classList.add(theme);
-    this.theme = theme;
-    this.inverted = theme == "dark" ? "inverted" : "";
-    this.publishSettingsChangedEvent();
+  public get theme(): "light" | "dark" {
+    return this.values.get(nameof(this.theme)) as "light" | "dark";
+  }
+
+  public set theme(value) {
+    this.values.set(nameof(this.theme), value);
+  }
+
+  public get showHiddenFiles(): boolean {
+    return this.values.get(nameof(this.showHiddenFiles)) as boolean;
+  }
+
+  public set showHiddenFiles(value: boolean) {
+    this.values.set(nameof(this.showHiddenFiles), value);
+  }
+
+  public get fileViewType(): FileViewTypes {
+    return this.values.get(nameof(this.fileViewType)) as FileViewTypes;
+  }
+
+  public set fileViewType(value: FileViewTypes) {
+    this.values.set(nameof(this.fileViewType), value);
+  }
+
+  public get confirmOnMove(): boolean {
+    return this.values.get(nameof(this.confirmOnMove)) as boolean;
+  }
+
+  public set confirmOnMove(value: boolean) {
+    this.values.set(nameof(this.confirmOnMove), value);
+  }
+
+  public get windowControlsPosition(): "left" | "right" {
+    return this.values.get(nameof(this.windowControlsPosition)) as "left" | "right";
+  }
+
+  public set windowControlsPosition(value: "left" | "right") {
+    this.values.set(nameof(this.windowControlsPosition), value);
   }
 
   public toggleTheme() {
-    this.setTheme(this.theme === "dark" ? "light" : "dark");
-  }
-
-  public setShowHiddenFiles(show: boolean) {
-    this.showHiddenFiles = show;
-    this.publishSettingsChangedEvent();
+    this.theme = this.theme === "dark" ? "light" : "dark";
   }
 
   public toggleShowHiddenFiles() {
-    this.setShowHiddenFiles(!this.showHiddenFiles);
-  }
-
-  public setFileViewType(fileViewType: FileViewTypes) {
-    if (this.fileViewType == fileViewType) return;
-    this.fileViewType = fileViewType;
-    this.publishSettingsChangedEvent();
+    this.showHiddenFiles = !this.showHiddenFiles;
   }
 
   public toggleFileViewType() {
-    this.setFileViewType(
-      this.fileViewType == FileViewTypes.Icons ? FileViewTypes.Details : FileViewTypes.Icons
-    );
-  }
-
-  public setConfirmOnMove(confirm: boolean) {
-    this.confirmOnMove = confirm;
-    this.publishSettingsChangedEvent();
-  }
-
-  public setWindowControlsPosition(position: "left" | "right") {
-    this.windowControlsPosition = position;
-    this.publishSettingsChangedEvent();
-  }
-
-  private publishSettingsChangedEvent() {
-    this.eventBus.publish(new SettingsChangedEvent(this));
+    this.fileViewType =
+      this.fileViewType == FileViewTypes.Icons ? FileViewTypes.Details : FileViewTypes.Icons;
   }
 }
 

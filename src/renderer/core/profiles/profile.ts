@@ -1,42 +1,52 @@
-import { IEventAggregator, singleton } from "aurelia";
-import { Settings, SettingsChangedEvent, system } from "../";
+import { IObserverLocator, singleton } from "aurelia";
+import { CollectionSubscriber, Settings, system } from "../";
 import { PersistedProfile } from "./persisted-profile";
+import { JsonSerializer } from "../../../common";
 import md5 from "md5";
 
 @singleton
 export class Profile {
   public name: string;
   public version: string;
+  private loading = false;
 
   constructor(
-    private settings: Settings,
-    @IEventAggregator private readonly eventBus: IEventAggregator
+    public readonly settings: Settings,
+    @IObserverLocator private readonly observerLocator: IObserverLocator
   ) {
     this.name = "Default";
     this.version = "1";
-    this.eventBus.subscribe(SettingsChangedEvent, () => this.save());
+
+    observerLocator.getMapObserver(this.settings.values).subscribe(
+      new CollectionSubscriber((indexMap) => {
+        if (!this.loading) this.save();
+      })
+    );
   }
 
   public load(): Profile {
-    this.getPersisted().applyTo(this, this.settings);
+    this.loading = true;
+    this.getPersisted().applyTo(this);
+    this.loading = false;
     return this;
   }
 
   public save(): Profile {
+    console.warn("Saving");
     const persisted = this.getPersisted();
-    persisted.saveFrom(this, this.settings);
+    persisted.hydrateFrom(this);
 
     const settingsFilePath = this.ensureAndGetSettingsFilePath();
-    system.fss.writeFileSync(settingsFilePath, JSON.stringify(persisted, null, 4), "utf8");
+    system.fss.writeFileSync(settingsFilePath, JsonSerializer.serialize(persisted, true), "utf8");
 
     return this;
   }
 
   private getPersisted(): PersistedProfile {
     const settingsFilePath = this.ensureAndGetSettingsFilePath();
-    const persisted = JSON.parse(
+    const persisted = JsonSerializer.deserialize<PersistedProfile>(
       system.fss.readFileSync(settingsFilePath, "utf8")
-    ) as PersistedProfile;
+    );
     return PersistedProfile.from(persisted);
   }
 
