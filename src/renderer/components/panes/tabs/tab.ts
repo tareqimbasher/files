@@ -16,6 +16,7 @@ export class Tab implements IDisposable {
   public history: TabHistory;
   public fsItems: Files;
 
+  private pathRoot = system.path.parse(process.cwd()).root;
   private settings: Settings;
   private disposables: (() => void)[] = [];
 
@@ -44,8 +45,7 @@ export class Tab implements IDisposable {
 
       // Handle special path locations
       if (path.startsWith("~")) path = path.replace("~", system.os.homedir());
-      else if (path.startsWith("/"))
-        path = path.replace("/", system.path.parse(process.cwd()).root);
+      else if (!path.startsWith(this.pathRoot)) path = this.pathRoot + path;
 
       // Normalize Windows path endings for drive roots
       if (path.endsWith(":.")) path = path.slice(0, -1) + "/";
@@ -102,7 +102,10 @@ export class Tab implements IDisposable {
   private async pathChanged(oldPath: string, newPath: string) {
     this.pathName = system.path.basename(newPath);
     if (!this.pathName.trim()) this.pathName = newPath;
-    this.pathParts = newPath.split(/[/\\]+/);
+
+    const pathParts = newPath.split(/[/\\]+/).filter((p) => !!p);
+    if (pathParts.length === 0 || pathParts[0] != this.pathRoot) pathParts.unshift(this.pathRoot);
+    this.pathParts = pathParts;
 
     this.directory = new Directory(newPath);
     this.directory.updateInfo(await system.fs.stat(newPath));

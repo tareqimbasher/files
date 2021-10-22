@@ -70,7 +70,7 @@ export class AddressBar {
     if (activeTab.pathParts.length - 1 == selectedPartIndex) return;
 
     const newPath = system.path.join(...activeTab.pathParts.slice(0, selectedPartIndex + 1));
-    activeTab.setPath("/" + newPath);
+    activeTab.setPath(newPath);
   }
 
   @watch((vm: AddressBar) => vm.pane.tabs.active.path)
