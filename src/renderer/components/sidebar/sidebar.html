@@ -1,15 +1,14 @@
 <template>
   <div class="ui ${settings.inverted} segment">
     <!--PINNED DIRECTORIES-->
-    <div class="ui ${settings.inverted} list pinned-directories">
-      <div class="item header">
+    <div class="ui ${settings.inverted} list pinned-item-list">
+      <div class="selectable item header" click.trigger="showDirectories = !showDirectories">
         <i class="computer icon"></i>
         <div class="content">
           <div class="header">
             Computer
             <i
               class="selectable caret ${showDirectories ? 'down' : 'left'} icon"
-              click.trigger="showDirectories = !showDirectories"
               style="float: right"
             ></i>
           </div>
@@ -39,18 +38,17 @@
       </div>
     </div>
 
-    <div class="ui divider"></div>
+    <div class="ui divider" style="margin: 5px 0"></div>
 
     <!--DRIVES-->
-    <div class="ui ${settings.inverted} list">
-      <div class="item header">
+    <div class="ui ${settings.inverted} list pinned-item-list">
+      <div class="selectable item header" click.trigger="showDrives = !showDrives">
         <i class="disk icon"></i>
         <div class="content">
           <div class="header">
             Drives
             <i
               class="selectable caret ${showDrives ? 'down' : 'left'} icon"
-              click.trigger="showDrives = !showDrives"
               style="float: right"
             ></i>
           </div>

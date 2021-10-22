@@ -33,8 +33,12 @@ input::selection {
   }
 }
 
-.close.icon:hover {
-  color: red;
+.ui.close.button {
+  background-color: #ff3434;
+
+  &:hover {
+    background-color: red;
+  }
 }
 
 .ui.grid.unstyled,

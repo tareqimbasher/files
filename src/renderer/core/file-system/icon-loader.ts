@@ -27,7 +27,7 @@ export class IconLoader {
   private static localIcon(item: FileSystemItem): string {
     if (item.type == FileType.Directory) return "119-folder-22";
 
-    if (item.type == FileType.SymbolicLink) return "star";
+    if (item.type == FileType.SymbolicLink) return "080-file-54";
 
     switch (item.extension.toLowerCase()) {
       // Documents
