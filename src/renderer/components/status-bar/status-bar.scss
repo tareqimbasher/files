@@ -2,7 +2,7 @@
 @import "../../style/themes/index";
 
 status-bar {
-  @include theme(background, backgroundColor);
+  @include theme(background, statusBarBackground);
   @include theme(border-top, borderColor, 1px solid);
 
   .container {
