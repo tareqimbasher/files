@@ -37,7 +37,18 @@
       </div>
       <div class="ui divider"></div>
       <button
-        class="ui fluid ${settings.inverted} ${clipboard.items.length ? '' : 'disabled'} button"
+        class="
+          clear-button
+          ui
+          fluid
+          ${settings.inverted}
+          ${clipboard.items.length
+          ?
+          ''
+          :
+          'disabled'}
+          button
+        "
         click.delegate="clipboard.clear()"
       >
         Clear
