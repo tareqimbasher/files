@@ -1,14 +1,13 @@
 import { IEventAggregator } from "aurelia";
 import { Drive, DriveService, Settings, system } from "../../core";
 import { WindowManager } from "../window-manager";
-import { DrivesChangedEvent } from "../../../common/events/drives-changed";
+import { DrivesChangedEvent } from "../../../common";
 
 export class Sidebar {
   public directories: PinnedDirectory[] = [];
   public drives: Drive[] = [];
   public showDirectories = true;
   public showDrives = true;
-  public detaches: (() => void)[] = [];
 
   constructor(
     public settings: Settings,
@@ -29,8 +28,7 @@ export class Sidebar {
       new PinnedDirectory("Videos", system.path.join(homedir, "Videos"))
     );
 
-    const token = this.eventBus.subscribe(DrivesChangedEvent, (message) => this.loadDrives());
-    this.detaches.push(() => token.dispose());
+    this.eventBus.subscribe(DrivesChangedEvent, (message) => this.loadDrives());
     this.loadDrives();
   }
 
