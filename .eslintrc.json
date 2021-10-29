@@ -21,7 +21,11 @@
   "settings": {
     "import/resolver": {
       "node": {
-        "extensions": [".js", ".ts"]
+        "extensions": [".js", ".ts"],
+        // Stops eslint from complaining about modules not being resolved when importing starting from "src" dir
+        // instead of ../../...etc. This works in conjunction with webpack.resolve configuration and with
+        // aliases defined in tsconfig
+        "moduleDirectory": ["node_modules", "src/", "src/renderer"]
       }
     }
   },

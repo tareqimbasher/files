@@ -77,7 +77,5 @@ module.exports = {
     rules,
   },
   plugins: plugins,
-  resolve: {
-    extensions: [".js", ".ts", ".css", ".scss", ".json"],
-  },
+  resolve: require("./webpack.resolves"),
 };
