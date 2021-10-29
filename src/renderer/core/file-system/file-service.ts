@@ -2,7 +2,6 @@ import { Directory } from "./directory";
 import { File } from "./file";
 import { FileSystemItem } from "./file-system-item";
 import { SymbolicLink } from "./symbolic-link";
-import { exec } from "child_process";
 import { ILogger } from "aurelia";
 import { Stats } from "fs";
 import { Dictionary, system } from "common";
@@ -205,7 +204,7 @@ export class FileService {
       (resolve, reject) => {
         const data = new Dictionary<string, { hidden: boolean; system: boolean }>();
 
-        exec(
+        system.exec(
           `ls "${dirPath}" -Hidden | select Name, Attributes | format-list`,
           { shell: "powershell.exe" },
           (error, stdout, stderr) => {

@@ -1,4 +1,3 @@
-import { exec } from "child_process";
 import { Drive } from "./drive";
 import { system } from "common";
 
@@ -15,7 +14,7 @@ export class DriveService {
     return new Promise<Drive[]>((resolve, reject) => {
       const drives: Drive[] = [];
 
-      exec(DriveService.UNIX_COMMAND, (error, stdout, stderr) => {
+      system.exec(DriveService.UNIX_COMMAND, (error, stdout, stderr) => {
         if (error) {
           reject(stderr);
           return;
@@ -57,55 +56,59 @@ export class DriveService {
     return new Promise<Drive[]>((resolve, reject) => {
       const drives: Drive[] = [];
 
-      exec(DriveService.WINDOWS_COMMAND, { shell: "powershell.exe" }, (error, stdout, stderr) => {
-        if (error) {
-          reject(stderr);
-          return;
-        }
+      system.exec(
+        DriveService.WINDOWS_COMMAND,
+        { shell: "powershell.exe" },
+        (error, stdout, stderr) => {
+          if (error) {
+            reject(stderr);
+            return;
+          }
 
-        if (!stdout) {
+          if (!stdout) {
+            resolve(drives);
+            return;
+          }
+
+          const driveInfos: any[] = [];
+
+          let lastLineEmpty = true;
+          stdout
+            .trim()
+            .split(system.os.EOL)
+            .map((l) => l?.trim())
+            .forEach((line) => {
+              if (!line) {
+                lastLineEmpty = true;
+                return;
+              } else if (lastLineEmpty) {
+                driveInfos.push({});
+                lastLineEmpty = false;
+              }
+
+              const kv = line.split("=");
+              const obj = driveInfos[driveInfos.length - 1];
+              obj[kv[0]] = kv[1];
+            });
+
+          for (let i = 0; i < driveInfos.length; i++) {
+            const driveInfo = driveInfos[i];
+            const path: string = driveInfo["Name"] || driveInfo["Caption"];
+            const volume: string = driveInfo["VolumeName"];
+
+            let name = volume || "Local Disk";
+            name = `${name} (${path})`.trim();
+
+            const size = Number(driveInfo["Size"]);
+            const free = Number(driveInfo["FreeSpace"]);
+            const used = size - free;
+
+            drives.push(new Drive(name, path, driveInfo["FileSystem"], size, used, free));
+          }
+
           resolve(drives);
-          return;
         }
-
-        const driveInfos: any[] = [];
-
-        let lastLineEmpty = true;
-        stdout
-          .trim()
-          .split(system.os.EOL)
-          .map((l) => l?.trim())
-          .forEach((line) => {
-            if (!line) {
-              lastLineEmpty = true;
-              return;
-            } else if (lastLineEmpty) {
-              driveInfos.push({});
-              lastLineEmpty = false;
-            }
-
-            const kv = line.split("=");
-            const obj = driveInfos[driveInfos.length - 1];
-            obj[kv[0]] = kv[1];
-          });
-
-        for (let i = 0; i < driveInfos.length; i++) {
-          const driveInfo = driveInfos[i];
-          const path: string = driveInfo["Name"] || driveInfo["Caption"];
-          const volume: string = driveInfo["VolumeName"];
-
-          let name = volume || "Local Disk";
-          name = `${name} (${path})`.trim();
-
-          const size = Number(driveInfo["Size"]);
-          const free = Number(driveInfo["FreeSpace"]);
-          const used = size - free;
-
-          drives.push(new Drive(name, path, driveInfo["FileSystem"], size, used, free));
-        }
-
-        resolve(drives);
-      });
+      );
     });
   }
 }
