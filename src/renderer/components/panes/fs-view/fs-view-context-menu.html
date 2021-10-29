@@ -5,7 +5,11 @@
     ref="selected"
   >
     <!--IF NO FILES SELECTED-->
-    <div class="item" click.trigger="model.createNewFolder()" show.bind="!selected.any">
+    <div
+      class="item"
+      click.trigger="commonTasksService.createNewFolder()"
+      show.bind="!selected.any"
+    >
       <i class="folder plus icon"></i>
       <div class="content">New Folder</div>
     </div>
@@ -53,7 +57,7 @@
       <div class="content">Refresh</div>
     </div>
 
-    <div class="item" click.trigger="model.openSelected()" show.bind="selected.any">
+    <div class="item" click.trigger="commonTasksService.openSelected()" show.bind="selected.any">
       <i class="blank icon"></i>
       <div class="content">
         <b>Open</b>
@@ -67,15 +71,27 @@
       <i class="${!selected.any ? 'clone outline' : 'plus'} icon"></i>
       <div class="content">${!selected.any ? 'Duplicate tab' : 'Open in a new tab'}</div>
     </div>
-    <div class="item" click.trigger="model.cutSelectedItems()" show.bind="selected.any">
+    <div
+      class="item"
+      click.trigger="commonTasksService.cutSelectedItems()"
+      show.bind="selected.any"
+    >
       <i class="cut icon"></i>
       <div class="muted text content">Cut</div>
     </div>
-    <div class="item" click.trigger="model.copySelectedItems()" show.bind="selected.any">
+    <div
+      class="item"
+      click.trigger="commonTasksService.copySelectedItems()"
+      show.bind="selected.any"
+    >
       <i class="copy outline icon"></i>
       <div class="content">Copy</div>
     </div>
-    <div class="item" click.trigger="model.pasteItems()" show.bind="model.clipboard.items.length">
+    <div
+      class="item"
+      click.trigger="commonTasksService.pasteItems()"
+      show.bind="model.clipboard.items.length"
+    >
       <i class="paste icon"></i>
       <div class="content">Paste</div>
     </div>
@@ -88,11 +104,19 @@
       <i class="pencil icon"></i>
       <div class="content">Rename</div>
     </div>
-    <div class="item" click.trigger="model.deleteSelected(false)" show.bind="selected.any">
+    <div
+      class="item"
+      click.trigger="commonTasksService.deleteSelected(false)"
+      show.bind="selected.any"
+    >
       <i class="trash icon"></i>
       <div class="content">Move to trash</div>
     </div>
-    <div class="item" click.trigger="model.deleteSelected(true)" show.bind="selected.any">
+    <div
+      class="item"
+      click.trigger="commonTasksService.deleteSelected(true)"
+      show.bind="selected.any"
+    >
       <i class="red times circle icon"></i>
       <div class="content">
         <span class="ui red text"> Delete permanently </span>
@@ -106,13 +130,13 @@
     <div class="ui divider"></div>
     <div
       class="item"
-      click.trigger="model.showSelectedItemProperties()"
+      click.trigger="commonTasksService.showSelectedItemProperties()"
       show.bind="model.fsItems.selected.length === 1 && model.fsItems.selected[0].isDir"
     >
       <i class="pin icon"></i>
       <div class="content">Pin to sidebar</div>
     </div>
-    <div class="item" click.trigger="model.showSelectedItemProperties()">
+    <div class="item" click.trigger="commonTasksService.showSelectedItemProperties()">
       <i class="info circle icon"></i>
       <div class="content">Properties</div>
     </div>

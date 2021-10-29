@@ -1,8 +1,6 @@
 import { Settings } from "core";
-import { KeyboardShortcuts } from "../../renderer/components/dialogs/keyboard-shortcuts/keyboard-shortcuts";
 import { WindowManager } from "../../renderer/components";
 import { IEventAggregator } from "aurelia";
-import { IDialogService } from "@aurelia/runtime-html";
 import { Shortcut } from "./shortcut";
 import { KeyCode, KeyCodeUtil } from "common";
 
@@ -15,11 +13,10 @@ export class ShortcutManager {
   constructor(
     private windowManager: WindowManager,
     private settings: Settings,
-    @IEventAggregator private readonly eventBus: IEventAggregator,
-    @IDialogService private readonly dialogService: IDialogService
+    @IEventAggregator private readonly eventBus: IEventAggregator
   ) {}
 
-  public static registerShortcut(shortcut: Shortcut) {
+  public static registerShortcut(shortcut: Shortcut, onElement: Node = document) {
     const existing = this.registry.findIndex((s) => s.matches(shortcut));
     if (existing >= 0) {
       this.registry[existing] = shortcut;
@@ -114,7 +111,7 @@ export class ShortcutManager {
     new Shortcut("Open Keyboard Shortcuts")
       .withKey(KeyCode.KeyK)
       .withCtrlKey()
-      .hasAction(() => KeyboardShortcuts.openAsDialog(this.dialogService))
+      .hasAction(() => this.windowManager.showKeyboardShortcuts())
       .register();
 
     new Shortcut("Navigate Up")

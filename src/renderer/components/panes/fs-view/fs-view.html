@@ -1,5 +1,5 @@
 <template data-id="${id}" tabindex="0">
-  <require from="./context-menu.html" />
+  <require from="./fs-view-context-menu" />
   <require from="./fs-items/fs-item-icon-view" />
   <require from="./fs-items/fs-item-detail-view" />
 
@@ -78,5 +78,9 @@
     </table>
   </div>
 
-  <context-menu class="context-menu" model.bind="$this" ref="contextMenu"></context-menu>
+  <fs-view-context-menu
+    class="context-menu"
+    model.bind="$this"
+    ref="contextMenu"
+  ></fs-view-context-menu>
 </template>
