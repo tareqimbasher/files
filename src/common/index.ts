@@ -1,3 +1,4 @@
+export * from "./data/dictionary";
 export * from "./system/system";
 
 export * from "./shortcuts/shortcut";
@@ -16,3 +17,6 @@ export * from "./events/view-command-edit-address-bar-event";
 export * from "./events/view-command-toggle-sidebar";
 export * from "./events/view-command-toggle-header";
 export * from "./events/file-system-item-properties-changed-event";
+
+export * from "./observation/property-subscriber";
+export * from "./observation/collection-subscriber";

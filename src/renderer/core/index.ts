@@ -2,7 +2,6 @@ export * from "./global";
 export * from "./settings";
 
 export * from "./profiles/profile";
-export * from "./data/dictionary";
 
 export * from "./system/drive-service";
 export * from "./system/drive";
@@ -15,8 +14,5 @@ export * from "./file-system/symbolic-link";
 export * from "./file-system/file-service";
 export * from "./file-system/fs-items";
 export * from "./file-system/icon-loader";
-
-export * from "./observation/property-subscriber";
-export * from "./observation/collection-subscriber";
 
 export * from "./common-tasks-service";

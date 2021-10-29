@@ -3,10 +3,9 @@ import { File } from "./file";
 import { FileSystemItem } from "./file-system-item";
 import { SymbolicLink } from "./symbolic-link";
 import { exec } from "child_process";
-import { Dictionary } from "../data/dictionary";
 import { ILogger } from "aurelia";
 import { Stats } from "fs";
-import { system } from "common";
+import { Dictionary, system } from "common";
 
 export class FileService {
   constructor(@ILogger private readonly logger: ILogger) {}
