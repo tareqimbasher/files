@@ -12,9 +12,13 @@ $dark: (
   activeUnfocusedColor: rgba(255, 255, 255, 0.15),
   mutedTextColor: rgba(255, 255, 255, 0.6),
   splitterColor: #333,
-  headerBackground: #333,
+  // WINDOW
   windowBorderColor: #333,
+  // HEADER
+  headerBackground: #333,
+  // SIDEBAR
   sidebarBackground: rgb(27, 28, 29, 0.9),
+  // STATUSBAR
   statusBarBackground: #222,
 );
 

@@ -1,0 +1,48 @@
+@import "../../../style/themes";
+
+.address-bar.segment {
+  padding: 0;
+
+  .breadcrumb {
+    user-select: none;
+
+    address-crumb {
+      display: inline-block;
+
+      .section {
+        padding: 2px 5px;
+      }
+    }
+
+    address-crumb:not(.active) .section:hover {
+      background-color: rgba(74, 204, 254, 0.3);
+    }
+
+    .divider {
+      margin-left: 0;
+      margin-right: 2px;
+      width: auto;
+      color: white;
+    }
+  }
+
+  #address-bar-path-input {
+    input {
+      font-family: monospace;
+      padding-top: 6.5px;
+      padding-bottom: 6.5px;
+      border-radius: 0;
+      background: transparent;
+      border: 1px solid $accent-color;
+      color: white;
+
+      &::selection {
+        color: white;
+      }
+    }
+
+    .icon {
+      color: dodgerblue;
+    }
+  }
+}

@@ -1,16 +1,19 @@
-import { system } from "../system/system";
 import { Directory } from "./directory";
 import { File } from "./file";
 import { FileSystemItem } from "./file-system-item";
 import { SymbolicLink } from "./symbolic-link";
 import { exec } from "child_process";
-import { Dictionary } from "../data/dictionary";
 import { ILogger } from "aurelia";
 import { Stats } from "fs";
+import { Dictionary, system } from "common";
 
 export class FileService {
   constructor(@ILogger private readonly logger: ILogger) {}
 
+  /**
+   * Lists file system items from a directory path.
+   * @param dirPath Path of the directory to list.
+   */
   public async list(dirPath: string): Promise<FileSystemItem[]> {
     performance.mark("fileservice.list.fs.readdir.start");
     const itemNames = await system.fs.readdir(dirPath);
@@ -44,6 +47,12 @@ export class FileService {
     return items;
   }
 
+  /**
+   * Creates a FileSystemItem from an file or directory path.
+   * @param itemPath Path of file or directory.
+   * @param stats Item stats.
+   * @param attributes Item attributes.
+   */
   public async createFileSystemItem(
     itemPath: string,
     stats?: Stats,
@@ -67,8 +76,8 @@ export class FileService {
       item.updateInfo(stats);
 
       if (attributes) {
-        item.isHidden = attributes.hidden;
-        item.isSystem = attributes.system;
+        item.isHidden = attributes.hidden ?? false;
+        item.isSystem = attributes.system ?? false;
       }
 
       return item;
@@ -78,8 +87,14 @@ export class FileService {
     }
   }
 
+  /**
+   * Copies a file system item.
+   * @param source The source item to copy.
+   * @param targetPath The target path to copy item to.
+   * @param overwrite Whether to overwrite the target file or directory if it already exists.
+   */
   public async copy(source: FileSystemItem, targetPath: string, overwrite: boolean): Promise<void> {
-    const targetPathExists = this.pathExists(targetPath);
+    const targetPathExists = await system.fs.pathExists(targetPath);
 
     if (!overwrite && targetPathExists) {
       throw new Error(`Target path already exists: ${targetPathExists}`);
@@ -89,19 +104,40 @@ export class FileService {
     await system.fs.copyFile(
       source.path,
       targetPath,
-      !overwrite ? system.fss.constants.COPYFILE_EXCL : undefined
+      !overwrite ? system.fs.constants.COPYFILE_EXCL : undefined
     );
   }
 
+  /**
+   * Moves a file system item to a target path.
+   * @param item The file system item to move.
+   * @param targetPath The target path to move the item to.
+   * @param overwrite Whether to overwrite the destination file or folder if it already exists.
+   */
   public move(item: FileSystemItem, targetPath: string, overwrite?: boolean): Promise<void>;
+
+  /**
+   * Moves a file system item to a target directory.
+   * @param item The file system item to move.
+   * @param targetDirectory The directory to move the item into.
+   * @param overwrite Whether to overwrite the destination file or folder if it already exists.
+   */
   public move(item: FileSystemItem, targetDirectory: Directory, overwrite?: boolean): Promise<void>;
 
+  /**
+   * Moves a file system item to a target path or directory.
+   * @param item The file system item to move.
+   * @param target The target path or directory to move the item to.
+   * @param overwrite Whether to overwrite the destination file or folder if it already exists.
+   */
   public async move(
     item: FileSystemItem,
     target: string | Directory,
     overwrite = false
   ): Promise<void> {
     if (overwrite !== true) overwrite = false;
+
+    if (!target) throw new Error("Target is invalid.");
 
     let targetPath: string;
 
@@ -111,30 +147,46 @@ export class FileService {
       targetPath = system.path.join(target.path, item.name);
     }
 
-    if (!overwrite && this.pathExists(targetPath)) {
+    if (!overwrite && (await system.fs.pathExists(targetPath))) {
       throw new Error(`Target path already exists: ${targetPath}`);
     }
 
     await system.fs.rename(item.path, targetPath);
   }
 
+  /**
+   * Renames a file system item.
+   * @param item The file system item to rename.
+   * @param newName The name name. This should only be the base file or directory name, not a path.
+   */
   public async rename(item: FileSystemItem, newName: string): Promise<void> {
-    await this.move(item, system.path.join(item.directoryPath, newName));
+    const newPath = system.path.join(item.directoryPath, newName);
+    if (await system.fs.pathExists(newPath)) throw new Error("Path already exists.");
+    await system.fs.rename(item.path, newPath);
   }
 
+  /**
+   * Moves a file system item to the trash.
+   * @param item
+   */
   public async moveToTrash(item: FileSystemItem) {
     return await system.shell.trashItem(item.path);
   }
 
+  /**
+   * Permanently Deletes a file system item.
+   * @param item
+   */
   public async delete(item: FileSystemItem) {
-    if (item.isDir) await system.fs.rmdir(item.path, { recursive: true });
+    if (item.isDir) await system.fs.remove(item.path);
     else await system.fs.unlink(item.path);
   }
 
-  public pathExists(path: string): boolean {
-    return system.fss.existsSync(path);
-  }
-
+  /**
+   * Gets the attributes of a directory's containing items.
+   * @param dirPath The path of the directory.
+   * @param itemNames The names of the items inside the directory.
+   */
   public async getDirItemAttributes(
     dirPath: string,
     itemNames: string[]

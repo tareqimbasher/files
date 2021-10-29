@@ -1,6 +1,6 @@
 import { exec } from "child_process";
 import { Drive } from "./drive";
-import { system } from "./system";
+import { system } from "common";
 
 export class DriveService {
   private static readonly WINDOWS_COMMAND: string =

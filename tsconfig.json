@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    "baseUrl": "./src",
+    "outDir": "dist",
+    "target": "es2019",
     "module": "esnext",
     "moduleResolution": "node",
     "skipLibCheck": true,
@@ -15,11 +18,14 @@
     "sourceMap": true,
     "strict": true,
     "esModuleInterop": true,
-    "target": "es2019",
-    "baseUrl": ".",
-    "outDir": "dist",
     "resolveJsonModule": true,
-    "lib": ["esnext", "dom"]
+    "lib": ["esnext", "dom"],
+    "paths": {
+      "*": ["./src"],
+      // Aliases
+      "common": ["common"],
+      "core": ["renderer/core"]
+    }
   },
   "include": ["src/**/*", "build/**/*"]
 }

@@ -1,5 +1,5 @@
 export class KeyCodeUtil {
-  public static isDigit(keyCode: string): boolean {
+  public static isDigit(keyCode: string | KeyCode): boolean {
     return keyCode.startsWith("Digit");
   }
 

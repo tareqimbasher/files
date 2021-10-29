@@ -1,5 +1,5 @@
 import { bindable } from "aurelia";
-import { Directory, FileSystemItem } from "../../../../core";
+import { Directory, FileSystemItem } from "core";
 import { FileSizeValueConverter } from "../../../common";
 import { FsItemView } from "./fs-item-view";
 

@@ -1,5 +1,4 @@
-@import "../style/variables.scss";
-@import "../style/themes/index";
+@import "../style/themes";
 
 .rounded-window {
   $rounding: 10px;
@@ -17,7 +16,7 @@
 
 .window {
   display: flex;
-  min-height: calc(100vh - #{$titlebar-height});
+  min-height: 100vh;
   flex-direction: column;
 
   .window-body {

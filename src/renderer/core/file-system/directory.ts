@@ -1,7 +1,6 @@
-import { system } from "../system/system";
+import { system, Util } from "common";
 import { FileSystemItem } from "./file-system-item";
 import { FileType } from "./file-system-item-type";
-import { Util } from "../utils/util";
 
 export class Directory extends FileSystemItem {
   public directoriesCount = 0;

@@ -22,6 +22,7 @@ export class WindowManager {
         nodeIntegration: true,
         nodeIntegrationInWorker: true,
         contextIsolation: false,
+        nativeWindowOpen: false, // if this prop is not defined an electron warning is emitted
       },
     });
 

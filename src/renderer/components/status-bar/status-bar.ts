@@ -1,5 +1,5 @@
 import { watch } from "aurelia";
-import { Settings } from "../../core";
+import { Settings } from "core";
 import { WindowManager } from "../";
 import { Clipboard } from "../common";
 
@@ -13,7 +13,9 @@ export class StatusBar {
     private readonly settings: Settings,
     private readonly windowManager: WindowManager,
     private readonly clipboard: Clipboard
-  ) {}
+  ) {
+    this.windowManager.setStatusBar(this);
+  }
 
   @watch((sb: StatusBar) => sb.windowManager.panes.active.tabs.active.fsItems.view.length)
   @watch((sb: StatusBar) => sb.windowManager.panes.active.tabs.active.fsItems.selected.length)

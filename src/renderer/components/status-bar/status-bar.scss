@@ -1,5 +1,4 @@
-@import "../../style/colors.scss";
-@import "../../style/themes/index";
+@import "../../style/themes";
 
 status-bar {
   @include theme(background, statusBarBackground);
@@ -16,6 +15,10 @@ status-bar {
       padding: 0;
       margin: 0;
     }
+  }
+
+  .selectable .icon:hover {
+    color: $accent-color !important;
   }
 
   .clipboard-contents {
@@ -37,19 +40,12 @@ status-bar {
 
     .ui.divider {
       margin-top: 5px;
-      margin-bottom: 0px;
+      margin-bottom: 0;
     }
 
-    button,
-    .ui.button,
-    .ui.inverted.button {
-      background: transparent;
+    .ui.button.clear-button,
+    .ui.inverted.button.clear-button {
       box-shadow: none;
-      color: #cbcbcb;
-
-      &:hover {
-        color: white;
-      }
     }
   }
 }

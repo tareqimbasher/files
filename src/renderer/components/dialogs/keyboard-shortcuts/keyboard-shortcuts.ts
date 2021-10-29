@@ -5,7 +5,7 @@ import {
   IDialogDom,
   IDialogService,
 } from "@aurelia/runtime-html";
-import { Settings } from "../../../core";
+import { Settings } from "core";
 
 export class KeyboardShortcuts extends DialogBase {
   private static openedDialog: IDialogController | null = null;

@@ -4,8 +4,9 @@ $light: (
   backgroundColor: rgb(255, 255, 255),
   backgroundTranslucentColor: rgba(255, 255, 255, 0.95),
   backgroundContrast1Color: #808080,
-  backgroundContrast2Color:
-    linear-gradient(180deg, rgba(231, 230, 231, 1) 0%, rgba(209, 208, 209, 1) 100%),
+  backgroundContrast2Color: #eee,
+  //backgroundContrast2Color:
+  //  linear-gradient(180deg, rgba(231, 230, 231, 1) 0%, rgba(209, 208, 209, 1) 100%),
   borderColor: #ccc,
   borderColorLight: #656565,
   hoverColor: rgba(30, 144, 255, 0.15),
@@ -13,9 +14,13 @@ $light: (
   //activeUnfocusedColor: rgba(255, 255, 255, 0.15),
   //mutedTextColor: rgba(255, 255, 255, 0.6),
   //splitterColor: #4d4d4d,
-  headerBackground: #333,
+  // WINDOW
   windowBorderColor: #ccc,
+  // HEADER
+  headerBackground: #333,
+  // SIDEBAR
   sidebarBackground: rgb(232 232 232 / 0.9),
+  // STATUSBAR
   statusBarBackground: rgb(232 232 232),
 );
 

@@ -79,7 +79,8 @@ export abstract class FileSystemItem {
 
   public updateInfo(stats: Stats) {
     if (this.type == FileType.Directory) this.size = -1;
-    else if (stats.size || stats.size == 0) this.size = stats.size;
+    else if (!stats.size) this.size = 0;
+    else this.size = stats.size;
 
     if (stats.mtime) this.dateModified = stats.mtime;
     if (stats.atime) this.dateAccessed = stats.atime;

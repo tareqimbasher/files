@@ -1,5 +1,6 @@
-import { Dictionary, FileSystemItem } from "../";
+import { FileSystemItem } from "../";
 import { Settings } from "../settings";
+import { Dictionary } from "common";
 
 export class FsItems extends Dictionary<string, FileSystemItem> {
   private searchTerm?: string;

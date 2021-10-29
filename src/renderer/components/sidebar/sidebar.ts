@@ -1,9 +1,10 @@
 import { IEventAggregator } from "aurelia";
-import { Drive, DriveService, Settings, system } from "../../core";
+import { Drive, DriveService, Settings } from "core";
 import { WindowManager } from "../window-manager";
-import { DrivesChangedEvent } from "../../../common";
+import { DrivesChangedEvent, system, ViewCommandToggleSidebar } from "common";
 
 export class Sidebar {
+  public isVisible = true;
   public directories: PinnedDirectory[] = [];
   public drives: Drive[] = [];
   public showDirectories = true;
@@ -14,7 +15,9 @@ export class Sidebar {
     public windowManager: WindowManager,
     private driveService: DriveService,
     @IEventAggregator private readonly eventBus: IEventAggregator
-  ) {}
+  ) {
+    this.windowManager.setSidebar(this);
+  }
 
   public attached() {
     const homedir = system.os.homedir();
@@ -30,6 +33,8 @@ export class Sidebar {
 
     this.eventBus.subscribe(DrivesChangedEvent, (message) => this.loadDrives());
     this.loadDrives();
+
+    this.eventBus.subscribe(ViewCommandToggleSidebar, () => (this.isVisible = !this.isVisible));
   }
 
   private loadDrives() {

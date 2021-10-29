@@ -1,5 +1,5 @@
 import { IDisposable } from "aurelia";
-import { KeyCode, UiUtil } from "../../../core";
+import { KeyCode, UiUtil } from "common";
 import { WindowManager } from "../../window-manager";
 
 export class FsItemNavigation implements IDisposable {

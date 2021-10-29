@@ -29,7 +29,11 @@
       </div>
 
       <!--PATH INPUT-->
-      <div class="ui fluid left icon ${settings.inverted} small input" show.bind="isEditAddress">
+      <div
+        id="address-bar-path-input"
+        class="ui fluid left icon ${settings.inverted} small input"
+        show.bind="isEditAddress"
+      >
         <input
           blur.trigger="isEditAddress = false"
           keydown.delegate="addressBarPathEdited($event)"

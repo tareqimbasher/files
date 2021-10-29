@@ -1,5 +1,5 @@
 ﻿import { IContainer, IDisposable } from "aurelia";
-import { Util } from "../../core";
+import { Util } from "common";
 import { Panes } from "./panes";
 import { Tabs } from "./tabs/tabs";
 

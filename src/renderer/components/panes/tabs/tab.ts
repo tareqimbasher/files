@@ -1,9 +1,10 @@
 ﻿import { IContainer, IDisposable } from "aurelia";
-import { Directory, FileService, Settings, system, Util } from "../../../core";
+import { Directory, FileService, Settings } from "core";
 import { Tabs } from "./tabs";
 import { TabHistory } from "./tab-history";
 import { TabHistoryState } from "./tab-history-state";
 import { Files } from "./tab-files";
+import { system, Util } from "common";
 
 export class Tab implements IDisposable {
   public id: string;
@@ -76,7 +77,7 @@ export class Tab implements IDisposable {
 
   public goUp() {
     const newPath = system.path.dirname(this.path);
-    if (newPath != this.path && system.fss.existsSync(newPath)) this.setPath(newPath);
+    if (newPath != this.path && system.fs.pathExists(newPath)) this.setPath(newPath);
   }
 
   public goHome() {

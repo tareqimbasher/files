@@ -1,6 +1,7 @@
 import { bindable, IEventAggregator, watch } from "aurelia";
-import { KeyCode, Settings, system, ViewCommandEditAddressBarEvent } from "../../../core";
-import { Pane } from "../pane";
+import { Settings } from "core";
+import { Pane } from "../../panes/pane";
+import { KeyCode, system, ViewCommandEditAddressBarEvent } from "common";
 
 export class AddressBar {
   @bindable public pane!: Pane;
@@ -49,7 +50,7 @@ export class AddressBar {
       else if (address.startsWith("/"))
         address = address.replace("/", system.path.parse(process.cwd()).root);
 
-      if (!system.fss.existsSync(address)) {
+      if (!(await system.fs.pathExists(address))) {
         alert("Path does not exit: " + address);
       } else {
         const stat = await system.fs.stat(address);

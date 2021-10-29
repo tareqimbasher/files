@@ -1,7 +1,10 @@
-@import "../../style/themes/index";
+@import "../../style/themes";
+
+$title-bar-height: 30px;
+$controlbar-height: 45px;
+$header-height: 75px;
 
 header {
-  $header-height: 75px;
   -webkit-app-region: drag;
   height: $header-height;
   color: white;
@@ -23,7 +26,7 @@ header {
   }
 
   .title-bar {
-    height: 30px;
+    height: $title-bar-height;
 
     .window-controls {
       text-align: right;
@@ -53,7 +56,16 @@ header {
   }
 
   .control-bar {
-    line-height: 45px;
+    height: $controlbar-height;
+    line-height: $controlbar-height;
+  }
+
+  &.minimized {
+    height: $title-bar-height;
+    .control-bar {
+      height: 0;
+      display: none;
+    }
   }
 
   .controls {
