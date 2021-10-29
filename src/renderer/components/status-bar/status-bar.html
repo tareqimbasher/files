@@ -14,6 +14,22 @@
         <div class="right aligned column">
           <span
             class="selectable"
+            click.trigger="windowManager.toggleHeader()"
+            title="Toggle Header"
+          >
+            <i
+              class="${windowManager.header.isMinimized ? 'blue' : 'grey'} caret square down icon"
+            ></i>
+          </span>
+          <span
+            class="selectable"
+            click.trigger="windowManager.showKeyboardShortcuts()"
+            title="Show Keyboard Shortcuts"
+          >
+            <i class="grey keyboard icon"></i>
+          </span>
+          <span
+            class="selectable"
             click.trigger="showClipboard = !showClipboard"
             if.bind="clipboard.items.length"
           >
@@ -22,7 +38,10 @@
             === 'Copy' ? 'copied' : 'cut'}
           </span>
           <span class="selectable" click.trigger="showClipboard = !showClipboard" else>
-            <i class="ui grey clipboard icon" title="Clipboard is empty"></i>
+            <i
+              class="${showClipboard ? 'blue' : 'grey'} clipboard icon"
+              title="Clipboard is empty"
+            ></i>
           </span>
         </div>
       </div>

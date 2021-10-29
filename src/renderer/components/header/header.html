@@ -29,17 +29,13 @@
     <div class="column pl-10">
       <div class="controls">
         <div class="ui icon mini divided buttons">
-          <button class="ui icon mini button" click.delegate="activeTab.goBack()" title="Back">
+          <button class="ui icon mini button" click.trigger="activeTab.goBack()" title="Back">
             <i class="left chevron icon"></i>
           </button>
-          <button
-            class="ui icon mini button"
-            click.delegate="activeTab.goForward()"
-            title="Forward"
-          >
+          <button class="ui icon mini button" click.trigger="activeTab.goForward()" title="Forward">
             <i class="right chevron icon"></i>
           </button>
-          <button class="ui icon mini button" click.delegate="activeTab.goUp()" title="Up">
+          <button class="ui icon mini button" click.trigger="activeTab.goUp()" title="Up">
             <i class="up chevron icon"></i>
           </button>
         </div>
@@ -50,7 +46,7 @@
         <div class="ui icon mini divided buttons">
           <button
             class="ui button"
-            click.delegate="windowManager.toggleSidebar()"
+            click.trigger="windowManager.toggleSidebar()"
             title="Toggle Sidebar"
           >
             <svg
@@ -175,14 +171,14 @@
           </button>
           <button
             class="ui button"
-            click.delegate="showKeyboardShortcuts()"
+            click.trigger="windowManager.showKeyboardShortcuts()"
             title="Show Keyboard Shortcuts"
           >
             <i class="up keyboard icon"></i>
           </button>
           <button
             class="ui button"
-            click.delegate="windowManager.togglePinWindow()"
+            click.trigger="windowManager.togglePinWindow()"
             title="Pin (Always on Top)"
           >
             <svg

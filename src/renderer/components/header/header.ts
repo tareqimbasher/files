@@ -1,7 +1,6 @@
-import { IDialogService, observable, watch } from "@aurelia/runtime-html";
+import { observable, watch } from "@aurelia/runtime-html";
 import { IEventAggregator } from "aurelia";
 import { WindowManager } from "../window-manager";
-import { KeyboardShortcuts } from "../dialogs/keyboard-shortcuts/keyboard-shortcuts";
 import { Settings } from "core";
 import { ViewCommandSearchEvent, ViewCommandToggleHeader } from "common";
 
@@ -15,7 +14,6 @@ export class Header {
   constructor(
     private readonly settings: Settings,
     private readonly windowManager: WindowManager,
-    @IDialogService private readonly dialogService: IDialogService,
     @IEventAggregator private readonly eventBus: IEventAggregator
   ) {
     this.windowManager.setHeader(this);
@@ -36,10 +34,6 @@ export class Header {
 
   public detached() {
     this.detaches.forEach((f) => f());
-  }
-
-  public async showKeyboardShortcuts() {
-    await KeyboardShortcuts.openAsDialog(this.dialogService);
   }
 
   @watch<Header>((vm) => vm.activeTab.path)

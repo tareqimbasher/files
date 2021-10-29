@@ -17,6 +17,10 @@ status-bar {
     }
   }
 
+  .selectable .icon:hover {
+    color: $accent-color !important;
+  }
+
   .clipboard-contents {
     position: fixed;
     bottom: 30px;

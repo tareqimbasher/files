@@ -4,6 +4,8 @@ import { Panes } from "./panes/panes";
 import { Sidebar } from "./sidebar/sidebar";
 import { StatusBar } from "./status-bar/status-bar";
 import { Header } from "./header/header";
+import { KeyboardShortcuts } from "./dialogs/keyboard-shortcuts/keyboard-shortcuts";
+import { IDialogService } from "@aurelia/runtime-html";
 
 @singleton()
 export class WindowManager {
@@ -13,7 +15,11 @@ export class WindowManager {
   private statusBar?: StatusBar;
   private header?: Header;
 
-  constructor(public panes: Panes, @IEventAggregator private readonly eventBus: IEventAggregator) {
+  constructor(
+    public panes: Panes,
+    @IEventAggregator private readonly eventBus: IEventAggregator,
+    @IDialogService private readonly dialogService: IDialogService
+  ) {
     this.window = system.remote.getCurrentWindow();
     this.isWindowPinned = this.window.isAlwaysOnTop();
   }
@@ -42,6 +48,10 @@ export class WindowManager {
 
   public toggleSidebar() {
     this.eventBus.publish(new ViewCommandToggleSidebar());
+  }
+
+  public async showKeyboardShortcuts() {
+    await KeyboardShortcuts.openAsDialog(this.dialogService);
   }
 
   public setHeader(header: Header) {
