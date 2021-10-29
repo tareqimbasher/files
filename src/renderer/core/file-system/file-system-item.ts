@@ -1,10 +1,10 @@
 import { Stats } from "fs";
 import * as pathUtil from "path";
-import { FileType } from "./file-system-item-type";
+import { FileSystemItemType } from "./file-system-item-type";
 
 export abstract class FileSystemItem {
   public path: string;
-  public type: FileType;
+  public type: FileSystemItemType;
   public isDir: boolean;
 
   public size = 0;
@@ -15,10 +15,10 @@ export abstract class FileSystemItem {
   public isHidden = false;
   public isSystem = false;
 
-  constructor(path: string, type: FileType) {
+  constructor(path: string, type: FileSystemItemType) {
     this.path = path;
     this.type = type;
-    this.isDir = type == FileType.Directory;
+    this.isDir = type == FileSystemItemType.Directory;
   }
 
   public get name() {
@@ -34,8 +34,8 @@ export abstract class FileSystemItem {
   }
 
   public get typeDescription() {
-    if (this.type == FileType.Directory) return "Folder";
-    else if (this.type == FileType.File) {
+    if (this.type == FileSystemItemType.Directory) return "Folder";
+    else if (this.type == FileSystemItemType.File) {
       // Handle files like .gitconfig
       if (!this.extension && this.name.startsWith("."))
         return this.name.replace(".", "").toUpperCase() + " File";
@@ -58,7 +58,7 @@ export abstract class FileSystemItem {
         default:
           return ext.toUpperCase();
       }
-    } else if (this.type == FileType.SymbolicLink) {
+    } else if (this.type == FileSystemItemType.SymbolicLink) {
       return "Shortcut";
     } else {
       return "Unknown";
@@ -78,7 +78,7 @@ export abstract class FileSystemItem {
   //}
 
   public updateInfo(stats: Stats) {
-    if (this.type == FileType.Directory) this.size = -1;
+    if (this.type == FileSystemItemType.Directory) this.size = -1;
     else if (!stats.size) this.size = 0;
     else this.size = stats.size;
 

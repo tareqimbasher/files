@@ -1,6 +1,6 @@
 import { system, Util } from "common";
 import { FileSystemItem } from "./file-system-item";
-import { FileType } from "./file-system-item-type";
+import { FileSystemItemType } from "./file-system-item-type";
 
 export class Directory extends FileSystemItem {
   public directoriesCount = 0;
@@ -9,7 +9,7 @@ export class Directory extends FileSystemItem {
   public containingItemsChanged: () => void;
 
   constructor(path: string) {
-    super(path, FileType.Directory);
+    super(path, FileSystemItemType.Directory);
     this.containingItemsChanged = Util.debounce(this, this.updateContainingItemInfo, 1000, true);
   }
 

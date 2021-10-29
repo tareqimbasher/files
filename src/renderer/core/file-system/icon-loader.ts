@@ -1,6 +1,6 @@
 import { system } from "common";
 import { FileSystemItem } from "./file-system-item";
-import { FileType } from "./file-system-item-type";
+import { FileSystemItemType } from "./file-system-item-type";
 
 export class IconLoader {
   public static defaultIcon = `${system.fileScheme}://assets/icons/file-system/png/026-file-65.png`;
@@ -25,9 +25,9 @@ export class IconLoader {
   }
 
   private static localIcon(item: FileSystemItem): string {
-    if (item.type == FileType.Directory) return "119-folder-22";
+    if (item.type == FileSystemItemType.Directory) return "119-folder-22";
 
-    if (item.type == FileType.SymbolicLink) return "080-file-54";
+    if (item.type == FileSystemItemType.SymbolicLink) return "080-file-54";
 
     switch (item.extension.toLowerCase()) {
       // Documents
