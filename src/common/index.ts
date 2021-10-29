@@ -1,5 +1,9 @@
 export * from "./system/system";
 
+export * from "./shortcuts/shortcut";
+export * from "./shortcuts/shortcut-manager";
+export * from "./shortcuts/bind-shortcut";
+
 export * from "./utils/electron-util";
 export * from "./utils/json-serializer";
 export * from "./utils/util";
