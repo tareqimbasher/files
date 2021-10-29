@@ -3,10 +3,12 @@ import { IEventAggregator } from "aurelia";
 import { WindowManager } from "../window-manager";
 import { KeyboardShortcuts } from "../dialogs/keyboard-shortcuts/keyboard-shortcuts";
 import { Settings } from "core";
-import { ViewCommandSearchEvent } from "common";
+import { ViewCommandSearchEvent, ViewCommandToggleHeader } from "common";
 
 export class Header {
   @observable public searchTerm?: string;
+  public isMinimized = false;
+
   private searchInput!: HTMLInputElement;
   private detaches: Array<() => void> = [];
 
@@ -29,6 +31,7 @@ export class Header {
       this.searchInput.select();
     });
     this.detaches.push(() => sub.dispose());
+    this.eventBus.subscribe(ViewCommandToggleHeader, () => (this.isMinimized = !this.isMinimized));
   }
 
   public detached() {

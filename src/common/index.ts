@@ -14,4 +14,5 @@ export * from "./events/drives-changed";
 export * from "./events/view-command-search-event";
 export * from "./events/view-command-edit-address-bar-event";
 export * from "./events/view-command-toggle-sidebar";
+export * from "./events/view-command-toggle-header";
 export * from "./events/file-system-item-properties-changed-event";

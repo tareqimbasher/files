@@ -1,5 +1,5 @@
 import { IEventAggregator, singleton } from "aurelia";
-import { system, ViewCommandToggleSidebar } from "common";
+import { system, ViewCommandToggleHeader, ViewCommandToggleSidebar } from "common";
 import { Panes } from "./panes/panes";
 import { Sidebar } from "./sidebar/sidebar";
 import { StatusBar } from "./status-bar/status-bar";
@@ -34,6 +34,10 @@ export class WindowManager {
   public togglePinWindow() {
     this.window.setAlwaysOnTop(!this.isWindowPinned);
     this.isWindowPinned = this.window.isAlwaysOnTop();
+  }
+
+  public toggleHeader() {
+    this.eventBus.publish(new ViewCommandToggleHeader());
   }
 
   public toggleSidebar() {
