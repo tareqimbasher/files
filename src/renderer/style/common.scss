@@ -55,3 +55,18 @@ input::selection {
     }
   }
 }
+
+.h-center-contents {
+  display: flex;
+  justify-content: center;
+}
+
+.v-center-contents {
+  display: flex;
+  align-items: center;
+}
+
+.hv-center-contents {
+  @extend .h-center-contents;
+  @extend .v-center-contents;
+}

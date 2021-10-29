@@ -15,7 +15,9 @@ export class Header {
     private readonly windowManager: WindowManager,
     @IDialogService private readonly dialogService: IDialogService,
     @IEventAggregator private readonly eventBus: IEventAggregator
-  ) {}
+  ) {
+    this.windowManager.setHeader(this);
+  }
 
   public get activeTab() {
     return this.windowManager.panes.active.tabs.active;
