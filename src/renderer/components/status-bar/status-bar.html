@@ -14,12 +14,10 @@
         <div class="right aligned column">
           <span
             class="selectable"
-            click.trigger="windowManager.toggleHeader()"
+            click.trigger="settings.toggleHeaderMinimized()"
             title="Toggle Header"
           >
-            <i
-              class="${windowManager.header.isMinimized ? 'blue' : 'grey'} caret square down icon"
-            ></i>
+            <i class="${settings.headerMinimized ? 'blue' : 'grey'} caret square down icon"></i>
           </span>
           <span
             class="selectable"

@@ -1,6 +1,7 @@
 import { IEventAggregator } from "aurelia";
 import { ShortcutManager } from "./shortcut-manager";
 import { KeyCode } from "common";
+import { ShortcutActionExecutionContext } from "./shortcut-action-execution-context";
 
 /**
  * A shortcut that executes an action.
@@ -12,7 +13,7 @@ export class Shortcut {
   public metaKey = false;
   public key?: KeyCode;
   public keyExpression?: (keyCode: KeyCode) => boolean;
-  public action: (event: KeyboardEvent, eventBus: IEventAggregator) => void;
+  public action: (context: ShortcutActionExecutionContext) => void;
   public isConfigurable = false;
 
   constructor(public name: string) {
@@ -29,7 +30,7 @@ export class Shortcut {
     return this;
   }
 
-  public hasAction(action: (event: KeyboardEvent, eventBus: IEventAggregator) => void): Shortcut {
+  public hasAction(action: (context: ShortcutActionExecutionContext) => void): Shortcut {
     this.action = action;
     return this;
   }

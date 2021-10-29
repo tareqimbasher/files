@@ -3,12 +3,14 @@ import { Shortcut } from "./shortcut";
 import { KeyCode, KeyCodeUtil } from "common";
 import { WindowManager } from "../../../renderer/components";
 import { Settings } from "application";
+import { ShortcutActionExecutionContext } from "@domain/shortcuts/shortcut-action-execution-context";
 
 /**
  * Manages shortcuts.
  */
 export class ShortcutManager {
   private static registry: Shortcut[] = [];
+  private static registry2: Map<Node, Shortcut[]> = new Map<Node, Shortcut[]>();
 
   constructor(
     private windowManager: WindowManager,
@@ -25,14 +27,33 @@ export class ShortcutManager {
     }
   }
 
+  public handleKeyCombo(event: KeyboardEvent) {
+    const target = event.target;
+    const currentTarget = event.currentTarget;
+
+    console.warn("target", target, "currentTarget", currentTarget);
+
+    // const shortcut = ShortcutManager.registry2.find((s) => s.matches(event));
+    // if (!shortcut) return;
+    //
+    // shortcut.action(event, this.eventBus);
+  }
+
   public setupKeyboardShortcuts() {
     this.setupApplicationWideKeyboardShortcuts();
 
     document.addEventListener("keydown", (ev) => {
+      const target = ev.target;
+      const currentTarget = ev.currentTarget;
+
+      console.warn(target, currentTarget);
+
       const shortcut = ShortcutManager.registry.find((s) => s.matches(ev));
       if (!shortcut) return;
 
-      shortcut.action(ev, this.eventBus);
+      const context = new ShortcutActionExecutionContext(ev, this.settings, this.eventBus);
+
+      shortcut.action(context);
     });
   }
 
@@ -49,9 +70,9 @@ export class ShortcutManager {
     new Shortcut("Close Current Tab")
       .withCtrlKey()
       .withKey(KeyCode.KeyW)
-      .hasAction((event) => {
+      .hasAction((ctx) => {
         panes.active.tabs.active.close();
-        event.preventDefault();
+        ctx.event.preventDefault();
       })
       .configurable()
       .register();
@@ -79,8 +100,8 @@ export class ShortcutManager {
     new Shortcut("Go to Tab")
       .withCtrlKey()
       .withKeyExpression((keyCode) => KeyCodeUtil.isDigit(keyCode))
-      .hasAction((event) => {
-        const digit = KeyCodeUtil.parseDigit(event.code);
+      .hasAction((ctx) => {
+        const digit = KeyCodeUtil.parseDigit(ctx.event.code);
         if (digit > 0) this.setActiveTab(digit);
       })
       .configurable()
@@ -89,9 +110,9 @@ export class ShortcutManager {
     new Shortcut("Toggle Dual Panes")
       .withCtrlKey()
       .withKey(KeyCode.KeyP)
-      .hasAction((event) => {
+      .hasAction((ctx) => {
         panes.toggleDualPanes();
-        event.preventDefault();
+        ctx.event.preventDefault();
       })
       .configurable()
       .register();
@@ -149,6 +170,20 @@ export class ShortcutManager {
       .withAltKey()
       .withKey(KeyCode.KeyP)
       .hasAction(() => this.windowManager.togglePinWindow())
+      .configurable()
+      .register();
+
+    new Shortcut("Toggle Header")
+      .withAltKey()
+      .withKey(KeyCode.KeyH)
+      .hasAction((ctx) => ctx.settings.toggleHeaderMinimized())
+      .configurable()
+      .register();
+
+    new Shortcut("Toggle Sidebar")
+      .withAltKey()
+      .withKey(KeyCode.KeyS)
+      .hasAction((ctx) => ctx.settings.toggleSideBarMinimized())
       .configurable()
       .register();
   }

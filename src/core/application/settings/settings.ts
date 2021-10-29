@@ -8,7 +8,11 @@ export class Settings {
     [nameof(this.fileViewType), FileViewTypes.Icons],
     [nameof(this.confirmOnMove), true],
     [nameof(this.windowControlsPosition), "right"],
+    [nameof(this.headerMinimized), false],
+    [nameof(this.sideBarMinimized), false],
   ]);
+  public toggleHeaderMinimized = () => (this.headerMinimized = !this.headerMinimized);
+  public toggleSideBarMinimized = () => (this.sideBarMinimized = !this.sideBarMinimized);
 
   public get inverted(): "inverted" | "" {
     return this.theme == "light" ? "" : "inverted";
@@ -36,6 +40,22 @@ export class Settings {
 
   public set fileViewType(value: FileViewTypes) {
     this.values.set(nameof(this.fileViewType), value);
+  }
+
+  public get headerMinimized(): boolean {
+    return this.values.get(nameof(this.headerMinimized)) as boolean;
+  }
+
+  public set headerMinimized(value) {
+    this.values.set(nameof(this.headerMinimized), value);
+  }
+
+  public get sideBarMinimized(): boolean {
+    return this.values.get(nameof(this.sideBarMinimized)) as boolean;
+  }
+
+  public set sideBarMinimized(value) {
+    this.values.set(nameof(this.sideBarMinimized), value);
   }
 
   public get confirmOnMove(): boolean {

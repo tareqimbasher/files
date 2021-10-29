@@ -10,5 +10,6 @@ export * from "./drives/drive-service";
 export * from "./drives/drive";
 
 export * from "./shortcuts/shortcut";
+export * from "./shortcuts/shortcut-action-execution-context";
 export * from "./shortcuts/shortcut-manager";
 export * from "./shortcuts/event-shortcut";

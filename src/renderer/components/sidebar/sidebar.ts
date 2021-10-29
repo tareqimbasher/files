@@ -2,10 +2,9 @@ import { IEventAggregator } from "aurelia";
 import { Drive, DriveService } from "@domain";
 import { WindowManager } from "../window-manager";
 import { system } from "common";
-import { DrivesChangedEvent, Settings, ViewCommandToggleSidebar } from "application";
+import { DrivesChangedEvent, Settings } from "application";
 
 export class Sidebar {
-  public isVisible = true;
   public directories: PinnedDirectory[] = [];
   public drives: Drive[] = [];
   public showDirectories = true;
@@ -34,8 +33,6 @@ export class Sidebar {
 
     this.eventBus.subscribe(DrivesChangedEvent, (message) => this.loadDrives());
     this.loadDrives();
-
-    this.eventBus.subscribe(ViewCommandToggleSidebar, () => (this.isVisible = !this.isVisible));
   }
 
   private loadDrives() {
