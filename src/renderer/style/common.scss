@@ -70,3 +70,8 @@ input::selection {
   @extend .h-center-contents;
   @extend .v-center-contents;
 }
+
+svg.active path,
+path.active {
+  fill: $accent-color;
+}

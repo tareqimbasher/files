@@ -1,8 +1,9 @@
 import { IDisposable } from "aurelia";
 import { Stats } from "fs";
 import * as chokidar from "chokidar";
-import { Directory, FileService, FsItems, Settings } from "core";
+import { Directory, FileService, FsItems } from "@domain";
 import { system } from "common";
+import { Settings } from "application";
 
 export class Files extends FsItems implements IDisposable {
   private fsWatcher: chokidar.FSWatcher | undefined;

@@ -91,11 +91,6 @@ header {
       svg {
         height: 1.15em;
       }
-
-      svg.active path,
-      path.active {
-        fill: $accent-color;
-      }
     }
   }
 

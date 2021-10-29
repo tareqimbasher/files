@@ -1,4 +1,4 @@
-import { Settings } from "core";
+import { Settings } from "application";
 import { WindowManager } from "../../";
 import { FsItemNavigation } from "../fs-view/fs-item-navigation";
 

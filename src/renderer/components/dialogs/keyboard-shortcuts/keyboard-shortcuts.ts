@@ -1,11 +1,10 @@
-import { DialogBase } from "../../common";
+import { DialogBase, Settings } from "application";
 import {
   DefaultDialogDom,
   IDialogController,
   IDialogDom,
   IDialogService,
 } from "@aurelia/runtime-html";
-import { Settings } from "core";
 
 export class KeyboardShortcuts extends DialogBase {
   private static openedDialog: IDialogController | null = null;

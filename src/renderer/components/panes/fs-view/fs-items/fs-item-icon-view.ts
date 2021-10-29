@@ -1,7 +1,7 @@
 import { bindable } from "aurelia";
-import { Directory, FileSystemItem } from "core";
-import { FileSizeValueConverter } from "../../../common";
+import { Directory, FileSystemItem } from "@domain";
 import { FsItemView } from "./fs-item-view";
+import { FileSizeValueConverter } from "application/value-converters";
 
 export class FSItemIconView extends FsItemView {
   @bindable() override item!: FileSystemItem;

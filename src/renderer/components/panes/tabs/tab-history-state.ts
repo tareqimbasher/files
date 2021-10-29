@@ -1,4 +1,4 @@
-﻿import { FileSystemItem, FsItems } from "core";
+﻿import { FileSystemItem, FsItems } from "@domain";
 
 export class TabHistoryState {
   /**

@@ -1,8 +1,9 @@
-import { delay, Directory, FileService, FileSystemItem, Settings } from "core";
+import { Directory, FileService, FileSystemItem } from "@domain";
 import dragula from "dragula";
 import "dragula/dist/dragula.css";
-import { AlertDialogHelper, AlertDialogType } from "../../common";
+import { AlertDialogHelper, AlertDialogType, Settings } from "application";
 import { FsView } from "./fs-view";
+import { delay } from "common";
 
 export class FsViewDragNDrop {
   private drake?: dragula.Drake;
@@ -15,15 +16,6 @@ export class FsViewDragNDrop {
     private fileService: FileService,
     private alertDialogHelper: AlertDialogHelper
   ) {}
-
-  private getFsItem(element: Element | HTMLElement | undefined | null): FileSystemItem | null {
-    if (!element) return null;
-
-    const itemName = element.getAttribute("data-name");
-    if (!itemName) return null;
-
-    return this.fsView.fsItems.get(itemName);
-  }
 
   public async InitDragAndDrop() {
     const destroyDnd = () => {
@@ -178,5 +170,14 @@ export class FsViewDragNDrop {
         e.classList.remove("drop-container")
       );
     });
+  }
+
+  private getFsItem(element: Element | HTMLElement | undefined | null): FileSystemItem | null {
+    if (!element) return null;
+
+    const itemName = element.getAttribute("data-name");
+    if (!itemName) return null;
+
+    return this.fsView.fsItems.get(itemName);
   }
 }

@@ -1,11 +1,11 @@
-import { IEventAggregator, singleton } from "aurelia";
-import { system, ViewCommandToggleHeader, ViewCommandToggleSidebar } from "common";
+import { singleton } from "aurelia";
+import { system } from "common";
 import { Panes } from "./panes/panes";
 import { Sidebar } from "./sidebar/sidebar";
 import { StatusBar } from "./status-bar/status-bar";
 import { Header } from "./header/header";
-import { KeyboardShortcuts } from "./dialogs/keyboard-shortcuts/keyboard-shortcuts";
 import { IDialogService } from "@aurelia/runtime-html";
+import { KeyboardShortcuts } from "./dialogs/keyboard-shortcuts/keyboard-shortcuts";
 
 @singleton()
 export class WindowManager {
@@ -15,11 +15,7 @@ export class WindowManager {
   private statusBar?: StatusBar;
   private header?: Header;
 
-  constructor(
-    public panes: Panes,
-    @IEventAggregator private readonly eventBus: IEventAggregator,
-    @IDialogService private readonly dialogService: IDialogService
-  ) {
+  constructor(public panes: Panes, @IDialogService private readonly dialogService: IDialogService) {
     this.window = system.remote.getCurrentWindow();
     this.isWindowPinned = this.window.isAlwaysOnTop();
   }
@@ -40,14 +36,6 @@ export class WindowManager {
   public togglePinWindow() {
     this.window.setAlwaysOnTop(!this.isWindowPinned);
     this.isWindowPinned = this.window.isAlwaysOnTop();
-  }
-
-  public toggleHeader() {
-    this.eventBus.publish(new ViewCommandToggleHeader());
-  }
-
-  public toggleSidebar() {
-    this.eventBus.publish(new ViewCommandToggleSidebar());
   }
 
   public async showKeyboardShortcuts() {

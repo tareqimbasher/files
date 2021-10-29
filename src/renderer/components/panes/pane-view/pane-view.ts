@@ -1,5 +1,5 @@
 import { bindable } from "aurelia";
-import { Settings } from "core";
+import { Settings } from "application";
 import { Pane } from "../pane";
 
 export class PaneView {

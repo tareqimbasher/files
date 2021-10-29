@@ -1,10 +1,11 @@
 ﻿import { IContainer, IDisposable } from "aurelia";
-import { Directory, FileService, Settings } from "core";
+import { Directory, FileService } from "@domain";
 import { Tabs } from "./tabs";
 import { TabHistory } from "./tab-history";
 import { TabHistoryState } from "./tab-history-state";
 import { Files } from "./tab-files";
 import { system, Util } from "common";
+import { Settings } from "application";
 
 export class Tab implements IDisposable {
   public id: string;

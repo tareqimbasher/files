@@ -1,12 +1,10 @@
 import { observable, watch } from "@aurelia/runtime-html";
 import { IEventAggregator } from "aurelia";
 import { WindowManager } from "../window-manager";
-import { Settings } from "core";
-import { ViewCommandSearchEvent, ViewCommandToggleHeader } from "common";
+import { Settings, ViewCommandSearchEvent } from "application";
 
 export class Header {
   @observable public searchTerm?: string;
-  public isMinimized = false;
 
   private searchInput!: HTMLInputElement;
   private detaches: Array<() => void> = [];
@@ -29,7 +27,6 @@ export class Header {
       this.searchInput.select();
     });
     this.detaches.push(() => sub.dispose());
-    this.eventBus.subscribe(ViewCommandToggleHeader, () => (this.isMinimized = !this.isMinimized));
   }
 
   public detached() {
