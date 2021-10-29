@@ -134,6 +134,12 @@ export class ShortcutManager {
       .withAltKey()
       .hasAction(() => panes.active.tabs.active.goForward())
       .register();
+
+    new Shortcut("Toggle Window Pin")
+      .withKey(KeyCode.KeyP)
+      .withAltKey()
+      .hasAction(() => this.windowManager.togglePinWindow())
+      .register();
   }
 
   private setActivePane(paneNumber: number) {
