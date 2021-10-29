@@ -1,3 +1,4 @@
+import { ElectronUtil } from "../utils/electron-util";
 import { Constructable } from "aurelia";
 import { Shortcut } from "./shortcut";
 import { KeyCode } from "../utils/keycodes";
@@ -15,6 +16,8 @@ export function bindShortcut(
   options: Partial<{ ctrl: boolean; alt: boolean; shift: boolean; meta: boolean }>
 ) {
   return function (constructor: Constructable) {
+    if (!ElectronUtil.executingFromRenderer()) return;
+
     const shortcut = new Shortcut(name)
       .withCtrlKey(options.ctrl ?? false)
       .withAltKey(options.alt ?? false)
