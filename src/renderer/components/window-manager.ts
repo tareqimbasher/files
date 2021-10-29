@@ -4,22 +4,29 @@ import { Panes } from "./panes/panes";
 
 @singleton()
 export class WindowManager {
+  public isWindowPinned: boolean;
   private window: Electron.BrowserWindow;
 
   constructor(public panes: Panes) {
     this.window = system.remote.getCurrentWindow();
+    this.isWindowPinned = this.window.isAlwaysOnTop();
   }
 
-  close() {
+  public close() {
     this.window.close();
   }
 
-  minimize() {
+  public minimize() {
     this.window.minimize();
   }
 
-  maximize() {
+  public maximize() {
     if (this.window.isMaximized()) this.window.restore();
     else this.window.maximize();
+  }
+
+  public togglePinWindow() {
+    this.window.setAlwaysOnTop(!this.isWindowPinned);
+    this.isWindowPinned = this.window.isAlwaysOnTop();
   }
 }
