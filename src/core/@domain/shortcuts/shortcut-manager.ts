@@ -1,8 +1,8 @@
-import { Settings } from "core";
-import { WindowManager } from "../../renderer/components";
 import { IEventAggregator } from "aurelia";
 import { Shortcut } from "./shortcut";
 import { KeyCode, KeyCodeUtil } from "common";
+import { WindowManager } from "../../../renderer/components";
+import { Settings } from "application";
 
 /**
  * Manages shortcuts.

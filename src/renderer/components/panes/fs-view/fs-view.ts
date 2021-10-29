@@ -1,11 +1,12 @@
 import { bindable, ILogger, watch } from "aurelia";
 import { Tab } from "../tabs/tab";
-import { CommonTasksService, FileService, FsItems, Settings } from "core";
+import { FileService, FsItems } from "@domain";
 import { FsViewSorting } from "./fs-view-sorting";
-import { AlertDialogHelper, Clipboard } from "../../common";
 import { KeyCode, Util } from "common";
 import { FsViewDragNDrop } from "./fs-view-drag-n-drop";
 import { FsViewMouseControls } from "./fs-view-mouse-controls";
+import { AlertDialogHelper, Settings, Clipboard } from "application";
+import { CommonTasksService } from "../../../services";
 
 export class FsView {
   public id: string;

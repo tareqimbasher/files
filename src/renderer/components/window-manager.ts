@@ -1,11 +1,12 @@
 import { IEventAggregator, singleton } from "aurelia";
-import { system, ViewCommandToggleHeader, ViewCommandToggleSidebar } from "common";
+import { system } from "common";
+import { ViewCommandToggleHeader, ViewCommandToggleSidebar } from "application";
 import { Panes } from "./panes/panes";
 import { Sidebar } from "./sidebar/sidebar";
 import { StatusBar } from "./status-bar/status-bar";
 import { Header } from "./header/header";
-import { KeyboardShortcuts } from "./dialogs/keyboard-shortcuts/keyboard-shortcuts";
 import { IDialogService } from "@aurelia/runtime-html";
+import { KeyboardShortcuts } from "./dialogs/keyboard-shortcuts/keyboard-shortcuts";
 
 @singleton()
 export class WindowManager {

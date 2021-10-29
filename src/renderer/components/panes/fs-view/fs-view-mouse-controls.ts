@@ -1,6 +1,6 @@
 import SelectionArea from "@simonwep/selection-js";
 import { UiUtil } from "common";
-import { FileSystemItem } from "core";
+import { FileSystemItem } from "@domain";
 import { FsView } from "./fs-view";
 
 export class FsViewMouseControls {

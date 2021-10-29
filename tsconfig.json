@@ -21,10 +21,13 @@
     "resolveJsonModule": true,
     "lib": ["esnext", "dom"],
     "paths": {
-      "*": ["./src"],
       // Aliases
-      "common": ["common"],
-      "core": ["renderer/core"]
+      "common": ["core/common"],
+      "common/*": ["core/common/*"],
+      "@domain": ["core/@domain"],
+      "@domain/*": ["core/@domain/*"],
+      "application": ["core/application"],
+      "application/*": ["core/application/*"]
     }
   },
   "include": ["src/**/*", "build/**/*"]

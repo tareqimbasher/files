@@ -1,5 +1,5 @@
 import { FileSystemItem } from "../";
-import { Settings } from "../settings";
+import { Settings } from "application";
 import { Dictionary } from "common";
 
 export class FsItems extends Dictionary<string, FileSystemItem> {

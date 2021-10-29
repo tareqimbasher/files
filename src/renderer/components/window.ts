@@ -1,7 +1,7 @@
-import { Profile, Settings } from "core";
-import { IpcEventBus } from "../core/ipc/ipc-event-bus";
+import { Profile, Settings } from "application";
+import { IpcEventBus } from "../services/ipc-event-bus";
 import { WindowManager } from "./window-manager";
-import { ShortcutManager } from "common";
+import { ShortcutManager } from "@domain";
 
 export class Window {
   constructor(

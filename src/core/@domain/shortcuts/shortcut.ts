@@ -1,6 +1,6 @@
 import { IEventAggregator } from "aurelia";
 import { ShortcutManager } from "./shortcut-manager";
-import { KeyCode } from "../utils/keycodes";
+import { KeyCode } from "common";
 
 /**
  * A shortcut that executes an action.

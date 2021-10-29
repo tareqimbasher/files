@@ -1,7 +1,8 @@
 import { IEventAggregator } from "aurelia";
-import { Drive, DriveService, Settings } from "core";
+import { Drive, DriveService } from "@domain";
 import { WindowManager } from "../window-manager";
-import { DrivesChangedEvent, system, ViewCommandToggleSidebar } from "common";
+import { system } from "common";
+import { DrivesChangedEvent, Settings, ViewCommandToggleSidebar } from "application";
 
 export class Sidebar {
   public isVisible = true;

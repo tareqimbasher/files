@@ -1,5 +1,5 @@
 import { singleton } from "aurelia";
-import { FileSystemItem } from "core";
+import { FileSystemItem } from "@domain";
 
 @singleton()
 export class Clipboard {

@@ -1,4 +1,4 @@
-import { Profile } from "core";
+import { Profile } from "./profile";
 
 export class PersistedProfile {
   public static defaultName = "Default";

@@ -1,6 +1,5 @@
 import { system } from "common";
-import { FileSystemItem } from "./file-system-item";
-import { FileSystemItemType } from "./file-system-item-type";
+import { FileSystemItem, FileSystemItemType } from "@domain";
 
 export class IconLoader {
   public static defaultIcon = `${system.fileScheme}://assets/icons/file-system/png/026-file-65.png`;

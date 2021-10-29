@@ -1,5 +1,6 @@
 import { bindable } from "aurelia";
-import { FileSystemItem, IconLoader } from "core";
+import { FileSystemItem } from "@domain";
+import { IconLoader } from "../../../../services";
 
 export abstract class FsItemView {
   @bindable public item!: FileSystemItem;

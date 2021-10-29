@@ -1,11 +1,11 @@
-import { Directory, FileService } from "core";
+import { Directory, FileService } from "@domain";
 import {
   AlertDialogButtonType,
   AlertDialogHelper,
   AlertDialogType,
   Clipboard,
   ClipboardItemType,
-} from "../components/common";
+} from "application";
 import { IDialogService } from "@aurelia/runtime-html";
 import { ILogger } from "aurelia";
 import { system } from "common";

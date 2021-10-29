@@ -1,7 +1,6 @@
-import { ElectronUtil } from "../utils/electron-util";
 import { Constructable } from "aurelia";
 import { Shortcut } from "./shortcut";
-import { KeyCode } from "../utils/keycodes";
+import { ElectronUtil, KeyCode } from "common";
 
 /**
  * Binds a keyboard shortcut to this class. When shortcut is invoked a message

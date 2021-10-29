@@ -1,8 +1,7 @@
 import { observable, watch } from "@aurelia/runtime-html";
 import { IEventAggregator } from "aurelia";
 import { WindowManager } from "../window-manager";
-import { Settings } from "core";
-import { ViewCommandSearchEvent, ViewCommandToggleHeader } from "common";
+import { Settings, ViewCommandSearchEvent, ViewCommandToggleHeader } from "application";
 
 export class Header {
   @observable public searchTerm?: string;
