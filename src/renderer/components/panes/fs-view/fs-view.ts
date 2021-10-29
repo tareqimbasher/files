@@ -111,7 +111,7 @@ export class FsView {
 
       const actionVerb = ci.type === ClipboardItemType.Copy ? "copied" : "moved";
 
-      if (this.fileService.pathExists(targetPath)) {
+      if (await system.fs.pathExists(targetPath)) {
         await this.alertDialogHelper.alert(
           ci.type,
           `Destination: '${targetPath}' aleady exists. This item will not be ${actionVerb}.`,
@@ -193,7 +193,7 @@ export class FsView {
   public async createNewFolder() {
     let newDirPath: string = system.path.join(this.tab.path, "New Folder");
 
-    while (this.fileService.pathExists(newDirPath)) {
+    while (await system.fs.pathExists(newDirPath)) {
       const split = newDirPath.split(" ");
       const numStr = split.slice(-1)[0];
       const num = Number(numStr);
@@ -278,12 +278,11 @@ export class FsView {
           if (ev.event.which == 3) {
             if (fsItemElement) {
               if (!ctrlKey) {
-                const itemName = fsItemElement.getAttribute("data-name")!;
-                const item = this.fsItems.get(itemName);
+                const item = this.getFsItem(fsItemElement);
 
                 // If item is not already selected, unselect others and select this one
                 // Otherwise the user is just right clicking on an already selected item
-                if (!item.isSelected) {
+                if (item && !item.isSelected) {
                   this.fsItems.unselectAll();
                   this.fsItems.select(item);
                 }

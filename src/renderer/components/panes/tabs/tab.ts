@@ -76,7 +76,7 @@ export class Tab implements IDisposable {
 
   public goUp() {
     const newPath = system.path.dirname(this.path);
-    if (newPath != this.path && system.fss.existsSync(newPath)) this.setPath(newPath);
+    if (newPath != this.path && system.fs.pathExists(newPath)) this.setPath(newPath);
   }
 
   public goHome() {

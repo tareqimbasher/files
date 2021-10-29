@@ -49,7 +49,7 @@ export class AddressBar {
       else if (address.startsWith("/"))
         address = address.replace("/", system.path.parse(process.cwd()).root);
 
-      if (!system.fss.existsSync(address)) {
+      if (!(await system.fs.pathExists(address))) {
         alert("Path does not exit: " + address);
       } else {
         const stat = await system.fs.stat(address);

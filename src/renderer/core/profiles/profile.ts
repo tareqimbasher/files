@@ -17,7 +17,7 @@ export class Profile {
     this.name = "Default";
     this.version = "1";
 
-    observerLocator.getMapObserver(this.settings.values).subscribe(
+    this.observerLocator.getMapObserver(this.settings.values).subscribe(
       new CollectionSubscriber((indexMap) => {
         if (!this.loading) this.save();
       })
@@ -37,7 +37,7 @@ export class Profile {
     persisted.hydrateFrom(this);
 
     const settingsFilePath = this.ensureAndGetSettingsFilePath();
-    system.fss.writeFileSync(settingsFilePath, JsonSerializer.serialize(persisted, true), "utf8");
+    system.fs.writeFileSync(settingsFilePath, JsonSerializer.serialize(persisted, true), "utf8");
 
     return this;
   }
@@ -45,22 +45,22 @@ export class Profile {
   private getPersisted(): PersistedProfile {
     const settingsFilePath = this.ensureAndGetSettingsFilePath();
     const persisted = JsonSerializer.deserialize<PersistedProfile>(
-      system.fss.readFileSync(settingsFilePath, "utf8")
+      system.fs.readFileSync(settingsFilePath, "utf8")
     );
     return PersistedProfile.from(persisted);
   }
 
   private ensureAndGetSettingsFilePath(): string {
     const profilesDir = system.path.join(system.remote.app.getPath("userData"), "profiles");
-    if (!system.fss.existsSync(profilesDir)) {
-      system.fss.mkdirSync(profilesDir, {
+    if (!system.fs.existsSync(profilesDir)) {
+      system.fs.mkdirSync(profilesDir, {
         recursive: true,
       });
     }
 
     const settingsFile = system.path.join(profilesDir, `profile-${md5(this.name)}.json`);
-    if (!system.fss.existsSync(settingsFile)) {
-      system.fss.writeFileSync(
+    if (!system.fs.existsSync(settingsFile)) {
+      system.fs.writeFileSync(
         settingsFile,
         JSON.stringify(new PersistedProfile(), null, 4),
         "utf8"
