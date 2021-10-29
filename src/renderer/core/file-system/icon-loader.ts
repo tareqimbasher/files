@@ -1,4 +1,4 @@
-import { system } from "../system/system";
+import { system } from "common";
 import { FileSystemItem } from "./file-system-item";
 import { FileType } from "./file-system-item-type";
 

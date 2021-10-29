@@ -1,4 +1,4 @@
-import { FileSystemItem } from "../file-system/file-system-item";
+import { FileSystemItem } from "core";
 
 export class FileSystemItemPropertiesChangedEvent {
   constructor(public item: FileSystemItem) {}

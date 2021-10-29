@@ -1,4 +1,4 @@
-﻿import { Util } from "../../../core";
+﻿import { Util } from "common";
 
 export class TitleCaseFormatValueConverter {
   public toView(value: string): string {

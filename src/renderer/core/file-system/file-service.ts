@@ -1,4 +1,3 @@
-import { system } from "../system/system";
 import { Directory } from "./directory";
 import { File } from "./file";
 import { FileSystemItem } from "./file-system-item";
@@ -7,6 +6,7 @@ import { exec } from "child_process";
 import { Dictionary } from "../data/dictionary";
 import { ILogger } from "aurelia";
 import { Stats } from "fs";
+import { system } from "common";
 
 export class FileService {
   constructor(@ILogger private readonly logger: ILogger) {}

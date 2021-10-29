@@ -2,18 +2,7 @@ import { IDialogService } from "@aurelia/runtime-html";
 import { bindable, ILogger, watch } from "aurelia";
 import { Tab } from "../tabs/tab";
 import SelectionArea from "@simonwep/selection-js";
-import {
-  delay,
-  Directory,
-  FileService,
-  FileSystemItem,
-  FsItems,
-  KeyCode,
-  Settings,
-  system,
-  UiUtil,
-  Util,
-} from "../../../core";
+import { delay, Directory, FileService, FileSystemItem, FsItems, Settings } from "core";
 import dragula from "dragula";
 import "dragula/dist/dragula.css";
 import { ItemProperties } from "../../dialogs/properties/item-properties";
@@ -25,6 +14,7 @@ import {
   Clipboard,
   ClipboardItemType,
 } from "../../common";
+import { KeyCode, system, UiUtil, Util } from "common";
 
 export class FsView {
   public id: string;

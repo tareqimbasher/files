@@ -1,7 +1,8 @@
 import { IDisposable } from "aurelia";
 import { Stats } from "fs";
 import * as chokidar from "chokidar";
-import { Directory, FileService, FsItems, Settings, system } from "../../../core";
+import { Directory, FileService, FsItems, Settings } from "core";
+import { system } from "common";
 
 export class Files extends FsItems implements IDisposable {
   private fsWatcher: chokidar.FSWatcher | undefined;
@@ -128,10 +129,10 @@ export class Files extends FsItems implements IDisposable {
   }
 
   private async itemRemoved(newPath: string, itemPath: string) {
-    if (itemPath.startsWith(system.path.parse(process.cwd()).root)) return;
-
     const name = system.path.basename(itemPath);
     const dirPath = system.path.dirname(itemPath);
+
+    if (dirPath == system.path.parse(process.cwd()).root) return;
 
     // if an item was removed at depth 1
     if (dirPath != newPath) {

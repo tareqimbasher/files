@@ -1,5 +1,5 @@
 import { watch } from "aurelia";
-import { Settings } from "../../core";
+import { Settings } from "core";
 import { WindowManager } from "../";
 import { Clipboard } from "../common";
 

@@ -1,8 +1,9 @@
 import { IDialogService, observable, watch } from "@aurelia/runtime-html";
 import { IEventAggregator } from "aurelia";
-import { Settings, ViewCommandSearchEvent } from "../../core";
 import { WindowManager } from "../window-manager";
 import { KeyboardShortcuts } from "../dialogs/keyboard-shortcuts/keyboard-shortcuts";
+import { Settings } from "core";
+import { ViewCommandSearchEvent } from "common";
 
 export class Header {
   @observable public searchTerm?: string;

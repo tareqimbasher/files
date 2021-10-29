@@ -1,5 +1,5 @@
 import { singleton } from "aurelia";
-import { system } from "../core";
+import { system } from "common";
 import { Panes } from "./panes/panes";
 
 @singleton()

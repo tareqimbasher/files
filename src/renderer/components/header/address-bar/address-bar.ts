@@ -1,6 +1,7 @@
 import { bindable, IEventAggregator, watch } from "aurelia";
-import { KeyCode, Settings, system, ViewCommandEditAddressBarEvent } from "../../../core";
+import { Settings } from "core";
 import { Pane } from "../../panes/pane";
+import { KeyCode, system, ViewCommandEditAddressBarEvent } from "common";
 
 export class AddressBar {
   @bindable public pane!: Pane;

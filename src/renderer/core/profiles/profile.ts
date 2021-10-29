@@ -1,7 +1,7 @@
 import { IObserverLocator, singleton } from "aurelia";
-import { CollectionSubscriber, Settings, system } from "../";
+import { CollectionSubscriber, Settings } from "../";
 import { PersistedProfile } from "./persisted-profile";
-import { JsonSerializer } from "../../../common";
+import { JsonSerializer, system } from "common";
 import md5 from "md5";
 
 @singleton

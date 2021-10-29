@@ -13,6 +13,13 @@ export class KeyCodeUtil {
   }
 }
 
+export enum ModifierKeys {
+  Control = "Control",
+  Shift = "Shift",
+  Alt = "Alt",
+  Meta = "Meta",
+}
+
 export enum KeyCode {
   Backspace = "Backspace",
   Tab = "Tab",

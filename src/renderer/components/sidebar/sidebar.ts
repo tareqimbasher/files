@@ -1,7 +1,7 @@
 import { IEventAggregator } from "aurelia";
-import { Drive, DriveService, Settings, system } from "../../core";
+import { Drive, DriveService, Settings } from "core";
 import { WindowManager } from "../window-manager";
-import { DrivesChangedEvent } from "../../../common";
+import { DrivesChangedEvent, system } from "common";
 
 export class Sidebar {
   public directories: PinnedDirectory[] = [];
