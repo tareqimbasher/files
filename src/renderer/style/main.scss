@@ -1,5 +1,4 @@
 @import "./semantic-ui-overrides.scss";
-@import "./variables.scss";
 @import "./colors.scss";
 @import "./common.scss";
 @import "./themes/index";
@@ -29,30 +28,10 @@ body {
   background-color: transparent;
 }
 
-.container-after-titlebar {
-  inset: unset !important;
-  top: $titlebar-height !important;
-  width: 100%;
-}
-
 .light .dialog > *:first-child {
   background: $light-background;
 }
 
 .dark .dialog > *:first-child {
   background: $dark-background;
-}
-
-.titlebar {
-  @include theme(background, headerBackground, $postExtra: !important);
-
-  .window-title {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  .window-controls-container {
-    margin-left: auto !important;
-  }
 }
