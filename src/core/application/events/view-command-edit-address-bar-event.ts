@@ -1,5 +1,5 @@
-import { bindShortcut } from "@domain";
+import { eventShortcut, Shortcut } from "@domain";
 import { KeyCode } from "common";
 
-@bindShortcut("Edit Address", KeyCode.KeyL, { ctrl: true })
+@eventShortcut(new Shortcut("Edit Address").withCtrlKey().withKey(KeyCode.KeyL).configurable())
 export class ViewCommandEditAddressBarEvent {}

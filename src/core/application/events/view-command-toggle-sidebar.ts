@@ -1,5 +1,5 @@
-import { bindShortcut } from "@domain";
+import { eventShortcut, Shortcut } from "@domain";
 import { KeyCode } from "common";
 
-@bindShortcut("Toggle Sidebar", KeyCode.KeyS, { alt: true })
+@eventShortcut(new Shortcut("Toggle Sidebar").withAltKey().withKey(KeyCode.KeyS).configurable())
 export class ViewCommandToggleSidebar {}

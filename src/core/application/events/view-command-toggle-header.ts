@@ -1,5 +1,5 @@
-import { bindShortcut } from "@domain";
+import { eventShortcut, Shortcut } from "@domain";
 import { KeyCode } from "common";
 
-@bindShortcut("Toggle Header", KeyCode.KeyH, { alt: true })
+@eventShortcut(new Shortcut("Toggle Header").withAltKey().withKey(KeyCode.KeyH).configurable())
 export class ViewCommandToggleHeader {}

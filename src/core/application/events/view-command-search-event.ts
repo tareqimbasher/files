@@ -1,5 +1,5 @@
-import { bindShortcut } from "@domain";
+import { eventShortcut, Shortcut } from "@domain";
 import { KeyCode } from "common";
 
-@bindShortcut("Focus Search", KeyCode.KeyS, { ctrl: true })
+@eventShortcut(new Shortcut("Focus Search").withCtrlKey().withKey(KeyCode.KeyS).configurable())
 export class ViewCommandSearchEvent {}

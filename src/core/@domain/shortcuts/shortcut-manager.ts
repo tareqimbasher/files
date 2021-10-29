@@ -40,102 +40,116 @@ export class ShortcutManager {
     const panes = this.windowManager.panes;
 
     new Shortcut("New Tab")
-      .withKey(KeyCode.KeyT)
       .withCtrlKey()
+      .withKey(KeyCode.KeyT)
       .hasAction(() => panes.active.tabs.add().activate())
+      .configurable()
       .register();
 
     new Shortcut("Close Current Tab")
-      .withKey(KeyCode.KeyW)
       .withCtrlKey()
+      .withKey(KeyCode.KeyW)
       .hasAction((event) => {
         panes.active.tabs.active.close();
         event.preventDefault();
       })
+      .configurable()
       .register();
 
     new Shortcut("Go to Left Tab")
-      .withKey(KeyCode.ArrowLeft)
       .withCtrlKey()
+      .withKey(KeyCode.ArrowLeft)
       .hasAction(() => {
         const currentTabNum = panes.active.tabs.list.indexOf(panes.active.tabs.active) + 1;
         this.setActiveTab(currentTabNum - 1);
       })
+      .configurable()
       .register();
 
     new Shortcut("Go to Right Tab")
-      .withKey(KeyCode.ArrowRight)
       .withCtrlKey()
+      .withKey(KeyCode.ArrowRight)
       .hasAction(() => {
         const currentTabNum = panes.active.tabs.list.indexOf(panes.active.tabs.active) + 1;
         this.setActiveTab(currentTabNum + 1);
       })
+      .configurable()
       .register();
 
     new Shortcut("Go to Tab")
-      .withKeyExpression((keyCode) => KeyCodeUtil.isDigit(keyCode))
       .withCtrlKey()
+      .withKeyExpression((keyCode) => KeyCodeUtil.isDigit(keyCode))
       .hasAction((event) => {
         const digit = KeyCodeUtil.parseDigit(event.code);
         if (digit > 0) this.setActiveTab(digit);
       })
+      .configurable()
       .register();
 
     new Shortcut("Toggle Dual Panes")
-      .withKey(KeyCode.KeyP)
       .withCtrlKey()
+      .withKey(KeyCode.KeyP)
       .hasAction((event) => {
         panes.toggleDualPanes();
         event.preventDefault();
       })
+      .configurable()
       .register();
 
     new Shortcut("Go to Pane 1")
-      .withKey(KeyCode.Digit1)
       .withAltKey()
+      .withKey(KeyCode.Digit1)
       .hasAction(() => this.setActivePane(1))
+      .configurable()
       .register();
 
     new Shortcut("Go to Pane 2")
-      .withKey(KeyCode.Digit2)
       .withAltKey()
+      .withKey(KeyCode.Digit2)
       .hasAction(() => this.setActivePane(2))
+      .configurable()
       .register();
 
     new Shortcut("Toggle Hidden Files")
-      .withKey(KeyCode.KeyH)
       .withCtrlKey()
+      .withKey(KeyCode.KeyH)
       .hasAction(() => this.settings.toggleShowHiddenFiles())
+      .configurable()
       .register();
 
     new Shortcut("Open Keyboard Shortcuts")
-      .withKey(KeyCode.KeyK)
       .withCtrlKey()
+      .withKey(KeyCode.KeyK)
       .hasAction(() => this.windowManager.showKeyboardShortcuts())
+      .configurable()
       .register();
 
     new Shortcut("Navigate Up")
-      .withKey(KeyCode.ArrowUp)
       .withAltKey()
+      .withKey(KeyCode.ArrowUp)
       .hasAction(() => panes.active.tabs.active.goUp())
+      .configurable()
       .register();
 
     new Shortcut("Navigate Back")
-      .withKey(KeyCode.ArrowLeft)
       .withAltKey()
+      .withKey(KeyCode.ArrowLeft)
       .hasAction(() => panes.active.tabs.active.goBack())
+      .configurable()
       .register();
 
     new Shortcut("Navigate Forward")
-      .withKey(KeyCode.ArrowRight)
       .withAltKey()
+      .withKey(KeyCode.ArrowRight)
       .hasAction(() => panes.active.tabs.active.goForward())
+      .configurable()
       .register();
 
     new Shortcut("Toggle Window Pin")
-      .withKey(KeyCode.KeyP)
       .withAltKey()
+      .withKey(KeyCode.KeyP)
       .hasAction(() => this.windowManager.togglePinWindow())
+      .configurable()
       .register();
   }
 

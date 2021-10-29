@@ -11,4 +11,4 @@ export * from "./drives/drive";
 
 export * from "./shortcuts/shortcut";
 export * from "./shortcuts/shortcut-manager";
-export * from "./shortcuts/bind-shortcut";
+export * from "./shortcuts/event-shortcut";

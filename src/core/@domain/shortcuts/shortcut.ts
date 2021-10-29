@@ -13,13 +13,10 @@ export class Shortcut {
   public key?: KeyCode;
   public keyExpression?: (keyCode: KeyCode) => boolean;
   public action: (event: KeyboardEvent, eventBus: IEventAggregator) => void;
+  public isConfigurable = false;
 
   constructor(public name: string) {
     this.action = () => null;
-  }
-
-  public get isConfigurable() {
-    return !!this.name;
   }
 
   public withKey(key: KeyCode): Shortcut {
@@ -54,6 +51,11 @@ export class Shortcut {
 
   public withMetaKey(mustBePressed = true): Shortcut {
     this.metaKey = mustBePressed;
+    return this;
+  }
+
+  public configurable(isConfigurable = true): Shortcut {
+    this.isConfigurable = isConfigurable;
     return this;
   }
 
