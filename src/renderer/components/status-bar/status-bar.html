@@ -1,4 +1,6 @@
 <template>
+  <require from="../icons/toggle-side-bar-icon.html" />
+
   <div class="ui basic ${settings.inverted} segment p-0">
     <div class="container">
       <div class="ui equal width grid">
@@ -12,6 +14,17 @@
           </span>
         </div>
         <div class="right aligned column">
+          <span
+            class="selectable"
+            click.trigger="settings.toggleSideBarMinimized()"
+            title="Toggle Header"
+            style="display: inline-block"
+          >
+            <toggle-side-bar-icon
+              height.bind="'1em'"
+              side-bar-minimized.bind="settings.sideBarMinimized"
+            ></toggle-side-bar-icon>
+          </span>
           <span
             class="selectable"
             click.trigger="settings.toggleHeaderMinimized()"
