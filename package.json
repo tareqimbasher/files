@@ -68,7 +68,7 @@
   },
   "devDependencies": {
     "@aurelia/webpack-loader": "latest",
-    "@electron-forge/cli": "6.0.0-beta.54",
+    "@electron-forge/cli": "^6.0.0-beta.61",
     "@electron-forge/maker-deb": "6.0.0-beta.54",
     "@electron-forge/maker-rpm": "6.0.0-beta.54",
     "@electron-forge/maker-squirrel": "6.0.0-beta.54",
@@ -86,7 +86,7 @@
     "@typescript-eslint/eslint-plugin": "^5.1.0",
     "@typescript-eslint/parser": "^5.1.0",
     "css-loader": "^5.0.1",
-    "electron": "^14.1.0",
+    "electron": "^16.0.1",
     "electron-rebuild": "^3.2.3",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
@@ -116,5 +116,8 @@
     "md5": "^2.3.0",
     "moment": "^2.29.1",
     "usb": "1.7.1"
+  },
+  "resolutions": {
+    "node-abi": "^3.5.0"
   }
 }
